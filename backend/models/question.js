@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
     name:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     marks:{
         type: Number,
@@ -18,11 +19,13 @@ const questionSchema = new Schema({
     },
     subject:{
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'subjects'
     },
     teacher:{
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'teachers'
     },
     unit:{
         type: Number,

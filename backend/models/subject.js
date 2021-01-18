@@ -10,7 +10,7 @@ const subjectSchema = new Schema({
     department:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'department'
+        ref: 'departments'
     },
 },{
     timestamps: true
