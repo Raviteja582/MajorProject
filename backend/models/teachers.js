@@ -1,36 +1,40 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+var passportLocalMongoose = require('passport-local-mongoose');
+
 const teacherSchema = new Schema({
     firstname:{
         type:String,
-        required: true
+        default:''
     },
     lastname:{
         type: String,
-        required: true
+        default:''
     },
     email:{
         type: String,
-        required: true
-    }
-    department:{
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'department'
+        default:'',
+        unique: true
     },
     dob:{
-        type: Date
-        required: true
+        type: String,
+        default:''
     },
     phno:{
         type: String,
-        required: true
+        default:''
+    },
+    admin:{
+        type: Boolean,
+        default: true
     }
 },{
     timestamps: true
 }
 );
+
+teacherSchema.plugin(passportLocalMongoose); 
 
 var teacher = mongoose.model('teacher',teacherSchema);
 module.exports = teacher

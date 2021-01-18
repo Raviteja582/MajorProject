@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const departmentSchema = new Schema({
       name:{
           type: String,
-          required: true
+          required: true,
       },
       year:{
           type: Number,
