@@ -12,6 +12,7 @@ var teacherLogin = require('./routes/teachers/teacherLogin');
 var teacherSignUp = require('./routes/teachers/teacherSignUp');
 var teacherUpdate = require('./routes/teachers/teacherUpdate');
 var addDepartment = require('./routes/admin/department/department');
+var subject = require('./routes/admin/subject/subject');
 var config = require('./config');
 
 
@@ -44,6 +45,7 @@ app.use('/teacher/signup',teacherSignUp);
 app.use('/teacher/login',teacherLogin);
 app.use('/teacher/update',teacherUpdate);
 app.use('/admin/department',addDepartment);
+app.use('/admin/subject',subject);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
