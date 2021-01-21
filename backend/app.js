@@ -13,7 +13,9 @@ var teacherSignUp = require('./routes/teachers/teacherSignUp');
 var teacherUpdate = require('./routes/teachers/teacherUpdate');
 var addDepartment = require('./routes/admin/department/department');
 var subject = require('./routes/admin/subject/subject');
-var question = require('./routes/teachers/question');
+var easyQuestion = require('./routes/teachers/easyQuestion');
+var mediumQuestion = require('./routes/teachers/mediumQuestion');
+var hardQuestion = require('./routes/teachers/hardQuestion');
 var config = require('./config');
 
 
@@ -47,7 +49,9 @@ app.use('/teacher/login',teacherLogin);
 app.use('/teacher/update',teacherUpdate);
 app.use('/admin/department',addDepartment);
 app.use('/admin/subject',subject);
-app.use('/teacher',question);
+app.use('/teacher/easy',easyQuestion);
+app.use('/teacher/medium',mediumQuestion);
+app.use('teacher/hard',hardQuestion);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
