@@ -18,7 +18,6 @@ subjectRouter.route('/')
             ]
         })
         .then((dept)=>{
-            console.log(dept);
             if(dept!==null){
                 subject.find({department:dept._id})
                 .then((sub)=>{

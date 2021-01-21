@@ -35,7 +35,7 @@ TeacherRouter.route('/')
             res.setHeader('Content-Type', 'application/json');
             res.json({success: true, token: token, status: 'You a       re successfully logged in!'});
         });
-    }) (req,res,next);
+    })(req,res,next);
 })
 .put((req,res,next)=> {
     res.statusCode=403;

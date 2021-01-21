@@ -17,9 +17,32 @@ updateRouter.route('/')
     res.end('POST operation is not permitted');
 })
 .put(authenticate.verifyUser,(req,res,next)=>{
-    res.statusCode=200;
-    res.setHeader('Content-Type', 'application/json');
-    res.json(req.user);
+    teacher.findById(req.user._id)
+    .then((user)=>{
+        if(user!==null){
+            console.log(user);
+            teacher.findByIdAndUpdate(req.user._id, {
+                $set: req.body
+            }, {new : true})
+            .then((user)=>{
+                user.setPassword(req.body.password)
+                .then((user)=>{
+                    user.save();
+                    res.statusCode=200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(user);
+                })
+                .catch((err)=>next(err));
+            })
+            .catch((err)=> next(err));
+        }
+        else{
+            err = new Error('No user found');
+            err.statusCode=403;
+            return next(err);
+        }
+    })
+    .catch((err)=>next(err));
 })
 .delete((req,res,next)=>{
     res.statusCode=403;
