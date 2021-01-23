@@ -25,6 +25,10 @@ const teacherSchema = new Schema({
         type: String,
         default:''
     },
+    isauth:{
+        type: Boolean,
+        default: false
+    },
     admin:{
         type: Boolean,
         default: false 

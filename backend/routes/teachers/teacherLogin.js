@@ -21,19 +21,26 @@ TeacherRouter.route('/')
         if (!user) {     
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, status: 'Login Unsuccessful       !', err: info});
+            res.json({success: false, status: 'Login Unsuccessful!', err: info});
         }
 
         req.logIn(user, (err) => {
             if (err) {
                 res.statusCode = 401;
-                res.setHeader('Content-Type', 'application/json')       ;
-                res.json({success: false, status: 'Login Unsucces       sful!', err: 'Could not log in user!'});          
+                res.setHeader('Content-Type', 'application/json');
+                res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});          
             }
-            var token = authenticate.getToken({_id: req.user._id}       );
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: true, token: token, status: 'You a       re successfully logged in!'});
+            else if(user.isauth){
+              var token = authenticate.getToken({_id: req.user._id});
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'application/json');
+              res.json({success: true, token: token, status: 'You are successfully logged in!'});
+            }
+            else{
+                res.statusCode=401;
+                res.setHeader('Content-Type', 'text');
+                res.end('Your are not Completed you Registration process. Please login to your mail and complete.');
+            }
         });
     })(req,res,next);
 })

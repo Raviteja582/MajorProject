@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser =require('body-parser');
 const mongoose = require('mongoose');
-const authenticate = require('../../../authenticate');
-const department=require('../../../models/department');
+const authenticate = require('../../authenticate');
+const department=require('../../models/department');
 
 const addDepartment= express.Router();
 

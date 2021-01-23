@@ -1,10 +1,10 @@
 var express = require('express');
 var subjectRouter = express.Router();
 var bodyparser = require('body-parser');
-var authenticate = require('../../../authenticate');
+var authenticate = require('../../authenticate');
 
-var subject = require('../../../models/subject');
-var department=require('../../../models/department');
+var subject = require('../../models/subject');
+var department=require('../../models/department');
 
 subjectRouter.use(bodyparser.json());
 subjectRouter.route('/')

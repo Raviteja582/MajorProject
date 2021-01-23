@@ -11,11 +11,12 @@ var passport = require('passport');
 var teacherLogin = require('./routes/teachers/teacherLogin');
 var teacherSignUp = require('./routes/teachers/teacherSignUp');
 var teacherUpdate = require('./routes/teachers/teacherUpdate');
-var addDepartment = require('./routes/admin/department/department');
-var subject = require('./routes/admin/subject/subject');
+var addDepartment = require('./routes/admin/department');
+var subject = require('./routes/admin/subject');
 var easyQuestion = require('./routes/teachers/easyQuestion');
 var mediumQuestion = require('./routes/teachers/mediumQuestion');
 var hardQuestion = require('./routes/teachers/hardQuestion');
+var userAuth = require('./routes/teachers/userAuth');
 var config = require('./config');
 
 
@@ -52,6 +53,7 @@ app.use('/admin/subject',subject);
 app.use('/teacher/easy',easyQuestion);
 app.use('/teacher/medium',mediumQuestion);
 app.use('teacher/hard',hardQuestion);
+app.use('/user',userAuth);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
