@@ -17,13 +17,14 @@ var easyQuestion = require('./routes/teachers/easyQuestion');
 var mediumQuestion = require('./routes/teachers/mediumQuestion');
 var hardQuestion = require('./routes/teachers/hardQuestion');
 var userAuth = require('./routes/teachers/userAuth');
+var forgetUser = require('./routes/teachers/teacherForget');
 var config = require('./config');
 
 
 
 //MongoDB connection for local
 const mongoose = require('mongoose');
-const url = "mongodb+srv://ravi_582:vDaBRyedX1orXMBg@cluster0.nd7vs.mongodb.net/college?retryWrites=true&w=majority";
+const url = config.mongourl;
 const connect = mongoose.connect(url,{useNewUrlParser: true, useUnifiedTopology: true});
 
 connect.then((db) => {
@@ -54,6 +55,7 @@ app.use('/teacher/easy',easyQuestion);
 app.use('/teacher/medium',mediumQuestion);
 app.use('teacher/hard',hardQuestion);
 app.use('/user',userAuth);
+app.use('/teacher/forgot/',forgetUser);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
