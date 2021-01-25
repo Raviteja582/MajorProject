@@ -43,7 +43,7 @@ teacherRouter.route('/')
                 pass: 'uamaeefhzwwnlrtq'
               }
             });
-            var url = 'http://localhost:3000/user/'+user._id;
+            var url = 'https://questionpaper07.herokuapp.com/user/'+user._id;
             var mailOptions = {
               from : 'no-replyAdmin <qpgeneratorbvrit@gmail.com>',
               to: user.email,

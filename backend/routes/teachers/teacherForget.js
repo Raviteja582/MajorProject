@@ -20,7 +20,7 @@ forgetRouter.route('/check')
                 pass: 'uamaeefhzwwnlrtq'
             }
         });
-        var url = 'http://localhost:3000/teacher/forgot/change'+teach._id;
+        var url = 'https://questionpaper07.herokuapp.com/teacher/forgot/change/'+teach._id;
         var mailOptions = {
             from : 'no-replyAdmin <qpgeneratorbvrit@gmail.com>',
             to: teach.email,
