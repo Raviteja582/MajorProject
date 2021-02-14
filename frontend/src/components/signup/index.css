@@ -1,0 +1,66 @@
+.signup {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+
+.form {
+    background-color: white;
+    border: 1px solid black;
+    margin: 60px auto;
+    height: 80vh;
+    padding: 30px;
+    width: 45%;
+}
+
+.names {
+    display: flex;
+    justify-content: space-between;
+}
+
+.names input {
+    height: 30px;
+    width: 45%;
+}
+
+input {
+    border-style: none;
+    border: 2px solid;
+    height: 40px;
+    width: 100%;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+input[type="text"] {
+    font-size: 1em;
+}
+
+input[type="password"] {
+    font-size: 1em;
+}
+input[type="email"] {
+    font-size: 1em;
+}
+
+input[type="date"] {
+    font-size: 1em;
+}
+
+button {
+    font-size: 1em;
+    width: 90%;
+    margin-left: 30px;
+    height: 50px;
+    background-color: skyblue;
+}
+
+.success {
+    background-color: white;
+    width: 75%;
+    margin: 10px auto;
+    padding: 30px;
+    font-size: 2em;
+}
