@@ -2,13 +2,14 @@ var express = require('express');
 var subjectRouter = express.Router();
 var bodyparser = require('body-parser');
 var authenticate = require('../../authenticate');
-
+var cors = require('../cors');
 var subject = require('../../models/subject');
 var department=require('../../models/department');
 
 subjectRouter.use(bodyparser.json());
 subjectRouter.route('/')
-.get(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     if(req.body.departmentName&&req.body.year&&req.body.semester){
         department.findOne({
             $and:[
@@ -46,7 +47,7 @@ subjectRouter.route('/')
               dept.map((depart)=>{
                   subject.findById(depart._id)
                   .then((sub)=>{
-                      a.push(sub);                           
+                      a.push(sub);
                   })
               })
               res.statusCode=200;
@@ -62,7 +63,7 @@ subjectRouter.route('/')
         return next(err);
     }
 })
-.post(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
       if(req.body.departmentName&&req.body.year&&req.body.semester){
           department.findOne({
               $and:[
@@ -81,7 +82,7 @@ subjectRouter.route('/')
                           res.statusCode=200;
                           res.setHeader('Content-Type','application/json');
                           res.json(sub);
-                      
+
                       })
                       .catch((err)=> next(err))
                   }
@@ -107,11 +108,11 @@ subjectRouter.route('/')
           return next(err);
       }
 })
-.put(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     res.statusCode=403;
     res.end('PUT Operation is not Permitted');
 })
-.delete(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     if(req.body.departmentName&&req.body.year&&req.body.semester){
         department.findOne({
             $and:[
@@ -139,7 +140,8 @@ subjectRouter.route('/')
 })
 
 subjectRouter.route('/:subjectId')
-.get(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     subject.findById(req.params.subjectId)
     .then((sub)=>{
       if(sub!==null){
@@ -155,11 +157,11 @@ subjectRouter.route('/:subjectId')
     })
     .catch((err)=>next(err));
 })
-.post(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     res.statusCode=403;
     res.end('POST Operation is not permitted');
 })
-.put(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     subject.findById(req.params.subjectId)
     .then((sub)=>{
       if(sub!==null){
@@ -181,7 +183,7 @@ subjectRouter.route('/:subjectId')
     })
     .catch((sub)=>next(err));
 })
-.delete(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     subject.findByIdAndDelete(req.params.subjectId)
     .then((resp)=>{
       if(resp!==null){

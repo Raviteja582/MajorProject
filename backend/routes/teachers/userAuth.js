@@ -3,11 +3,12 @@ var bodyParser = require('body-parser');
 var user = require('../../models/teachers');
 var authenticate = require('../../authenticate');
 var userRouter = express.Router();
-
+var cors = require('../cors');
 userRouter.use(bodyParser.json());
 
 userRouter.route('/:userId')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,(req,res,next)=>{
     user.findById(req.params.userId)
     .then((teacher)=>{
         user.findByIdAndUpdate(req.params.userId, {
@@ -22,15 +23,15 @@ userRouter.route('/:userId')
     })
     .catch((err)=> next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('POST Operation is not Permitted');
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('PUT Operation is not Permitted');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('DELETE Operation is not Permitted');
 })

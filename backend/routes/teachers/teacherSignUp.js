@@ -2,6 +2,7 @@ var express = require('express');
 var teacherRouter = express.Router();
 var passport = require('passport');
 
+const cors = require('../cors');
 const nodemailer = require('nodemailer');
 
 const bodyParser = require('body-parser');
@@ -10,11 +11,12 @@ var teacher = require('../../models/teachers');
 teacherRouter.use(bodyParser.json());
 
 teacherRouter.route('/')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req,res,next)=>{
     res.statusCode=403;
     res.end('Get operation is not permitted');
 })
-.post((req, res, next) => {
+.post(cors.corsWithOptions,(req, res, next) => {
 	teacher.register(new teacher({username:req.body.username}), req.body.password, (err, user) => {
       if(err) {
         res.statusCode = 500;
@@ -73,11 +75,11 @@ teacherRouter.route('/')
       }
    });
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('PUT operation is not permitted');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('DELETE operation is not permitted');
 })

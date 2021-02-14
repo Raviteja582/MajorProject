@@ -3,13 +3,14 @@ var hardRouter= express.Router()
 var bodyParser = require('body-parser');
 var hard = require('../../models/hard');
 var authenticate = require('../../authenticate');
-
+var cors = require('../cors');
 hardRouter.use(bodyParser.json());
 
 //Insert and fetch questions in Easy level of subject
 
 hardRouter.route('/subject/:subjectId')
-.get(authenticate.verifyUser,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,(req,res,next)=>{
     hard.find({subject:req.params.subjectId})
     .then((questions)=>{
         res.statusCode=200;
@@ -18,7 +19,7 @@ hardRouter.route('/subject/:subjectId')
     })
     .catch((err)=> next(err));
 })
-.post(authenticate.verifyUser,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     hard.insertMany(req.body)
     .then((quest)=>{
         res.statusCode=200;
@@ -29,11 +30,11 @@ hardRouter.route('/subject/:subjectId')
         next(err);
     })
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;
     res.end('PUT Operaion is permitted');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;
     res.end('DELETE Operaion is not permitted');
 
@@ -43,7 +44,8 @@ hardRouter.route('/subject/:subjectId')
 //Finding Question on its ID
 
 hardRouter.route('/questionId')
-.get(authenticate.verifyUser,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,(req,res,next)=>{
     hard.findById(req.params.questionId)
     .then((question)=>{
       if(question!==null){
@@ -59,11 +61,11 @@ hardRouter.route('/questionId')
     })
     .catch((err)=> next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('POST Operation is not Permitted');
 })
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     hard.findById(req.params.questionId)
     .then((quest)=>{
         if(quest.teacher.equals(req.user._id)){
@@ -85,7 +87,7 @@ hardRouter.route('/questionId')
     })
     .catch((err)=> next(err));
 })
-.delete(authenticate.verifyUser,(req,res,next)=>{
+.delete(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     hard.findById(req.params.questionId)
     .then((quest)=>{
         if(quest.teacher.equals(req.user._id)){

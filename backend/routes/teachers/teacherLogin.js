@@ -1,6 +1,6 @@
 var express = require('express');
 var TeacherRouter = express.Router();
-
+const cors = require('../cors');
 var passport = require('passport');
 var authenticate = require('../../authenticate');
 
@@ -9,16 +9,17 @@ const bodyParser = require('body-parser');
 TeacherRouter.use(bodyParser.json());
 
 TeacherRouter.route('/')
-.get((req,res,next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,(req,res,next) => {
     res.statusCode=403;
     res.setHeader('Content-Type', 'text');
     res.end('Get Operation is not permitted');
 })
-.post((req, res, next) => {
+.post(cors.corsWithOptions,(req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        if (err)          
+        if (err)
             return next(err);
-        if (!user) {     
+        if (!user) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, status: 'Login Unsuccessful!', err: info});
@@ -28,7 +29,7 @@ TeacherRouter.route('/')
             if (err) {
                 res.statusCode = 401;
                 res.setHeader('Content-Type', 'application/json');
-                res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});          
+                res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});
             }
             else if(user.isauth){
               var token = authenticate.getToken({_id: req.user._id});
@@ -44,11 +45,11 @@ TeacherRouter.route('/')
         });
     })(req,res,next);
 })
-.put((req,res,next)=> {
+.put(cors.corsWithOptions,(req,res,next)=> {
     res.statusCode=403;
     res.end("PUT operation not supported");
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('Delete operation not supported');
 });

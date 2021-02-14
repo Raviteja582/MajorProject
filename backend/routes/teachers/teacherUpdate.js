@@ -4,19 +4,20 @@ var bodyParser= require('body-parser');
 var mongoose= require('mongoose');
 var teacher= require('../../models/teachers');
 var authenticate=require('../../authenticate');
-
+var cors = require('../cors');
 updateRouter.use(bodyParser.json());
 
 updateRouter.route('/')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,(req,res,next)=>{
     res.statusCode=403;
     res.end('GET operation is not permitted');
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('POST operation is not permitted');
 })
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     teacher.findById(req.user._id)
     .then((user)=>{
         if(user!==null){
@@ -44,7 +45,7 @@ updateRouter.route('/')
     })
     .catch((err)=>next(err));
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('DELETE Operation is not permitted');
 });

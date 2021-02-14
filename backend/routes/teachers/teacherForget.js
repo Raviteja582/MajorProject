@@ -3,11 +3,12 @@ var forgetRouter = express.Router();
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
 var teacher = require('../../models/teachers');
-
+var cors = require('../cors');
 forgetRouter.use(bodyParser.json());
 
 forgetRouter.route('/check')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,(req,res,next)=>{
     teacher.findOne({username:req.body.username})
     .then((teach)=>{
       res.statusCode=200;
@@ -44,30 +45,31 @@ forgetRouter.route('/check')
     })
     .catch((err)=> next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('POST is not Supported');
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('PUT is not Supported');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('DELETE is not Supported');
 })
 
 
 forgetRouter.route('/change/:userId')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,(req,res,next)=>{
     res.statusCode=401;
     res.end('GET is not Supported');
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('POST is not Supported');
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     teacher.findById(req.params.userId)
     .then((user)=>{
         if(user!==null){
@@ -87,7 +89,7 @@ forgetRouter.route('/change/:userId')
     })
     .catch((err)=>next(err));
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=401;
     res.end('Delete Operation is not Supported');
 })

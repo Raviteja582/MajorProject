@@ -3,13 +3,14 @@ var mediumRouter= express.Router()
 var bodyParser = require('body-parser');
 var medium= require('../../models/medium');
 var authenticate = require('../../authenticate');
-
+const cors =require('../cors');
 mediumRouter.use(bodyParser.json());
 
 //Insert and fetch questions in Easy level of subject
 
 mediumRouter.route('/subject/:subjectId')
-.get(authenticate.verifyUser,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,(req,res,next)=>{
     medium.find({subject:req.params.subjectId})
     .then((questions)=>{
         res.statusCode=200;
@@ -18,7 +19,7 @@ mediumRouter.route('/subject/:subjectId')
     })
     .catch((err)=> next(err));
 })
-.post(authenticate.verifyUser,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     medium.insertMany(req.body)
     .then((quest)=>{
         res.statusCode=200;
@@ -29,11 +30,11 @@ mediumRouter.route('/subject/:subjectId')
         next(err);
     })
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;
     res.end('PUT Operaion is permitted');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;
     res.end('DELETE Operaion is not permitted');
 
@@ -43,7 +44,8 @@ mediumRouter.route('/subject/:subjectId')
 //Finding Question on its ID
 
 mediumRouter.route('/:questionId')
-.get(authenticate.verifyUser,(req,res,next)=>{
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,(req,res,next)=>{
     medium.findById(req.params.questionId)
     .then((question)=>{
       if(question!==null){
@@ -59,11 +61,11 @@ mediumRouter.route('/:questionId')
     })
     .catch((err)=> next(err));
 })
-.post((req,res,next)=>{
+.post(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('POST Operation is not Permitted');
 })
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     medium.findById(req.params.questionId)
     .then((quest)=>{
         if(quest.teacher.equals(req.user._id)){
@@ -85,7 +87,7 @@ mediumRouter.route('/:questionId')
     })
     .catch((err)=> next(err));
 })
-.delete(authenticate.verifyUser,(req,res,next)=>{
+.delete(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
     medium.findById(req.params.questionId)
     .then((quest)=>{
         if(quest.teacher.equals(req.user._id)){

@@ -3,13 +3,14 @@ const bodyParser =require('body-parser');
 const mongoose = require('mongoose');
 const authenticate = require('../../authenticate');
 const department=require('../../models/department');
-
+var cors = require('../cors');
 const addDepartment= express.Router();
 
 addDepartment.use(bodyParser.json());
 
 addDepartment.route('/')
-.get(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     department.find({})
     .then((department)=>{
         res.statusCode=200;
@@ -20,7 +21,7 @@ addDepartment.route('/')
         next(err);
     })
 })
-.post(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
   department.findOne({
       $and:[
           {name:req.body.name},
@@ -46,21 +47,22 @@ addDepartment.route('/')
   })
   .catch((err)=>next(err));
 })
-.put((req,res,next)=>{
+.put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('PUT Opeartion is not permitted');
 })
-.delete((req,res,next)=>{
+.delete(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=403;
     res.end('DELETE Operation is not permitted');
 })
 
 addDepartment.route('/:departmentId')
-.get(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     department.findById(req.params.departmentId)
     .then((department)=>{
         if(department!==null){
-          res.statusCode=200;                               
+          res.statusCode=200;
           res.setHeader('Content-Type','application/json');
           res.json(department);
         }
@@ -72,11 +74,11 @@ addDepartment.route('/:departmentId')
     })
     .catch((err) => next(err));
 })
-.post(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     res.statusCode=403;
     res.end('POST operation is not permitted');
 })
-.put(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     department.findById(req.params.departmentId)
     .then((dept)=>{
           if(dept!==null){
@@ -96,7 +98,7 @@ addDepartment.route('/:departmentId')
     })
     .catch((err)=> next(err));
 })
-.delete(authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
+.delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     department.findById(req.params.departmentId)
     .then((depart)=>{
         if(depart!=null){
@@ -104,7 +106,7 @@ addDepartment.route('/:departmentId')
             .then((resp)=>{
                 res.statusCode=200;
                 res.setHeader('Content-Type', 'application/json');
-              res.json(resp);            
+              res.json(resp);
             })
             .catch((err)=> next(err));
         }
