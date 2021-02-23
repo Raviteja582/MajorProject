@@ -21,36 +21,44 @@
 }
 
 .names input {
-    height: 30px;
-    width: 45%;
+    height: 40px;
+    width: 50%;
+    border: 2px solid;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 10px auto;
 }
 
-input {
+.names input[type="text"] {
+    font-size: 1em;
+}
+
+.form-element input {
     border-style: none;
     border: 2px solid;
     height: 40px;
-    margin-top: 10px;
+    margin: 20px auto;
     width: 100%;
     border-radius: 4px;
     padding: 4px;
 }
 
-input[type="text"] {
+.form-element input[type="text"] {
     font-size: 1em;
 }
 
-input[type="password"] {
+.form-element input[type="password"] {
     font-size: 1em;
 }
-input[type="email"] {
-    font-size: 1em;
-}
-
-input[type="date"] {
+.form-element input[type="email"] {
     font-size: 1em;
 }
 
-button {
+.form-element input[type="date"] {
+    font-size: 1em;
+}
+
+.form-element button {
     font-size: 1em;
     width: 90%;
     margin-left: 30px;

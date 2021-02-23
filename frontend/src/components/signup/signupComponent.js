@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { baseUrl } from "../../url";
 import "./index.css";
 
@@ -70,6 +71,7 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="First Name"
                                 autoComplete="off"
+                                required
                             />
                             <input
                                 type="text"
@@ -78,19 +80,21 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Last Name"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="email"
                                 name="email"
                                 value={this.state.email}
                                 onChange={this.handleInput}
                                 placeholder="Email"
+                                required
                                 autoComplete="off"
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="text"
                                 name="phno"
@@ -98,9 +102,10 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Phone Number"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="date"
                                 name="dob"
@@ -108,9 +113,10 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Date of Birth"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="text"
                                 name="username"
@@ -118,9 +124,10 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Username"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="password"
                                 name="password"
@@ -128,9 +135,10 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Password"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <div>
+                        <div className="form-element">
                             <input
                                 type="password"
                                 name="rewrite"
@@ -138,9 +146,15 @@ class Signup extends Component {
                                 onChange={this.handleInput}
                                 placeholder="Re-Enter Password"
                                 autoComplete="off"
+                                required
                             />
                         </div>
-                        <button type="submit"> Register </button>
+                        <div>
+                            Already Have Account? <Link to="/login">Login</Link>
+                        </div>
+                        <div className="form-element">
+                            <button type="submit"> Register </button>
+                        </div>
                     </form>
                 </div>
             );

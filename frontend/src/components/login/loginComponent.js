@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./index.css";
 
 class Login extends Component {
@@ -52,6 +53,9 @@ class Login extends Component {
                             placeholder="Password"
                             required
                         />
+                    </div>
+                    <div style={{ marginLeft: "66%" }}>
+                        <Link to="/forgot">Forget Username/password</Link>
                     </div>
                     <div>
                         <button type="submit">Sign In </button>

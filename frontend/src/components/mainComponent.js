@@ -3,6 +3,9 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import Signup from "./signup/signupComponent";
 import Confirmation from "./signup/confirmationComponent";
 import Login from "./login/loginComponent";
+import { Home } from "./home/homeComponent";
+import Forgot from "./forgot/verifyComponent";
+import Update from "./forgot/updateComponent";
 import { connect } from "react-redux";
 import { postLogin } from "../redux/ActionCreators";
 
@@ -21,6 +24,7 @@ class Main extends Component {
         return (
             <div>
                 <Switch>
+                    <Route path="/home" component={Home} />
                     <Route path="/signup" component={Signup} />
                     <Route
                         path="/user/:userId"
@@ -36,7 +40,12 @@ class Main extends Component {
                             />
                         )}
                     />
-                    <Redirect to="/signup" />
+                    <Route
+                        path="/forgot/:userId"
+                        render={({ match }) => <Update {...match} />}
+                    />
+                    <Route path="/forgot" component={Forgot} />
+                    <Redirect to="/home" />
                 </Switch>
             </div>
         );
