@@ -22,7 +22,11 @@ export const login_success = (payload) => ({
     message: payload,
 });
 
-export const postLogin = (details) => (dispatch) => {
+export const logout_success = () => ({
+    type: ActionType.LOGOUT_SUCCESS,
+});
+
+export const postLogin = (details) => async (dispatch) => {
     return fetch(baseUrl + "/teacher/login", {
         method: "POST",
         body: JSON.stringify(details),
@@ -43,4 +47,10 @@ export const postLogin = (details) => (dispatch) => {
                 dispatch(login_unsuccessfull(response.err));
             else dispatch(login_failure(response.err));
         });
+};
+
+export const postLogout = () => (dispatch) => {
+    localStorage.remove("token");
+    dispatch(logout_success());
+    window.location.reload();
 };

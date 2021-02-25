@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Alert } from "reactstrap";
+import Home from "../home/homeComponent";
 import "./index.css";
 
 class Login extends Component {
@@ -12,13 +14,6 @@ class Login extends Component {
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    componentDidMount() {
-        if (
-            this.props.user.type !== null &&
-            this.props.user.type !== "LOGIN_SUCCESS"
-        )
-            alert(this.props.user.err);
-    }
     handleInput(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -26,9 +21,27 @@ class Login extends Component {
         e.preventDefault();
         this.props.login(this.state);
     }
+
     render() {
+        const state = this.props.user;
+        let block;
+        if (state === "LOGIN_SUCCESS") return <Home />;
+        else if (state === "LOGIN_FAILURE" || state === "LOGIN_UNSUCCESSFUL")
+            block = (
+                <Alert color="danger">
+                    Username or Password is Incorrect!!!
+                </Alert>
+            );
+        else if (state === "LOGIN_VERIFY")
+            block = (
+                <Alert color="info">
+                    Please Complete Registration process before signin!!!
+                </Alert>
+            );
+        else block = <div></div>;
         return (
             <div className="login">
+                {block}
                 <form onSubmit={this.handleSubmit} className="form-login">
                     <div>
                         Username:
@@ -54,8 +67,8 @@ class Login extends Component {
                             required
                         />
                     </div>
-                    <div style={{ marginLeft: "66%" }}>
-                        <Link to="/forgot">Forget Username/password</Link>
+                    <div style={{ marginLeft: "63%" }}>
+                        <Link to="/forgot">Forget Username/password?</Link>
                     </div>
                     <div>
                         <button type="submit">Sign In </button>

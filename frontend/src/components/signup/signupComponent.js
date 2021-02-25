@@ -150,7 +150,8 @@ class Signup extends Component {
                             />
                         </div>
                         <div>
-                            Already Have Account? <Link to="/login">Login</Link>
+                            Already Have Account?{" "}
+                            <Link to="/signin">Login</Link>
                         </div>
                         <div className="form-element">
                             <button type="submit"> Register </button>

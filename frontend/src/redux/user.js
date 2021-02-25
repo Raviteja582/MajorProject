@@ -40,6 +40,15 @@ export const User = (
                 type: action.type,
                 err: null,
                 user: action.message.user,
+                token: localStorage.get("token"),
+            };
+        case ActionType.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                type: null,
+                err: null,
+                user: null,
+                token: null,
             };
         default:
             return state;
