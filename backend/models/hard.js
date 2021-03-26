@@ -19,11 +19,11 @@ var hardSchema = new Schema({
     },
     subject:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'subjects'
+        ref: 'subject'
     },
     teacher:{
         type:mongoose.Schema.Types.ObjectId,
-        ref: 'teachers'
+        ref: 'teacher'
     }
 },{
     timestamps:true

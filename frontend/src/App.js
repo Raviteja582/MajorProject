@@ -3,6 +3,7 @@ import Main from "./components/mainComponent";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ConfigureStore } from "./redux/configStore";
+import Generate from './components/generate/generateComponent';
 
 function App() {
     const store = ConfigureStore();
@@ -10,7 +11,7 @@ function App() {
         <Provider store={store}>
             <BrowserRouter>
                 <div>
-                    <Main />
+                    <Generate />
                 </div>
             </BrowserRouter>
         </Provider>

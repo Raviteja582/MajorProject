@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    margin: 0%;
+}
+.list1{
+    background-color: green;
+    height: 100vh;
+    width: 25%;
+    padding-top: 8vh;
+}
+.list2{
+    background-color: white;
+    height: 100vh;
+    width: 50%;
+}
+
+.tables{
+    margin: 10vh auto;
+}

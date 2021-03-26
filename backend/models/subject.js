@@ -7,10 +7,15 @@ const subjectSchema = new Schema({
         required: true,
         unique: true
     },
+    code: {
+        type: String,
+        required: true,
+        unique: true
+    },
     department:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'departments'
+        ref: 'department'
     },
 },{
     timestamps: true

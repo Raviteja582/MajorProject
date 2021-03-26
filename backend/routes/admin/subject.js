@@ -64,50 +64,15 @@ subjectRouter.route('/')
     }
 })
 .post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
-      if(req.body.departmentName&&req.body.year&&req.body.semester){
-          department.findOne({
-              $and:[
-                  {name:req.body.departmentName},
-                  {year:req.body.year},
-                  {semester:req.body.semester}
-              ]
-          })
-          .then((dept)=>{
-            if(dept!==null){
-              subject.findOne({name:req.body.name})
-              .then((sub)=>{
-                  if(sub==null){
-                      subject.create({name:req.body.name,department:dept._id})
-                      .then((sub)=>{
-                          res.statusCode=200;
-                          res.setHeader('Content-Type','application/json');
-                          res.json(sub);
-
-                      })
-                      .catch((err)=> next(err))
-                  }
-                  else{
-                      err = new Error('Subject already exists');
-                      err.statusCode=404;
-                      return next(err);
-                  }
-              })
-              .catch((err)=> next(err))
-            }
-            else{
-                err = new Error('Cannot find Department');
-                err.statusCode=403;
-                return next(err);
-            }
-          })
-          .catch((err)=>next(err))
-      }
-      else{
-          err = new Error('Mention Department Name, Year and Semester');
-          err.statusCode=404;
-          return next(err);
-      }
+    subject.insertMany(req.body)
+    .then( subs => {
+        res.statusCode=200;
+        res.setHeader('Content-Type','application/json');
+        res.json(subs);
+    })
+    .catch((err) => next(err));
 })
+
 .put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
     res.statusCode=403;
     res.end('PUT Operation is not Permitted');

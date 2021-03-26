@@ -26,6 +26,20 @@ export const logout_success = () => ({
     type: ActionType.LOGOUT_SUCCESS,
 });
 
+export const subject_loading = () => ({
+    type: ActionType.FETCH_SUBJECTS_LOADING,
+});
+
+export const subject_sucess = (payload) => ({
+    type: ActionType.FETCH_SUBJECTS_SUCCESS,
+    payload: payload,
+});
+
+export const subject_failure = (payload) => ({
+    type: ActionType.FETCH_SUBJECTS_FAILURE,
+    payload: payload,
+});
+
 export const postLogin = (details) => async (dispatch) => {
     return fetch(baseUrl + "/teacher/login", {
         method: "POST",
@@ -54,3 +68,37 @@ export const postLogout = () => (dispatch) => {
     dispatch(logout_success());
     window.location.reload();
 };
+
+export const fetchSubjects = () => (dispatch) => {
+    dispatch(subject_loading());
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/subject/', {
+        headers: {
+            'Authorization': bearer
+        },
+    })
+    .then( response => {
+        if(response.ok){
+            return response;
+        } else {
+            var error = new Error('Error ' + response.status + ': '+ response.statusText);
+            error.response=response;
+            throw error;
+        }
+    },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(subjects => {
+            var xs=[];
+            subjects.map((sub) => {
+                xs.push({id: sub._id,label: sub.name, value: sub.code,depId: sub.department._id, depName: sub.department.name, year: sub.department.year, semester: sub.department.semester});
+            });
+            return xs;
+        })
+        .then(subjects => dispatch(subject_sucess(subjects)))
+        .catch( error => dispatch(subject_failure(error.message)));
+};
+
