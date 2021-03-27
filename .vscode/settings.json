@@ -1,0 +1,9 @@
+{
+    "editor.fontSize": 18,
+    "workbench.tree.indent": 10,
+    "debug.console.fontSize": 20,
+    "terminal.integrated.fontSize": 20,
+    "markdown.preview.fontSize": 20,
+    "editor.formatOnType": true,
+    "editor.mouseWheelZoom": true
+}

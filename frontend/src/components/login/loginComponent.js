@@ -47,6 +47,7 @@ class Login extends Component {
                         Username:
                         <br />
                         <input
+                            className="textInput"
                             type="text"
                             name="username"
                             value={this.state.username}
@@ -59,6 +60,7 @@ class Login extends Component {
                     <div>
                         Password:
                         <input
+                            className="passwordInput"
                             type="password"
                             name="password"
                             value={this.state.password}
@@ -71,7 +73,7 @@ class Login extends Component {
                         <Link to="/forgot">Forget Username/password?</Link>
                     </div>
                     <div>
-                        <button type="submit">Sign In </button>
+                        <button className="submitButton" type="submit">Sign In </button>
                     </div>
                 </form>
             </div>

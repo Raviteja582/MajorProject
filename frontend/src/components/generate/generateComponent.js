@@ -1,10 +1,11 @@
-import React, { Component, useCallback } from "react";
+import React, { Component } from "react";
 import Select from "react-select";
 import "./style.css";
 import { connect } from "react-redux";
 import { fetchSubjects } from "../../redux/ActionCreators";
 import { withRouter } from "react-router";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
+import Insert from "./insertComponent";
 
 const mapStateToProps = (state) => {
 	return {
@@ -16,12 +17,14 @@ const mapDispatchToProps = (dispatch) => ({
 	fetchSubjects: () => dispatch(fetchSubjects()),
 });
 
+
 class Generate extends Component {
 	constructor() {
 		super();
 		this.state = {
 			ans: {},
 			options: "",
+			values: [<Insert />]
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -42,7 +45,15 @@ class Generate extends Component {
 			},
 		});
 	}
+
+	addClick() {
+		this.setState((prevState) => ({
+			values: [...prevState.values, <Insert />],
+		}));
+	}
+
 	render() {
+		
 		return (
 			<div className="container">
 				<div className="list1">
@@ -84,24 +95,17 @@ class Generate extends Component {
 							</tr>
 						</tbody>
 					</Table>
-				</div>
-				<div className="list2">
-                    
 
-            </div>
-				<div className="list1">
 					<h4>Number of Units for the Subject</h4>
-					<ul style={{ paddingLeft: "10em" }}>
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-					</ul>
-            
+					<div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", margin: "2px" }}>
+						<div>1</div>
+						<div>2</div>
+						<div>3</div>
+						<div>4</div>
+						<div>5</div>
+					</div>
 					<h4> Types of Marks for Each Question </h4>
 					<Table hover bordered size="sm" className="tables">
-
 						<thead>
 							<tr>
 								<th>Diffculty</th>
@@ -109,25 +113,46 @@ class Generate extends Component {
 								<th>Max Marks</th>
 							</tr>
 						</thead>
-							<tbody>
-								<tr>
-									<th scope="row">Easy</th>
-									<td>1</td>
-									<td>3</td>
-								</tr>
+						<tbody>
+							<tr>
+								<th scope="row">Easy</th>
+								<td>1</td>
+								<td>3</td>
+							</tr>
 							<tr>
 								<th scope="row">Medium</th>
 								<td>3</td>
 								<td>5</td>
 							</tr>
-            
-							</tbody>
-						<tr>
-							<th scope="row">Hard</th>
-							<td>7</td>
-							<td>10</td>
-						</tr>
+							<tr>
+								<th scope="row">Hard</th>
+								<td>7</td>
+								<td>10</td>
+							</tr>
+						</tbody>
+
 					</Table>
+				</div>
+				<div className="list2">
+					<form>
+						{
+							this.state.values.map((com, i) => {
+								return (
+									<div key={i}>
+										{com}
+									</div>
+								)
+							})
+						}
+						<Button
+							color="primary"
+							style={{ margin: "7px" }}
+							className="addmore"
+							onClick={() => this.addClick()}
+						>
+							Add more
+				</Button>
+					</form>
 				</div>
 			</div>
 		);
