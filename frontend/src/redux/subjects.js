@@ -2,7 +2,7 @@ import * as ActionType from './ActionTypes';
 export const Subject = (
     state = {
         loading: '...',
-        subjects: null,
+        subjects: [],
         error: null
     },
     action

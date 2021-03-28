@@ -7,19 +7,22 @@ import Home from "./home/homeComponent";
 import Forgot from "./forgot/verifyComponent";
 import Update from "./forgot/updateComponent";
 import { connect } from "react-redux";
-import { postLogin, postLogout } from "../redux/ActionCreators";
+import { postLogin, postLogout, fetchSubjects } from "../redux/ActionCreators";
 import SignNav from "./navbar/signNav";
 import LoginNav from "./navbar/loginNav";
+import Alpha from "./insert/alphaComponent";
 
 const mapStateToProps = (state) => {
     return {
         user: state.user,
+        subjects: state.subjects,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     postLogin: (details) => dispatch(postLogin(details)),
     postLogout: () => dispatch(postLogout()),
+    fetchSubjects: () => dispatch(fetchSubjects()),
 });
 
 class Main extends Component {
@@ -34,7 +37,17 @@ class Main extends Component {
                 />
             );
         else navs = <SignNav />;
-
+        
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.user.token
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
         return (
             <div>
                 {navs}
@@ -60,6 +73,7 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
+                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} fetchSubjects={this.props.subjects}/>  }  />
                     <Redirect to="/home" />
                 </Switch>
             </div>

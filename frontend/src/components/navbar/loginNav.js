@@ -41,6 +41,12 @@ const LoginNav = (props) => {
                             </NavLink>
                         </NavItem>
 
+                        <NavItem>
+                            <NavLink tag={Link} to="/insert" className={"tab"}>
+                                Insert
+                            </NavLink>
+                        </NavItem>
+                        
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
                                 {props.user}

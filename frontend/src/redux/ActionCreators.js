@@ -69,7 +69,7 @@ export const postLogout = () => (dispatch) => {
     window.location.reload();
 };
 
-export const fetchSubjects = () => (dispatch) => {
+export const fetchSubjects = () => async(dispatch) => {
     dispatch(subject_loading());
     const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/teacher/subject/', {
