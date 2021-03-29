@@ -55,7 +55,7 @@ app.use('/admin/subject',adminSubject);
 app.use('/teacher/subject',subject);
 app.use('/teacher/easy',easyQuestion);
 app.use('/teacher/medium',mediumQuestion);
-app.use('teacher/hard',hardQuestion);
+app.use('/teacher/hard',hardQuestion);
 app.use('/user',userAuth);
 app.use('/teacher/forgot/',forgetUser);
 // catch 404 and forward to error handler

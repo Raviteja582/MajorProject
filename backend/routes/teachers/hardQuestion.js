@@ -2,11 +2,67 @@ var express = require('express');
 var hardRouter= express.Router()
 var bodyParser = require('body-parser');
 var hard = require('../../models/hard');
+var subjectd = require('../../models/subject');
 var authenticate = require('../../authenticate');
 var cors = require('../cors');
 hardRouter.use(bodyParser.json());
 
 //Insert and fetch questions in Easy level of subject
+
+
+hardRouter.route('/post')
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+    .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+        for (sub in req.body) {
+            var x = ""
+            subjectd.findOne({ code: sub })
+                .then((subj) => {
+                    x = subj._id;
+                    hard.findOne({ subject: x })
+                        .then((subjec) => {
+                            if (subjec === null) {
+                                hard.create({
+                                    subject: x,
+                                    questions: req.body[sub]
+                                })
+                                    .then((resp) => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json({ success: true });
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        next(err);
+                                    })
+                            }
+                            else {
+                                hard.findById(subjec._id)
+                                    .then((subx) => {
+                                        if (req.body[sub].u1.length != 0)
+                                            for (var i = 0; i < req.body[sub].u1.length; i++)
+                                                subx.questions.u1.push(req.body[sub].u1[i]);
+                                        if (req.body[sub].u2.length != 0)
+                                            for (var i = 0; i < req.body[sub].u2.length; i++)
+                                                subx.questions.u2.push(req.body[sub].u2[i]);
+                                        if (req.body[sub].u3.length != 0)
+                                            for (var i = 0; i < req.body[sub].u3.length; i++)
+                                                subx.questions.u3.push(req.body[sub].u3[i]);
+                                        if (req.body[sub].u4.length != 0)
+                                            for (var i = 0; i < req.body[sub].u4.length; i++)
+                                                subx.questions.u4.push(req.body[sub].u4[i]);
+                                        if (req.body[sub].u5.length != 0)
+                                            for (var i = 0; i < req.body[sub].u5.length; i++)
+                                                subx.questions.u5.push(req.body[sub].u5[i]);
+                                        subx.save()
+                                            .then((resps) => {
+                                                res.statusCode = 200;
+                                                res.json({ success: true });
+                                            }).catch(err => console.log(err))
+                                    }).catch(err => console.log(err))
+                            }
+                        })
+                }).catch((err) => next(err));
+        }
+    })
 
 hardRouter.route('/subject/:subjectId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
@@ -20,15 +76,8 @@ hardRouter.route('/subject/:subjectId')
     .catch((err)=> next(err));
 })
 .post(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
-    hard.insertMany(req.body)
-    .then((quest)=>{
-        res.statusCode=200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(quest);
-    })
-    .catch((err)=>{
-        next(err);
-    })
+    res.statusCode=404;
+    res.end('POST Operaion is permitted');
 })
 .put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;
@@ -43,7 +92,7 @@ hardRouter.route('/subject/:subjectId')
 
 //Finding Question on its ID
 
-hardRouter.route('/questionId')
+hardRouter.route('/:questionId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(cors.cors,authenticate.verifyUser,(req,res,next)=>{
     hard.findById(req.params.questionId)

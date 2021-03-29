@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
+    async componentDidMount() {
+		await this.props.fetchSubjects();
+	}
     render() {
         const isLogin = this.props.user.token;
         let navs;
@@ -73,7 +76,7 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
-                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} fetchSubjects={this.props.subjects}/>  }  />
+                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user.user._id } token={ this.props.user.token } fetchSubjects={this.props.subjects}/>  }  />
                     <Redirect to="/home" />
                 </Switch>
             </div>

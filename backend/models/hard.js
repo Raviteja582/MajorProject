@@ -1,30 +1,84 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var hardSchema = new Schema({
-    name:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    marks:{
-        type: Number,
-        required: true,
-        default:10
-    },
-    unit:{
-        type: Number,
-        required: true,
-        min:1,
-        max:5
-    },
     subject:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'subject'
+        ref: 'subject',
+        required: true
     },
-    teacher:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'teacher'
-    }
+    questions: {
+        u1: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    
+                },
+                teacher: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'teacher',
+                    required: true,
+                }
+            }
+        ],
+        u2: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    
+                },
+                teacher: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'teacher',
+                    required: true,
+                }
+            }
+        ],
+        u3: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    
+                },
+                teacher: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'teacher',
+                    required: true,
+                }
+            }
+        ],
+        u4: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    
+                },
+                teacher: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'teacher',
+                    required: true,
+                }
+            }
+        ],
+        u5: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    
+                },
+                teacher: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'teacher',
+                    required: true,
+                }
+            }
+        ],
+    },
+
 },{
     timestamps:true
 });

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subjectSchema = new Schema({
-    _id: {
+    code: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     name: {
         type: String,
@@ -18,7 +18,7 @@ const subjectSchema = new Schema({
         ref: 'department'
     },
 },{
-    timestamps: true
+    timestamps: true,
 });
 
 var subject = mongoose.model('subject',subjectSchema);

@@ -64,7 +64,7 @@ subjectRouter.route('/')
     }
 })
 .post(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,(req,res,next)=>{
-    subject.insertMany(req.body)
+    subject.insertMany(req.body,{ordered: false})
     .then( subs => {
         res.statusCode=200;
         res.setHeader('Content-Type','application/json');

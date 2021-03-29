@@ -7,7 +7,7 @@ var subject = require('../../models/subject');
 
 subjectRouter.use(bodyparser.json());
 subjectRouter.route('/')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.options(cors.corsWithOptions, authenticate.verifyUser,(req, res) => { res.sendStatus(200); })
 .get(cors.cors,(req,res,next)=>{
     subject.find()
     .populate({

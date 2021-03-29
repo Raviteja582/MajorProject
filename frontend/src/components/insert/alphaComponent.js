@@ -4,6 +4,7 @@ import { Button } from "reactstrap";
 import Insert from "./insertComponent";
 import Details from "./numberComponent";
 import Subject from './subjectComponent';
+import { AllFuntions } from '../../redux/ActionCreators';
 
 class Alpha extends Component {
 	constructor() {
@@ -26,7 +27,7 @@ class Alpha extends Component {
 		this.handleSubmit2 = this.handleSubmit2.bind(this);
 		this.addClick = this.addClick.bind(this);
 	}
-	
+
 	addClick() {
 		this.setState((prevState) => ({
 			ques: [...prevState.ques, { values: [{ value: null }] }],
@@ -62,29 +63,74 @@ class Alpha extends Component {
 
 	handleSubmit2(e) {
 		e.preventDefault();
-		console.log(this.state.ques);
-		this.setState({ ques: [
-			{
-				code: "",
-				unit: "",
-				marks: "",
-				values: [{ value: null }]
+		var xs = { easy: {}, medium: {}, hard: {} }
+		var ss = this.state.ques
+		var j;
+		for (var i = 0; i < this.state.ques.length; i++) {
+			// if (!xs[ss[i].code]) xs[ss[i].code] = {
+			// 	easy: { u1: [], u2: [], u3: [], u4: [], u5: [] },
+			// 	medium: { u1: [], u2: [], u3: [], u4: [], u5: [] },
+			// 	hard: { u1: [], u2: [], u3: [], u4: [], u5: [] }
+			// }
+			if (ss[i].marks === '2') {
+				if (!xs.easy[ss[i].code]) xs.easy[ss[i].code] = { u1: [], u2: [], u3: [], u4: [], u5: [] }
+				for (j = 0; j < this.state.ques[i].values.length; j++) {
+					if (ss[i].unit === '1') xs.easy[ss[i].code].u1.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '2') xs.easy[ss[i].code].u2.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '3') xs.easy[ss[i].code].u3.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '4') xs.easy[ss[i].code].u4.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '5') xs.easy[ss[i].code].u5.push({ name: ss[i].values[j].value, teacher: this.props.id })
+				}
 			}
-		]})
+			else if (ss[i].marks === '5') {
+				if (!xs.medium[ss[i].code]) xs.medium[ss[i].code] = { u1: [], u2: [], u3: [], u4: [], u5: [] }
+				for (j = 0; j < this.state.ques[i].values.length; j++) {
+					if (ss[i].unit === '1') xs.medium[ss[i].code].u1.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '2') xs.medium[ss[i].code].u2.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '3') xs.medium[ss[i].code].u3.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '4') xs.medium[ss[i].code].u4.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '5') xs.medium[ss[i].code].u5.push({ name: ss[i].values[j].value, teacher: this.props.id })
+				}
+			}
+			else {
+				if (!xs.hard[ss[i].code]) xs.hard[ss[i].code] = { u1: [], u2: [], u3: [], u4: [], u5: [] }
+				for (j = 0; j < this.state.ques[i].values.length; j++) {
+					if (ss[i].unit === '1') xs.hard[ss[i].code].u1.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '2') xs.hard[ss[i].code].u2.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '3') xs.hard[ss[i].code].u3.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '4') xs.hard[ss[i].code].u4.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					else if (ss[i].unit === '5') xs.hard[ss[i].code].u5.push({ name: ss[i].values[j].value, teacher: this.props.id })
+				}
+			}
+		}
+
+		var x = AllFuntions(xs);
+		if (x)
+			this.setState({
+				ques: [
+					{
+						code: "",
+						unit: "",
+						marks: "",
+						values: [{ value: null }]
+					}
+				]
+			})
+		else alert('Failure');
 	}
 
 	render() {
 		return (
 			<div className="container">
 				<div className="list1">
-					<Subject subjects={this.props.subjects} fetchSubjects={()=> this.props.fetchSubjects}/>
+					<Subject subjects={this.props.subjects} fetchSubjects={() => this.props.fetchSubjects} />
 					<Details />
 				</div>
 				<div className="list2">
 					<form onSubmit={this.handleSubmit2}>
 						{
 							this.state.ques.map((el, i) => (
-								
+
 								<Insert index={i} formd={el}
 									handleInput={this.handleInput}
 									removeClick={this.removeClick}

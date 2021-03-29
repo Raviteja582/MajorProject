@@ -64,7 +64,7 @@ class Insert extends Component {
 								value={this.props.formd.marks}
 								onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
 								style={{ width: "25%", paddingLeft: "20px" }}
-								pattern="[1-9]|10"
+								pattern="[25]|10"
 								required
 							/>
 						</label>

@@ -1,10 +1,68 @@
 var express = require('express');
 var mediumRouter= express.Router()
 var bodyParser = require('body-parser');
-var medium= require('../../models/medium');
+var medium = require('../../models/medium');
+var subjectd = require('../../models/subject');
 var authenticate = require('../../authenticate');
 const cors =require('../cors');
 mediumRouter.use(bodyParser.json());
+
+
+mediumRouter.route('/post')
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+    .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+        for (sub in req.body) {
+            var x = ""
+            subjectd.findOne({ code: sub })
+                .then((subj) => {
+                    x = subj._id;
+                    medium.findOne({ subject: x })
+                        .then((subjec) => {
+                            if (subjec === null) {
+                                medium.create({
+                                    subject: x,
+                                    questions: req.body[sub]
+                                })
+                                    .then((resp) => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json({ success: true });
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        next(err);
+                                    })
+                            }
+                            else {
+                                medium.findById(subjec._id)
+                                    .then((subx) => {
+                                        if (req.body[sub].u1.length != 0)
+                                            for (var i = 0; i < req.body[sub].u1.length; i++)
+                                                subx.questions.u1.push(req.body[sub].u1[i]);
+                                        if (req.body[sub].u2.length != 0)
+                                            for (var i = 0; i < req.body[sub].u2.length; i++)
+                                                subx.questions.u2.push(req.body[sub].u2[i]);
+                                        if (req.body[sub].u3.length != 0)
+                                            for (var i = 0; i < req.body[sub].u3.length; i++)
+                                                subx.questions.u3.push(req.body[sub].u3[i]);
+                                        if (req.body[sub].u4.length != 0)
+                                            for (var i = 0; i < req.body[sub].u4.length; i++)
+                                                subx.questions.u4.push(req.body[sub].u4[i]);
+                                        if (req.body[sub].u5.length != 0)
+                                            for (var i = 0; i < req.body[sub].u5.length; i++)
+                                                subx.questions.u5.push(req.body[sub].u5[i]);
+                                        subx.save()
+                                            .then((resps) => {
+                                                res.statusCode = 200;
+                                                res.json({ success: true });
+                                            }).catch(err => console.log(err))
+                                    }).catch(err => console.log(err))
+                            }
+                        })
+                }).catch((err) => next(err));
+        }
+    })
+
+
 
 //Insert and fetch questions in Easy level of subject
 
@@ -20,15 +78,8 @@ mediumRouter.route('/subject/:subjectId')
     .catch((err)=> next(err));
 })
 .post(cors.corsWithOptions,authenticate.verifyUser,(req,res,next)=>{
-    medium.insertMany(req.body)
-    .then((quest)=>{
-        res.statusCode=200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(quest);
-    })
-    .catch((err)=>{
-        next(err);
-    })
+    res.statusCode=404;
+    res.end('POST Operaion is permitted');
 })
 .put(cors.corsWithOptions,(req,res,next)=>{
     res.statusCode=404;

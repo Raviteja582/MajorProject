@@ -11,13 +11,11 @@ class Subject extends Component{
 			options: ""
         }
         this.handleSubmit1 = this.handleSubmit1.bind(this);
-    }
-    async componentDidMount() {
-		await this.props.fetchSubjects();
+	}
+	componentDidMount() {
 		this.setState({ options: this.props.subjects.subjects });
 	}
     handleSubmit1(e) {
-		console.log(e);
 		this.setState({
 			ans: {
 				...this.state.ans,
@@ -35,7 +33,7 @@ class Subject extends Component{
                 <Select
 						options={this.state.options}
 						value={this.state.ans}
-						onChange={this.handleSubmit}
+						onChange={this.handleSubmit1}
 						placeholder="enter the code"
 						isSearchable
 						onMenuOpen={() => this.setState({ ans: "" })}
