@@ -107,25 +107,12 @@ export const fetchSubjects = () => async(dispatch) => {
         .catch( error => dispatch(subject_failure(error.message)));
 };
 
-export const AllFuntions = (xs) => {
-    var x1 = postEasy(xs.easy)
-    if (x1) {
-        var x2 =  postMedium(xs.medium)
-        if (x2) {
-            var x3 =  postHard(xs.hard)
-            if (x3)
-                return true
-        }
-        return false
-    }
-    return false
-}
 
-const postEasy = (easy,arr) => {
+export const postQuestion = (question) => {
     const bearer = 'Bearer '+ localStorage.get('token');
-    return fetch(baseUrl + '/teacher/easy/post', {
+    return fetch(baseUrl + '/teacher/question/post', {
         method: 'PUT',
-        body: JSON.stringify(easy),
+        body: JSON.stringify(question),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': bearer
@@ -134,37 +121,7 @@ const postEasy = (easy,arr) => {
         .then((res) => res.json())
         .then((res) => {
             return true
-        }).catch( error => console.log(error));
-}
-
-const postMedium = (medium,arr) => {
-    const bearer = 'Bearer '+ localStorage.get('token');
-    return fetch(baseUrl + '/teacher/medium/post', {
-        method: 'PUT',
-        body: JSON.stringify(medium),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': bearer
-        }
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            return true
-        }).catch( error => console.log(error));
-}
-
-const postHard = (hard,arr) => {
-    const bearer = 'Bearer '+ localStorage.get('token');
-    return fetch(baseUrl + '/teacher/hard/post', {
-        method: 'PUT',
-        body: JSON.stringify(hard),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': bearer
-        }
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            return true
-        }).catch( error => console.log(error));
+        }).catch(error => {
+            return false;
+        });
 }

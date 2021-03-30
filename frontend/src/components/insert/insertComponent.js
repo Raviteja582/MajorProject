@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./style.css";
+import Select from "react-select";
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -18,6 +19,7 @@ class Insert extends Component {
 					padding: "10px 5px",
 					backgroundColor: "white",
 				}}>
+
 					<div
 						style={{
 							display: "flex",
@@ -25,49 +27,50 @@ class Insert extends Component {
 							justifyContent: "space-between",
 						}}
 					>
-						<label>
-							Code:{" "}
-							<input
-								type="text"
-								minLength="5"
-								maxLength="5"
-								name="code"
-								value={this.props.formd.code}
-								onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
-								style={{
-									width: "50%",
-									textTransform: "uppercase",
-									paddingLeft: "30px",
-								}}
-								required
+
+						<div style={{ width: "40%", marginRight: "30px", marginLeft: "20px" }}>
+							<Select
+								options={this.props.options}
+								
+								onChange={(e) => this.props.handleInput(this.props.index, -2, e)}
+								placeholder="Select The subject"
+								isSearchable
+								//onMenuOpen={() => this.setState({ ans: "" })}
 							/>
-						</label>
-						<label>
-							Unit:{" "}
-							<input
-								type="text"
-								maxLength="1"
-								name="unit"
-								value={this.props.formd.unit}
-								onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
-								style={{ width: "25%", paddingLeft: "20px" }}
-								pattern="[1-5]+"
-								required
-							/>
-						</label>
-						<label>
-							Marks:{" "}
-							<input
-								type="text"
-								maxLength="2"
-								name="marks"
-								value={this.props.formd.marks}
-								onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
-								style={{ width: "25%", paddingLeft: "20px" }}
-								pattern="[25]|10"
-								required
-							/>
-						</label>
+						</div>
+						<div>
+							<label>
+								Unit:{" "}
+								<input
+									type="text"
+									maxLength="1"
+									name="unit"
+									value={this.props.formd.unit}
+									onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
+									style={{ width: "25%", paddingLeft: "20px" }}
+									pattern="[1-5]+"
+									required
+								/>
+							</label>
+						</div>
+						<div>
+							<label>
+								Marks:{" "}
+								<input
+									type="text"
+									maxLength="2"
+									name="marks"
+									value={this.props.formd.marks}
+									onChange={(e) => this.props.handleInput(this.props.index, -1, e)}
+									style={{ width: "25%", paddingLeft: "20px" }}
+									pattern="[25]|10"
+									required
+								/>
+							</label>
+						</div>
+
+
+
 					</div>
 					{this.props.formd.values.map((el, i) => (
 						<div key={i} style={{ paddingTop: "5px" }}>

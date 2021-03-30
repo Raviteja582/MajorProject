@@ -18,24 +18,20 @@ class Details extends Component {
                     <thead>
                         <tr>
                             <th>Diffculty</th>
-                            <th>Min Marks</th>
-                            <th>Max Marks</th>
+                            <th>Marks</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">Easy</th>
-                            <td>1</td>
-                            <td>3</td>
+                            <td>2</td>
                         </tr>
                         <tr>
                             <th scope="row">Medium</th>
-                            <td>3</td>
                             <td>5</td>
                         </tr>
                         <tr>
                             <th scope="row">Hard</th>
-                            <td>7</td>
                             <td>10</td>
                         </tr>
                     </tbody>
