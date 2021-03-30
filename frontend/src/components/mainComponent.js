@@ -76,7 +76,7 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
-                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user._id } fetchSubjects={this.props.subjects}/>  }  />
+                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user.user.id } fetchSubjects={this.props.subjects}/>  }  />
                     <Redirect to="/home" />
                 </Switch>
             </div>
