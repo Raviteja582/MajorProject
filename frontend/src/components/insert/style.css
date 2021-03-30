@@ -3,7 +3,7 @@
 	flex-direction: row;
 	max-width: 100%;
 	margin: 0%;
-    overflow-x: scroll;
+	height: 90vh;
 }
 .list1 {
 	background-color: white;

@@ -49,7 +49,7 @@ const LoginNav = (props) => {
                         
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
-                                {props.user}
+                                {props.user.user}
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem>

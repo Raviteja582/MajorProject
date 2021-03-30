@@ -23,9 +23,10 @@ class Login extends Component {
     }
 
     render() {
-        const state = this.props.user;
+        const state = this.props.user.user;
+        console.log('h'+state);
         let block;
-        if (state === "LOGIN_SUCCESS") return <Home />;
+        if (state === "LOGIN_SUCCESS" || state!== null ) return <Home />;
         else if (state === "LOGIN_FAILURE" || state === "LOGIN_UNSUCCESSFUL")
             block = (
                 <Alert color="danger">
@@ -70,7 +71,7 @@ class Login extends Component {
                         />
                     </div>
                     <div style={{ marginLeft: "63%" }}>
-                        <Link to="/forgot">Forget Username/password?</Link>
+                        <Link to="/forgot">Forgot Username/password?</Link>
                     </div>
                     <div>
                         <button className="submitButton" type="submit">Sign In </button>

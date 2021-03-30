@@ -44,7 +44,10 @@ TeacherRouter.route("/")
                     res.json({
                         token: token,
                         status: "SUCCESS",
-                        user: user,
+                        user: {
+                            user: user.username,
+                            id: user._id,
+                        }
                     });
                 } else {
                     res.statusCode = 200;

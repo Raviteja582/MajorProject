@@ -30,12 +30,12 @@ class Main extends Component {
 		await this.props.fetchSubjects();
 	}
     render() {
-        const isLogin = this.props.user.token;
+        const isLogin = this.props.user.user|| null;
         let navs;
         if (isLogin !== null)
             navs = (
                 <LoginNav
-                    user={this.props.user.user.username}
+                    user={this.props.user.user}
                     logout={this.props.postLogout}
                 />
             );
@@ -43,7 +43,7 @@ class Main extends Component {
         
         const PrivateRoute = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
-                this.props.user.token
+                this.props.user.user
                     ? <Component {...props} />
                     : <Redirect to={{
                         pathname: '/home',
@@ -67,7 +67,7 @@ class Main extends Component {
                             <Login
                                 {...match}
                                 login={this.props.postLogin}
-                                user={this.props.user.type}
+                                user={this.props.user}
                             />
                         )}
                     />
@@ -76,7 +76,7 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
-                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user.user._id } fetchSubjects={this.props.subjects}/>  }  />
+                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user._id } fetchSubjects={this.props.subjects}/>  }  />
                     <Redirect to="/home" />
                 </Switch>
             </div>

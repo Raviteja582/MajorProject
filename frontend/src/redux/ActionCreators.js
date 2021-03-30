@@ -55,6 +55,7 @@ export const postLogin = (details) => async (dispatch) => {
             console.log(response);
             if (response.status === "SUCCESS") {
                 localStorage.set("token", response.token);
+                localStorage.set("user", response.user);
                 dispatch(login_success(response));
             } else if (response.status === "VERIFY")
                 dispatch(login_verify(response.err));
@@ -65,7 +66,7 @@ export const postLogin = (details) => async (dispatch) => {
 };
 
 export const postLogout = () => (dispatch) => {
-    localStorage.remove("token");
+    localStorage.clear();
     dispatch(logout_success());
     window.location.reload();
 };

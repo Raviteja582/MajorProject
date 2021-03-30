@@ -4,7 +4,7 @@ export const User = (
     state = {
         type: null,
         err: null,
-        user: null,
+        user: localStorage.get("user") || null,
         token: localStorage.get("token") || null,
     },
     action
@@ -39,8 +39,8 @@ export const User = (
                 ...state,
                 type: action.type,
                 err: null,
-                user: action.message.user,
-                token: localStorage.get("token"),
+                user: localStorage.get('user'),
+                token: localStorage.get('token')
             };
         case ActionType.LOGOUT_SUCCESS:
             return {
