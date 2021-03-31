@@ -27,10 +27,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Main extends Component {
     async componentDidMount() {
-		await this.props.fetchSubjects();
+        if(this.props.subjects.subjects.length === 0)
+		    await this.props.fetchSubjects();
 	}
     render() {
-        const isLogin = this.props.user.user|| null;
+        const isLogin = this.props.user.user || null;
         let navs;
         if (isLogin !== null)
             navs = (

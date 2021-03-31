@@ -120,26 +120,31 @@ class Alpha extends Component {
 				}
 			}
 		}
-		const x = postQuestion(xs);
-		x.then(() => {
-			alert("successfully inserted");
-			this.setState({
-				options: [],
-				ques: [
-					{
-						code: {
-							value: "",
-							id: ""
-						},
-						unit: "",
-						marks: "",
-						values: [{ value: null }]
-					}
-				]
+		postQuestion(xs)
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.success) {
+					alert("successfully inserted");
+					this.setState({
+						options: [],
+						ques: [
+							{
+								code: {
+									value: "",
+									id: ""
+								},
+								unit: "",
+								marks: "",
+								values: [{ value: null }]
+							}
+						]
+					})
+				} else {
+					alert('Failed');
+				}
+			}).catch(() => {
+				alert('Failed');
 			})
-		}, () => {
-			alert('Failed');
-		});
 	}
 
 	render() {

@@ -119,10 +119,4 @@ export const postQuestion = (question) => {
             'Authorization': bearer
         }
     })
-        .then((res) => res.json())
-        .then((res) => {
-            return true
-        }).catch(error => {
-            return false;
-        });
 }

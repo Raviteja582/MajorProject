@@ -23,10 +23,15 @@ class Login extends Component {
     }
 
     render() {
-        const state = this.props.user.user;
+        const state = this.props.user.type;
+        try {
+            if (this.props.user.user.id)
+                return <Home />
+        } catch (error) {
+        }
         console.log('h'+state);
         let block;
-        if (state === "LOGIN_SUCCESS" || state!== null ) return <Home />;
+        if (state === "LOGIN_SUCCESS") return <Home />;
         else if (state === "LOGIN_FAILURE" || state === "LOGIN_UNSUCCESSFUL")
             block = (
                 <Alert color="danger">
