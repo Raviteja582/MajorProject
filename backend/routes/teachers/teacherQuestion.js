@@ -112,10 +112,12 @@ questionRouter.route('/post')
                         
                         subjec.save()
                             .then((resps) => {
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'application/json');
                                 res.json({ success: true });
-                            }).catch(err => console.log(err))
+                            }).catch(err => next(err))
                     }
-                }).catch(err => console.log(err))
+                }).catch(err => next(err))
         }
     })
     

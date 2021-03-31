@@ -120,13 +120,12 @@ class Alpha extends Component {
 				}
 			}
 		}
-		postQuestion(xs)
-			.then((res) => res.json())
-			.then((res) => {
+		const x = postQuestion(xs)
+		x.then((res) => res.json())
+			.then(res => {
 				if (res.success) {
-					alert("successfully inserted");
+					alert('Success');
 					this.setState({
-						options: [],
 						ques: [
 							{
 								code: {
@@ -139,12 +138,12 @@ class Alpha extends Component {
 							}
 						]
 					})
+					window.location.reload();
 				} else {
 					alert('Failed');
 				}
-			}).catch(() => {
-				alert('Failed');
 			})
+			.catch((err) => console.log(err));
 	}
 
 	render() {

@@ -29,7 +29,6 @@ class Login extends Component {
                 return <Home />
         } catch (error) {
         }
-        console.log('h'+state);
         let block;
         if (state === "LOGIN_SUCCESS") return <Home />;
         else if (state === "LOGIN_FAILURE" || state === "LOGIN_UNSUCCESSFUL")
