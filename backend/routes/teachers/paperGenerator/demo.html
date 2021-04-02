@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .code {
+        margin-top: -20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .regulation {
+        border: 1px solid black;
+        margin-top: 15px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 10px;
+      }
+      .pcode {
+        margin: 10px;
+      }
+      .cllgename {
+        text-align: center;
+        /* margin: 0px 25%; */
+        text-transform: uppercase;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 1px;
+      }
+      .cllgetype {
+        text-align: center;
+        font-size: 1em;
+        font-weight: bolder;
+      }
+      .examdetails {
+        text-align: center;
+        margin: 3px;
+        font-weight: 500;
+      }
+      .subjectname {
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.5em;
+      }
+      .subjectdetail {
+        text-align: center;
+      }
+      .examdet {
+        display: flex;
+        justify-content: space-between;
+        margin: 0px 10px;
+      }
+      .exampattern {
+        margin: 0px 10px;
+        text-align: justify;
+      }
+      .secdetails {
+        /* border: 1px solid black; */
+        display: flex;
+        flex-direction: row;
+        margin: 10px;
+        width: 60%;
+        margin-left: auto;
+        font-size: 1.3em;
+      }
+      .questions {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+      .question {
+        margin: 7px;
+        font-size: 1.6em;
+      }
+      .limiters {
+        text-align: center;
+        font-size: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <section class="code">
+        <div class="pcode">Code: {{code}}</div>
+        <div class="regulation">{{regulation}}</div>
+      </section>
+      <section>
+        <div class="cllgename">B V RAJU INSTITUTE OF TECHNOLOGY</div>
+        <div class="cllgetype">(UGC AUTONOMUOUS)</div>
+        <div class="examdetails">
+          B.Tech {{year}} Year {{sem}} Semester Regular/Supplementary
+          Examinations, Feb 2021
+        </div>
+        <div class="subjectname">{{subjectname}}</div>
+        <div class="subjectdetail">{{subjecttype}}</div>
+      </section>
+      <section class="examdet">
+        <h3>Time: {{time}} Hours</h3>
+        <h3>Max Marks: {{marks}}</h3>
+      </section>
+      <section class="exampattern">
+        <p style="margin: 0px">
+          Note: This Question Papers Contains Two Parts A and B
+        </p>
+        <p style="margin: 0px">
+          Part A: is compulsory Which Carries 20marks. Answer all Questions in
+          Part A at one place only.
+        </p>
+        <p style="margin: 0px">
+          Part B consists of 10 Questions. Answer any five (one full question
+          from each unit). Each question carries 10 marks and may have a, b, c
+          as sub questions.
+        </p>
+      </section>
+    </header>
+    <div>
+      <section>
+        <section class="secdetails">
+          <div>Part - A</div>
+          <div style="margin-left: auto">(2 x 10 = 20)</div>
+        </section>
+        {{small squestion}}
+      </section>
+      <section>
+        <section class="secdetails">
+          <div>Part - B</div>
+          <div style="margin-left: auto">(5 x 10 = 50)</div>
+        </section>
+        {{large lquestion}}
+      </section>
+    </div>
+  </body>
+</html>

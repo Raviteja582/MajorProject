@@ -1,28 +1,35 @@
 {
-    "name": "backend",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "nodemon ./app.js"
-    },
-    "dependencies": {
-        "body-parser": "^1.19.0",
-        "cookie-parser": "~1.4.4",
-        "cors": "^2.8.5",
-        "debug": "~2.6.9",
-        "express": "~4.16.1",
-        "http-errors": "~1.6.3",
-        "jade": "^1.9.2",
-        "jsonwebtoken": "^8.5.1",
-        "mongodb": "^3.6.3",
-        "mongoose": "^5.11.12",
-        "morgan": "~1.9.1",
-        "nodemailer": "^6.4.17",
-        "nodemon": "^2.0.7",
-        "passport": "^0.4.1",
-        "passport-jwt": "^4.0.0",
-        "passport-local": "^1.0.0",
-        "passport-local-mongoose": "^6.1.0",
-        "passport-local-mongoose-email": "^0.1.4"
-    }
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "form-pdf2json": "^0.1.6",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.7.7",
+    "http-errors": "~1.6.3",
+    "jade": "^1.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.12",
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.4.17",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.1.0",
+    "passport-local-mongoose-email": "^0.1.4",
+    "path": "^0.12.7",
+    "puppeteer": "^8.0.0",
+    "random": "^3.0.3",
+    "util": "^0.12.3"
+  }
 }

@@ -1,6 +1,8 @@
 import * as ActionType from "./ActionTypes";
 import localStorage from "local-storage";
 import { baseUrl } from "../url";
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 
 export const login_failure = (payload) => ({
@@ -74,7 +76,6 @@ export const postLogout = () => (dispatch) => {
 export const fetchSubjects = () => async(dispatch) => {
     dispatch(subject_loading());
     const bearer = 'Bearer ' + localStorage.get('token');
-    console.log(bearer);
     return fetch(baseUrl + '/teacher/subject/', {
         headers: {
             'Authorization': bearer
@@ -119,4 +120,36 @@ export const postQuestion = (question) => {
             'Authorization': bearer
         }
     })
+}
+export const getSubjectDetails = async () => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/question/get', {
+        headers: {
+            'Authorization': bearer
+        },
+    })
+}
+
+export const getPdf = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    const instance = axios.create({
+        baseURL: baseUrl,
+        timeout: 1000,
+        headers: { 'Authorization': bearer },
+        responseType: 'blob'
+      });
+    instance.post('/teacher/semPaper', details)
+        .then(response => {
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
+            saveAs(pdfBlob, 'demo.pdf');
+        })
+        .catch((err) => console.log(err));
+    // return fetch(baseUrl + '/teacher/semPaper', {
+    //     method: 'POST',
+    //     body: JSON.stringify(details),
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': bearer
+    //     },
+    // })
 }

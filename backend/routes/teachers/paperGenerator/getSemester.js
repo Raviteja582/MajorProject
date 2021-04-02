@@ -1,0 +1,131 @@
+var express = require('express');
+var semRouter = express.Router();
+var bodyparser = require('body-parser');
+var authenticate = require('../../../authenticate');
+var cors = require('../../cors');
+var random = require('random');
+var seedrandom = require('seedrandom');
+
+var question = require('../../../models/questions');
+var subject = require('../../../models/subject');
+var depart = require('../../../models/department');
+
+
+const fs = require('fs')
+const path = require('path')
+const utils = require('util')
+const puppeteer = require('puppeteer')
+const hb = require('handlebars');
+const readFile = utils.promisify(fs.readFile);
+
+random.use(seedrandom('qpgenerator'));
+semRouter.use(bodyparser.json());
+semRouter.route('/')
+    .options(cors.corsWithOptions, (req, resp) => { resp.sendStatus(200); })
+    .post(cors.corsWithOptions, authenticate.verifyUser, (req, response, next) => {
+        async function getTemplateHtml() {
+            console.log("Loading template file in memory")
+            try {
+                const invoicePath = path.resolve(__dirname + "/demo.html");
+                console.log(invoicePath);
+                return await readFile(invoicePath, 'utf8');
+            } catch (err) {
+                return Promise.reject("Could not load html template");
+            }
+        }
+        async function generatePdf() {
+            const questions = await question.findById(req.body.id, { easy: 1, hard: 1 });
+            let data = {
+                code: req.body.value,
+                regulation: "R15",
+                year: req.body.deptYear,
+                sem: req.body.deptSem,
+                subjectname: req.body.label,
+                subjecttype: 'ACADEMIC',
+                time: '3',
+                marks: '70',
+                squestion: [],
+                lquestion: []
+            };
+            var s1 = Object.keys(questions.easy);
+            s1.shift();
+            var s2 = Object.keys(questions.hard);
+            s2.shift();
+            //console.log('squestions');
+            s1.forEach((value) => {
+                var s1 = random.int(0, questions.easy[value].length - 1);
+                var s2 = random.int(0, questions.easy[value].length - 1);
+                // console.log(questions.easy[value].length + " " + s1 + " " + s2);
+                data.squestion.push(questions.easy[value][s1].name)
+                data.squestion.push(questions.easy[value][s2].name)
+            })
+            //console.log('lquestions');
+            s2.forEach((value) => {
+                var s1 = random.int(0, questions.hard[value].length - 1);
+                var s2 = random.int(0, questions.hard[value].length - 1);
+                // console.log(questions.hard[value].length + " " + s1 + " " + s2);
+                data.lquestion.push({
+                    '1': questions.hard[value][s1].name,
+                    '2': questions.hard[value][s2].name
+                })
+            })
+            getTemplateHtml().then(async (res) => {
+
+                hb.registerHelper('small', function (data) {
+                    var str = '<div class="questions">';
+                    str += '<div class="question">' + '1. a)&nbsp' + data[0] + '</div>';
+                    for (var i = 1; i < data.length; i++) {
+                        str += '<div class="question">' + '&nbsp&nbsp&nbsp' + String.fromCharCode(97 + i) + ')&nbsp' + data[i] + '</div>';
+                    }
+                    str += '</div>';
+                    return new hb.SafeString(str);
+                });
+
+                hb.registerHelper('large', function (data) {
+                    var str = '<div class="questions">';
+                    var c = 2
+                    for (var i = 0; i < data.length; i++) {
+                        for (var key in data[i]) {
+                            str += '<div class="question">' + c + ' ' + data[i][key] + '</div>';
+                            if (key === '1') str += '<div class="limiters">OR</div>'
+                            else str += '<div class="limiters">***</div>'
+                            c += 1;
+                        }
+                    }
+                    str += '</div>';
+                    return new hb.SafeString(str);
+                });
+
+                console.log("Compiling the template with handlebars")
+                const template = hb.compile(res, { strict: true });
+                const result = template(data);
+                const html = result;
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage()
+                await page.setContent(html)
+                await page.pdf({
+                    path: __dirname + '/demo.pdf',
+                    preferCSSPageSize: true,
+                    format: 'A4',
+                    margin: {
+                        top: '50px',
+                        left: '20px',
+                        right: '20px',
+                        bottom: '20px'
+                    }
+                })
+                await browser.close();
+                console.log("PDF Generated")
+            }).catch(err => {
+                console.error(err);
+                next(err);
+            });
+        }
+        generatePdf()
+            .then(() => {
+                response.statusCode = 200;
+                response.setHeader('Content-Type', 'application/json');
+                response.sendFile(`${__dirname}/demo.pdf`);
+            }).catch((err) => next(err));
+    })
+module.exports = semRouter;

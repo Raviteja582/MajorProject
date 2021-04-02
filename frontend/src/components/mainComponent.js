@@ -11,6 +11,7 @@ import { postLogin, postLogout, fetchSubjects } from "../redux/ActionCreators";
 import SignNav from "./navbar/signNav";
 import LoginNav from "./navbar/loginNav";
 import Alpha from "./insert/alphaComponent";
+import Generate from './generate/schemaComponent';
 
 const mapStateToProps = (state) => {
     return {
@@ -26,10 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
-    async componentDidMount() {
-        if(this.props.subjects.subjects.length === 0)
-		    await this.props.fetchSubjects();
-	}
+    componentDidMount() {
+        this.props.fetchSubjects();
+    }
     render() {
         const isLogin = this.props.user.user || null;
         let navs;
@@ -41,8 +41,18 @@ class Main extends Component {
                 />
             );
         else navs = <SignNav />;
-        
-        const PrivateRoute = ({ component: Component, ...rest }) => (
+
+        const PrivateRoute1 = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.user.user
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
+        const PrivateRoute2 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
                 this.props.user.user
                     ? <Component {...props} />
@@ -77,7 +87,10 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
-                    <PrivateRoute exact path="/insert" component={() => <Alpha subjects={this.props.subjects} id={ this.props.user.user.id } fetchSubjects={this.props.subjects}/>  }  />
+                    <PrivateRoute1 exact path="/insert" component={() => <Alpha subjects={this.props.subjects}
+                        id={this.props.user.user.id}
+                        fetchSubjects={this.props.subjects} />} />
+                    <PrivateRoute2 exact path="/generate" component={() => <Generate />} />
                     <Redirect to="/home" />
                 </Switch>
             </div>

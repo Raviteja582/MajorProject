@@ -17,6 +17,7 @@ var subject = require('./routes/teachers/fetchSubjects');
 var question = require('./routes/teachers/teacherQuestion');
 var userAuth = require('./routes/teachers/userAuth');
 var forgetUser = require('./routes/teachers/teacherForget');
+var semPaper = require('./routes/teachers/paperGenerator/getSemester');
 var config = require('./config');
 
 
@@ -53,7 +54,10 @@ app.use('/admin/subject',adminSubject);
 app.use('/teacher/subject',subject);
 app.use('/teacher/question',question);
 app.use('/user',userAuth);
-app.use('/teacher/forgot/',forgetUser);
+app.use('/teacher/forgot/', forgetUser);
+app.use('/teacher/semPaper', semPaper);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

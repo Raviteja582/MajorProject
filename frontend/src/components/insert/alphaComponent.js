@@ -87,7 +87,7 @@ class Alpha extends Component {
 		var ss = this.state.ques
 		var j;
 		for (var i = 0; i < this.state.ques.length; i++) {
-			if (!xs[ss[i].code.id]) xs[ss[i].code.id] = {
+			if (xs[ss[i].code.id] === undefined ) xs[ss[i].code.id] = {
 				easy: { u1: [], u2: [], u3: [], u4: [], u5: [] },
 				medium: { u1: [], u2: [], u3: [], u4: [], u5: [] },
 				hard: { u1: [], u2: [], u3: [], u4: [], u5: [] }

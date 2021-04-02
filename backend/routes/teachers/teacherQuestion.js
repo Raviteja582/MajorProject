@@ -6,119 +6,130 @@ var authenticate = require('../../authenticate');
 var cors = require('../cors');
 questionRouter.use(bodyParser.json());
 
+questionRouter.route('/get')
+    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+    .get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+        question.find({}, { subject: 1, _id: 1 })
+            .populate({
+                path: "subject",
+                populate: {
+                    path: "department"
+                }
+            })
+            .then((list) => {
+                console.log(list);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(list);
+            }).catch((err) => next(err))
+    })
+
+
 questionRouter.route('/post')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-        for (sub in req.body) {
-            question.findOne({ subject: sub })
-                .then((subjec) => {
-                    if (subjec === null) {
-                        question.create({
-                            subject: sub,
-                            easy: req.body[sub].easy,
-                            medium: req.body[sub].medium,
-                            hard: req.body[sub].hard
-                        })
-                            .then((resp) => {
-                                res.statusCode = 200;
-                                res.setHeader('Content-Type', 'application/json');
-                                res.json({ success: true });
-                            }).catch((err) => {
-                                console.log(err);
-                                next(err);
-                            })
-                    }
-                    else {
-                        // easy push
+        async function insert(id) {
+            var data = await question.findOne({ subject: id });
+            if (data === null) {
+                var sub = await question.insertMany({
+                    subject: id,
+                    easy: req.body[id].easy,
+                    medium: req.body[id].medium,
+                    hard: req.body[id].hard
+                })
+                return sub;
+            } else {
+                if (req.body[id].easy.u1.length != 0)
+                    for (var i = 0; i < req.body[id].easy.u1.length; i++)
+                        data.easy.u1.push(req.body[id].easy.u1[i]);
 
-                        // U1 push
-                        if (req.body[sub].easy.u1.length != 0)
-                            for (var i = 0; i < req.body[sub].easy.u1.length; i++)
-                                subjec.easy.u1.push(req.body[sub].easy.u1[i]);
-                        
-                        // U2 push
-                        if (req.body[sub].easy.u2.length != 0)
-                            for (var i = 0; i < req.body[sub].easy.u2.length; i++)
-                                subjec.easy.u2.push(req.body[sub].easy.u2[i]);
-                        
-                        // U3 push
-                        if (req.body[sub].easy.u3.length != 0)
-                            for (var i = 0; i < req.body[sub].easy.u3.length; i++)
-                                subjec.easy.u3.push(req.body[sub].easy.u3[i]);
-                        
-                        //U4 push
-                        if (req.body[sub].easy.u4.length != 0)
-                            for (var i = 0; i < req.body[sub].easy.u4.length; i++)
-                                subjec.easy.u4.push(req.body[sub].easy.u4[i]);
-                        
-                        //U5 push
-                        if (req.body[sub].easy.u5.length != 0)
-                            for (var i = 0; i < req.body[sub].easy.u5.length; i++)
-                                subjec.easy.u5.push(req.body[sub].easy.u5[i]);
+                // U2 push
+                if (req.body[id].easy.u2.length != 0)
+                    for (var i = 0; i < req.body[id].easy.u2.length; i++)
+                        data.easy.u2.push(req.body[id].easy.u2[i]);
 
-                        // medium push
+                // U3 push
+                if (req.body[id].easy.u3.length != 0)
+                    for (var i = 0; i < req.body[id].easy.u3.length; i++)
+                        data.easy.u3.push(req.body[id].easy.u3[i]);
 
-                        // U1 push
-                        if (req.body[sub].medium.u1.length != 0)
-                            for (var i = 0; i < req.body[sub].medium.u1.length; i++)
-                                subjec.medium.u1.push(req.body[sub].medium.u1[i]);
-                        
-                        // U2 push
-                        if (req.body[sub].medium.u2.length != 0)
-                            for (var i = 0; i < req.body[sub].medium.u2.length; i++)
-                                subjec.medium.u2.push(req.body[sub].medium.u2[i]);
-                        
-                        // U3 push
-                        if (req.body[sub].medium.u3.length != 0)
-                            for (var i = 0; i < req.body[sub].medium.u3.length; i++)
-                                subjec.medium.u3.push(req.body[sub].medium.u3[i]);
-                        
-                        // U4 push
-                        if (req.body[sub].medium.u4.length != 0)
-                            for (var i = 0; i < req.body[sub].medium.u4.length; i++)
-                                subjec.medium.u4.push(req.body[sub].medium.u4[i]);
-                        
-                        // U5 push
-                        if (req.body[sub].medium.u5.length != 0)
-                            for (var i = 0; i < req.body[sub].medium.u5.length; i++)
-                                subjec.medium.u5.push(req.body[sub].medium.u5[i]);
+                //U4 push
+                if (req.body[id].easy.u4.length != 0)
+                    for (var i = 0; i < req.body[id].easy.u4.length; i++)
+                        data.easy.u4.push(req.body[id].easy.u4[i]);
 
-                        // hard push
+                //U5 push
+                if (req.body[id].easy.u5.length != 0)
+                    for (var i = 0; i < req.body[id].easy.u5.length; i++)
+                        data.easy.u5.push(req.body[id].easy.u5[i]);
 
-                        // U1 push
-                        if (req.body[sub].hard.u1.length != 0)
-                            for (var i = 0; i < req.body[sub].hard.u1.length; i++)
-                                subjec.hard.u1.push(req.body[sub].hard.u1[i]);
-                        
-                        // U2 push
-                        if (req.body[sub].hard.u2.length != 0)
-                            for (var i = 0; i < req.body[sub].hard.u2.length; i++)
-                                subjec.hard.u2.push(req.body[sub].hard.u2[i]);
-                        
-                        // U3 push
-                        if (req.body[sub].hard.u3.length != 0)
-                            for (var i = 0; i < req.body[sub].hard.u3.length; i++)
-                                subjec.hard.u3.push(req.body[sub].hard.u3[i]);
-                        
-                        // U4 push
-                        if (req.body[sub].hard.u4.length != 0)
-                            for (var i = 0; i < req.body[sub].hard.u4.length; i++)
-                                subjec.hard.u4.push(req.body[sub].hard.u4[i]);
-                        
-                        // U5 push
-                        if (req.body[sub].hard.u5.length != 0)
-                            for (var i = 0; i < req.body[sub].hard.u5.length; i++)
-                                subjec.hard.u5.push(req.body[sub].hard.u5[i]);
-                        
-                        subjec.save()
-                            .then((resps) => {
-                                res.statusCode = 200;
-                                res.setHeader('Content-Type', 'application/json');
-                                res.json({ success: true });
-                            }).catch(err => next(err))
-                    }
-                }).catch(err => next(err))
+                // medium push
+
+                // U1 push
+                if (req.body[id].medium.u1.length != 0)
+                    for (var i = 0; i < req.body[id].medium.u1.length; i++)
+                        data.medium.u1.push(req.body[id].medium.u1[i]);
+
+                // U2 push
+                if (req.body[id].medium.u2.length != 0)
+                    for (var i = 0; i < req.body[id].medium.u2.length; i++)
+                        data.medium.u2.push(req.body[id].medium.u2[i]);
+
+                // U3 push
+                if (req.body[id].medium.u3.length != 0)
+                    for (var i = 0; i < req.body[id].medium.u3.length; i++)
+                        data.medium.u3.push(req.body[id].medium.u3[i]);
+
+                // U4 push
+                if (req.body[id].medium.u4.length != 0)
+                    for (var i = 0; i < req.body[id].medium.u4.length; i++)
+                        data.medium.u4.push(req.body[id].medium.u4[i]);
+
+                // U5 push
+                if (req.body[id].medium.u5.length != 0)
+                    for (var i = 0; i < req.body[id].medium.u5.length; i++)
+                        data.medium.u5.push(req.body[id].medium.u5[i]);
+
+                // hard push
+
+                // U1 push
+                if (req.body[id].hard.u1.length != 0)
+                    for (var i = 0; i < req.body[id].hard.u1.length; i++)
+                        data.hard.u1.push(req.body[id].hard.u1[i]);
+
+                // U2 push
+                if (req.body[id].hard.u2.length != 0)
+                    for (var i = 0; i < req.body[id].hard.u2.length; i++)
+                        data.hard.u2.push(req.body[id].hard.u2[i]);
+
+                // U3 push
+                if (req.body[id].hard.u3.length != 0)
+                    for (var i = 0; i < req.body[id].hard.u3.length; i++)
+                        data.hard.u3.push(req.body[id].hard.u3[i]);
+
+                // U4 push
+                if (req.body[id].hard.u4.length != 0)
+                    for (var i = 0; i < req.body[id].hard.u4.length; i++)
+                        data.hard.u4.push(req.body[id].hard.u4[i]);
+
+                // U5 push
+                if (req.body[id].hard.u5.length != 0)
+                    for (var i = 0; i < req.body[id].hard.u5.length; i++)
+                        data.hard.u5.push(req.body[id].hard.u5[i]);
+                
+                var x = await data.save()
+                return x;
+            }
         }
+        for (id in req.body) {
+            v = insert(id);
+            v.then(async (res) => {
+                console.log(res);
+            }).catch((err) => next(err));
+        }
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ success: true });
     })
-    
+
 module.exports = questionRouter;
