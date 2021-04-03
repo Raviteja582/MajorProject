@@ -100,11 +100,16 @@ semRouter.route('/')
                 const template = hb.compile(res, { strict: true });
                 const result = template(data);
                 const html = result;
-                const browser = await puppeteer.launch();
+                const browser = await puppeteer.launch({
+                    args: [
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                    ],
+                });
                 const page = await browser.newPage()
                 await page.setContent(html)
                 await page.pdf({
-                    path: __dirname + '/demo.pdf',
+                    path: __dirname +'/demo.pdf',
                     preferCSSPageSize: true,
                     format: 'A4',
                     margin: {
@@ -116,16 +121,14 @@ semRouter.route('/')
                 })
                 await browser.close();
                 console.log("PDF Generated")
+                response.statusCode = 200;
+                response.setHeader('Content-Type', 'application/pdf');
+                response.sendFile(__dirname +'/demo.pdf');
             }).catch(err => {
                 console.error(err);
                 next(err);
             });
         }
         generatePdf()
-            .then(() => {
-                response.statusCode = 200;
-                response.setHeader('Content-Type', 'application/json');
-                response.sendFile(`${__dirname}/demo.pdf`);
-            }).catch((err) => next(err));
     })
 module.exports = semRouter;

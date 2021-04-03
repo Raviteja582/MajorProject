@@ -9,7 +9,6 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "file-saver": "^2.0.5",
-    "form-pdf2json": "^0.1.6",
     "jquery": "^3.5.1",
     "local-storage": "^2.0.0",
     "popper.js": "^1.16.1",

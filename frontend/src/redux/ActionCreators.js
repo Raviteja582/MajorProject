@@ -141,7 +141,10 @@ export const getPdf = async (details) => {
     instance.post('/teacher/semPaper', details)
         .then(response => {
             const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
-            saveAs(pdfBlob, 'demo.pdf');
+            let date_ob = new Date();
+            var str =details.value+"_"+ date_ob.getHours() + "_" + date_ob.getMinutes();
+            saveAs(pdfBlob, str+'.pdf');
+            window.location.reload();
         })
         .catch((err) => console.log(err));
     // return fetch(baseUrl + '/teacher/semPaper', {

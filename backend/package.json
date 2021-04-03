@@ -11,7 +11,6 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "form-pdf2json": "^0.1.6",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
     "http-errors": "~1.6.3",

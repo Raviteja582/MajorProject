@@ -17,7 +17,6 @@ questionRouter.route('/get')
                 }
             })
             .then((list) => {
-                console.log(list);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(list);
