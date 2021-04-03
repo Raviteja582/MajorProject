@@ -52,30 +52,25 @@ semRouter.route('/')
             var selectQuestions = new Set();
 
             var s2 = ints()
-            while (selectQuestions.size !== s2) {
+            while (selectQuestions.size < s2) {
                 var p = ints()
                 selectQuestions.add(p);
             }
 
-
-            //console.log('squestions');
             units.forEach((value) => {
-                var s1 = random.int(0, questions.easy[value].length - 1);
-                var s2 = random.int(0, questions.easy[value].length - 1);
-                while (s1 !== s2)
-                    s2 = random.int(0, questions.easy[value].length - 1);
-                // console.log(questions.easy[value].length + " " + s1 + " " + s2);
-                data.squestion.push(questions.easy[value][s1].name)
-                data.squestion.push(questions.easy[value][s2].name)
+                var s1 = random.uniformInt(0, questions.easy[value].length - 1);
+                var a = s1(), b = s1();
+                while (a === b)
+                    b = s1();
+                data.squestion.push(questions.easy[value][a].name)
+                data.squestion.push(questions.easy[value][b].name)
             })
 
-
-            //console.log('lquestions');
             units.forEach((value, index) => {
                 if (selectQuestions.has(index)) {
                     var ser = new Set();
                     var serrand = random.uniformInt(0, questions.medium[value].length - 1);
-                    while (ser.size !== 4) {
+                    while (ser.size < 4) {
                         ser.add(serrand());
                     }
                     var iterator = ser.keys();
@@ -91,13 +86,13 @@ semRouter.route('/')
                         ]
                     })
                 } else {
-                    var s1 = random.int(0, questions.hard[value].length - 1);
-                    var s2 = random.int(0, questions.hard[value].length - 1);
-                    while (s1 === s2)
-                        s2 = random.int(0, questions.easy[value].length - 1);
+                    var s1 = random.uniformInt(0, questions.hard[value].length - 1);
+                    var a = s1(), b = s1();
+                    while (a === b)
+                        b = s1();
                     data.lquestion.push({
-                        '1': questions.hard[value][s1].name,
-                        '2': questions.hard[value][s2].name
+                        '1': questions.hard[value][a].name,
+                        '2': questions.hard[value][b].name
                     })
                 }
             })
@@ -108,7 +103,7 @@ semRouter.route('/')
                     var str = '<div class="questions">';
                     str += '<div class="question">' + '1. a)&nbsp' + data[0] + '</div>';
                     for (var i = 1; i < data.length; i++) {
-                        str += '<div class="question">' + '&nbsp&nbsp&nbsp' + String.fromCharCode(97 + i) + ')&nbsp' + data[i] + '</div>';
+                        str += '<div class="question">' + '&nbsp&nbsp&nbsp&nbsp' + String.fromCharCode(97 + i) + ')&nbsp' + data[i] + '</div>';
                     }
                     str += '</div>';
                     return new hb.SafeString(str);

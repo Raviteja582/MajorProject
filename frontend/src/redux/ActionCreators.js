@@ -134,7 +134,7 @@ export const getPdf = async (details) => {
     const bearer = 'Bearer ' + localStorage.get('token');
     const instance = axios.create({
         baseURL: baseUrl,
-        timeout: 1000,
+        timeout: 5000,
         headers: { 'Authorization': bearer },
         responseType: 'blob'
       });

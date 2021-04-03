@@ -24,7 +24,6 @@ const Home = () => {
                                 width: "75%",
                                 display: "inline",
                             }}
-                            src="https://miro.medium.com/max/566/1*NPUt18eaTUncC_LnOTEv9A.png"
                             alt="random"
                         />
                     </Col>
@@ -73,7 +72,6 @@ const Home = () => {
                                 width: "75%",
                                 display: "inline",
                             }}
-                            src="https://www.n2pdf.de/blog/wp-content/uploads/sites/2/2015/02/Fotolia_29043291_SGVHT.png"
                             alt="rot"
                         />
                     </Col>
