@@ -7,9 +7,6 @@ var random = require('random');
 var seedrandom = require('seedrandom');
 
 var question = require('../../../models/questions');
-var subject = require('../../../models/subject');
-var depart = require('../../../models/department');
-
 
 const fs = require('fs')
 const path = require('path')
@@ -34,7 +31,7 @@ semRouter.route('/')
             }
         }
         async function generatePdf() {
-            const questions = await question.findById(req.body.id, { easy: 1, hard: 1 });
+            const questions = await question.findById(req.body.id);
             let data = {
                 code: req.body.value,
                 regulation: "R15",
@@ -47,28 +44,64 @@ semRouter.route('/')
                 squestion: [],
                 lquestion: []
             };
-            var s1 = Object.keys(questions.easy);
-            s1.shift();
-            var s2 = Object.keys(questions.hard);
-            s2.shift();
+
+            var units = ['u1', 'u2', 'u3', 'u4', 'u5']
+
+            const ints = random.uniformInt(0, 5);
+
+            var selectQuestions = new Set();
+
+            var s2 = ints()
+            while (selectQuestions.size !== s2) {
+                var p = ints()
+                selectQuestions.add(p);
+            }
+
+
             //console.log('squestions');
-            s1.forEach((value) => {
+            units.forEach((value) => {
                 var s1 = random.int(0, questions.easy[value].length - 1);
                 var s2 = random.int(0, questions.easy[value].length - 1);
+                while (s1 !== s2)
+                    s2 = random.int(0, questions.easy[value].length - 1);
                 // console.log(questions.easy[value].length + " " + s1 + " " + s2);
                 data.squestion.push(questions.easy[value][s1].name)
                 data.squestion.push(questions.easy[value][s2].name)
             })
+
+
             //console.log('lquestions');
-            s2.forEach((value) => {
-                var s1 = random.int(0, questions.hard[value].length - 1);
-                var s2 = random.int(0, questions.hard[value].length - 1);
-                // console.log(questions.hard[value].length + " " + s1 + " " + s2);
-                data.lquestion.push({
-                    '1': questions.hard[value][s1].name,
-                    '2': questions.hard[value][s2].name
-                })
+            units.forEach((value, index) => {
+                if (selectQuestions.has(index)) {
+                    var ser = new Set();
+                    var serrand = random.uniformInt(0, questions.medium[value].length - 1);
+                    while (ser.size !== 4) {
+                        ser.add(serrand());
+                    }
+                    var iterator = ser.keys();
+                    // console.log(questions.medium[value][iterator.next()]);
+                    data.lquestion.push({
+                        '1': [
+                            questions.medium[value][iterator.next().value].name,
+                            questions.medium[value][iterator.next().value].name
+                        ],
+                        '2': [
+                            questions.medium[value][iterator.next().value].name,
+                            questions.medium[value][iterator.next().value].name,
+                        ]
+                    })
+                } else {
+                    var s1 = random.int(0, questions.hard[value].length - 1);
+                    var s2 = random.int(0, questions.hard[value].length - 1);
+                    while (s1 === s2)
+                        s2 = random.int(0, questions.easy[value].length - 1);
+                    data.lquestion.push({
+                        '1': questions.hard[value][s1].name,
+                        '2': questions.hard[value][s2].name
+                    })
+                }
             })
+
             getTemplateHtml().then(async (res) => {
 
                 hb.registerHelper('small', function (data) {
@@ -85,11 +118,25 @@ semRouter.route('/')
                     var str = '<div class="questions">';
                     var c = 2
                     for (var i = 0; i < data.length; i++) {
-                        for (var key in data[i]) {
-                            str += '<div class="question">' + c + ' ' + data[i][key] + '</div>';
-                            if (key === '1') str += '<div class="limiters">OR</div>'
-                            else str += '<div class="limiters">***</div>'
-                            c += 1;
+                        if (selectQuestions.has(i)) {
+                            for (var j in data[i]) {
+                                str += '<div class="question">' + c + " " + '<span>' + String.fromCharCode(97) + ") " + data[i][j][0] + '</span>';
+                                str += '<div class="multi">';
+                                for (var k = 1; k < data[i][j].length; k++) {
+                                    str += '<span>' + String.fromCharCode(97 + k) + ") " + data[i][j][k] + '</span>';
+                                }
+                                str += '</div></div>'
+                                if (j === '1') str += '<div class="limiters">OR</div>'
+                                else str += '<div class="limiters">***</div>'
+                                c += 1;
+                            }
+                        } else {
+                            for (var key in data[i]) {
+                                str += '<div class="question">' + c + ' ' + data[i][key] + '</div>';
+                                if (key === '1') str += '<div class="limiters">OR</div>'
+                                else str += '<div class="limiters">***</div>'
+                                c += 1;
+                            }
                         }
                     }
                     str += '</div>';
@@ -109,7 +156,7 @@ semRouter.route('/')
                 const page = await browser.newPage()
                 await page.setContent(html)
                 await page.pdf({
-                    path: __dirname +'/demo.pdf',
+                    path: __dirname + '/demo.pdf',
                     preferCSSPageSize: true,
                     format: 'A4',
                     margin: {
@@ -123,7 +170,7 @@ semRouter.route('/')
                 console.log("PDF Generated")
                 response.statusCode = 200;
                 response.setHeader('Content-Type', 'application/pdf');
-                response.sendFile(__dirname +'/demo.pdf');
+                response.sendFile(__dirname + '/demo.pdf');
             }).catch(err => {
                 console.error(err);
                 next(err);
