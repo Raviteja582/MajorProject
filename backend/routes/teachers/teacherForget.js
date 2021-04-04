@@ -1,10 +1,9 @@
 var express = require("express");
 var forgetRouter = express.Router();
-var bodyParser = require("body-parser");
 var nodemailer = require("nodemailer");
 var teacher = require("../../models/teachers");
 var cors = require("../cors");
-forgetRouter.use(bodyParser.json());
+forgetRouter.use(express.json());
 
 forgetRouter
     .route("/check")

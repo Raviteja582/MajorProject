@@ -1,10 +1,8 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var user = require('../../models/teachers');
-var authenticate = require('../../authenticate');
 var userRouter = express.Router();
 var cors = require('../cors');
-userRouter.use(bodyParser.json());
+userRouter.use(express.json());
 
 userRouter.route('/:userId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })

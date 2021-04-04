@@ -17,7 +17,9 @@ var subject = require('./routes/teachers/fetchSubjects');
 var question = require('./routes/teachers/teacherQuestion');
 var userAuth = require('./routes/teachers/userAuth');
 var forgetUser = require('./routes/teachers/teacherForget');
-var semPaper = require('./routes/teachers/paperGenerator/getSemester');
+var semPaper = require('./routes/teachers/paperGenerator/getsem/getSemester');
+var mid1 = require('./routes/teachers/paperGenerator/getmid1/getMid1');
+var mid2 = require('./routes/teachers/paperGenerator/getmid2/getMid2');
 var config = require('./config');
 
 
@@ -56,6 +58,8 @@ app.use('/teacher/question',question);
 app.use('/user',userAuth);
 app.use('/teacher/forgot/', forgetUser);
 app.use('/teacher/semPaper', semPaper);
+app.use('/teacher/mid1', mid1);
+app.use('/teacher/mid2', mid2);
 
 
 // catch 404 and forward to error handler

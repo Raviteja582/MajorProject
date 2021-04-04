@@ -1,11 +1,10 @@
 var express=require('express');
 var updateRouter= express.Router();
-var bodyParser= require('body-parser');
 var mongoose= require('mongoose');
 var teacher= require('../../models/teachers');
 var authenticate=require('../../authenticate');
 var cors = require('../cors');
-updateRouter.use(bodyParser.json());
+updateRouter.use(express.json());
 
 updateRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        margin: 20px 10px;
+        width: 120%;
+      }
+      .sec1 {
+        display: flex;
+        margin-bottom: 4px;
+        margin-left: 20%;
+      }
+      .heading {
+        padding-left: 2em;
+        /* padding-top: 0.4em; */
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .details {
+        margin: 0px;
+        display: flex;
+        justify-content: left;
+      }
+      .part1 {
+        width: 50%;
+        padding-left: 10%;
+      }
+      .part2 {
+        width: 50%;
+      }
+      .quetable {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 2px;
+        margin-left: 8%;
+      }
+      .tdcenter{
+        min-width: 70vw;
+        font-size: 1.6em;
+      }
+      .cen {
+        text-align: center;
+        font-size: 1.4em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <section class="sec1">
+        {{img image}}
+        <div class="heading">
+          B V Raju Institute of Technology<br />
+          (UGC Autonomous)<br />
+          Vishnupur, Narsapur, Medak
+        </div>
+      </section>
+      <section style="margin: 1em;padding-left: 25%; margin: 20px; font-size: 1.6em;font-weight: 800;">
+        B.Tech {{sem}} Semester First MID-{{month}} {{Year}}
+      </section>
+      <section class="details">
+        <div class="part1">
+          <table>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">Year</td>
+              <td style="font-size: 1.6em;">: {{year}}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">subject</td>
+              <td style="font-size: 1.6em;">: {{subjectname}}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">Time</td>
+              <td style="font-size: 1.6em;">: {{starttime}} and {{endtime}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="part2">
+          <table>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">Branch</td>
+              <td style="font-size: 1.6em;">: {{branch}}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">Date</td>
+              <td style="font-size: 1.6em;">: {{date}}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold;font-size: 1.6em;">Marks</td>
+              <td style="font-size: 1.6em;">: {{marks}}</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+      <section class="data">
+        <main style="margin: 1em;padding-left: 20%;font-weight: bold;font-size: 1.6em;">
+          Answer any three Questions. All Questions carry equal marks
+        </main>
+        <table class="quetable">
+          <tr>
+            <th class="quetable">Q.No</th>
+            <th class="quetable">Question Description</th>
+            <th class="quetable">Marks</th>
+          </tr>
+          {{question questions}}
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

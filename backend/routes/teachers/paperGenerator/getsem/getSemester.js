@@ -1,12 +1,12 @@
 var express = require('express');
 var semRouter = express.Router();
 var bodyparser = require('body-parser');
-var authenticate = require('../../../authenticate');
-var cors = require('../../cors');
+var authenticate = require('../../../../authenticate');
+var cors = require('../../../cors');
 var random = require('random');
 var seedrandom = require('seedrandom');
 
-var question = require('../../../models/questions');
+var question = require('../../../../models/questions');
 
 const fs = require('fs')
 const path = require('path')
@@ -16,7 +16,7 @@ const hb = require('handlebars');
 const readFile = utils.promisify(fs.readFile);
 
 random.use(seedrandom('qpgenerator'));
-semRouter.use(bodyparser.json());
+semRouter.use(express.json());
 semRouter.route('/')
     .options(cors.corsWithOptions, (req, resp) => { resp.sendStatus(200); })
     .post(cors.corsWithOptions, authenticate.verifyUser, (req, response, next) => {

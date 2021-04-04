@@ -4,9 +4,8 @@ var cors = require("../cors");
 var passport = require("passport");
 var authenticate = require("../../authenticate");
 
-var bodyParser = require("body-parser");
 
-TeacherRouter.use(bodyParser.json());
+TeacherRouter.use(express.json());
 
 TeacherRouter.route("/")
     .options(cors.corsWithOptions, (req, res) => {

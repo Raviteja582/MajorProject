@@ -73,7 +73,7 @@ export const postLogout = () => (dispatch) => {
     window.location.reload();
 };
 
-export const fetchSubjects = () => async(dispatch) => {
+export const fetchSubjects = () => async (dispatch) => {
     dispatch(subject_loading());
     const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/teacher/subject/', {
@@ -81,37 +81,37 @@ export const fetchSubjects = () => async(dispatch) => {
             'Authorization': bearer
         },
     })
-    .then( response => {
-        if(response.ok){
-            return response;
-        } else {
-            var error = new Error('Error ' + response.status + ': '+ response.statusText);
-            error.response=response;
-            throw error;
-        }
-    },
-        error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-        })
+        .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+            error => {
+                var errmess = new Error(error.message);
+                throw errmess;
+            })
         .then(response => response.json())
         .then(subjects => {
             var xs = [];
-            for (var i = 0; i < subjects.length; i++){
+            for (var i = 0; i < subjects.length; i++) {
                 xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
             }
-        //     subjects.map((sub) => {
-        //         xs.push({ label: sub.name, value: sub._id, depId: sub.department._id, depName: sub.department.name, year: sub.department.year, semester: sub.department.semester });
-        // })
+            //     subjects.map((sub) => {
+            //         xs.push({ label: sub.name, value: sub._id, depId: sub.department._id, depName: sub.department.name, year: sub.department.year, semester: sub.department.semester });
+            // })
             return xs;
         })
         .then(subjects => dispatch(subject_sucess(subjects)))
-        .catch( error => dispatch(subject_failure(error.message)));
+        .catch(error => dispatch(subject_failure(error.message)));
 };
 
 
 export const postQuestion = (question) => {
-    const bearer = 'Bearer '+ localStorage.get('token');
+    const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/teacher/question/post', {
         method: 'PUT',
         body: JSON.stringify(question),
@@ -130,6 +130,44 @@ export const getSubjectDetails = async () => {
     })
 }
 
+export const getMid1 = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    const instance = axios.create({
+        baseURL: baseUrl,
+        timeout: 5000,
+        headers: { 'Authorization': bearer },
+        responseType: 'blob'
+    });
+    instance.post('/teacher/mid1', details)
+        .then(response => {
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
+            let date_ob = new Date();
+            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
+            saveAs(pdfBlob, str + '.pdf');
+            window.location.reload();
+        })
+        .catch((err) => console.log(err));
+}
+
+export const getMid2 = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    const instance = axios.create({
+        baseURL: baseUrl,
+        timeout: 5000,
+        headers: { 'Authorization': bearer },
+        responseType: 'blob'
+    });
+    instance.post('/teacher/mid2', details)
+        .then(response => {
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
+            let date_ob = new Date();
+            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
+            saveAs(pdfBlob, str + '.pdf');
+            window.location.reload();
+        })
+        .catch((err) => console.log(err));
+}
+
 export const getPdf = async (details) => {
     const bearer = 'Bearer ' + localStorage.get('token');
     const instance = axios.create({
@@ -137,22 +175,14 @@ export const getPdf = async (details) => {
         timeout: 5000,
         headers: { 'Authorization': bearer },
         responseType: 'blob'
-      });
+    });
     instance.post('/teacher/semPaper', details)
         .then(response => {
             const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
             let date_ob = new Date();
-            var str =details.value+"_"+ date_ob.getHours() + "_" + date_ob.getMinutes();
-            saveAs(pdfBlob, str+'.pdf');
+            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
+            saveAs(pdfBlob, str + '.pdf');
             window.location.reload();
         })
         .catch((err) => console.log(err));
-    // return fetch(baseUrl + '/teacher/semPaper', {
-    //     method: 'POST',
-    //     body: JSON.stringify(details),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': bearer
-    //     },
-    // })
 }

@@ -5,10 +5,9 @@ var passport = require("passport");
 const cors = require("../cors");
 const nodemailer = require("nodemailer");
 
-const bodyParser = require("body-parser");
 var teacher = require("../../models/teachers");
 
-teacherRouter.use(bodyParser.json());
+teacherRouter.use(express.json());
 
 teacherRouter
     .route("/")

@@ -1,11 +1,10 @@
 var express = require('express');
 var subjectRouter = express.Router();
-var bodyparser = require('body-parser');
 var authenticate = require('../../authenticate');
 var cors = require('../cors');
 var subject = require('../../models/subject');
 
-subjectRouter.use(bodyparser.json());
+subjectRouter.use(express.json());
 subjectRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(cors.cors, authenticate.verifyUser,(req,res,next)=>{
