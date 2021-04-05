@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 class Schema extends Component {
     constructor() {
         super();
@@ -38,7 +39,7 @@ class Schema extends Component {
         this.handleStart = this.handleStart.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
     }
-    componentWillMount() {
+    componentDidMount() {
         getSubjectDetails()
             .then((res) => res.json())
             .then((res) => {
@@ -79,7 +80,6 @@ class Schema extends Component {
             if (this.state.examtype === 'mid1') getMid1(xs);
             else getMid2(xs);
             this.setState({
-                subjects: [],
                 selected: {},
                 data: "",
                 examtype: "sem",

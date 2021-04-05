@@ -21,11 +21,26 @@ questionRouter.route('/get')
                 res.json(list);
             }).catch((err) => next(err))
     })
+    .post((req, res, next) => {
+        res.end('POST Operation is not Performed');
+    })
+    .put((req, res, next) => {
+        res.end('PUT Operation is not Performed');
+    })
+    .delete((req, res, next) => {
+        res.end('DELETE Operation is not Performed');
+    })
 
 
 questionRouter.route('/post')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-    .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    .get((req, res, next) => {
+        res.end('GET Operation is not Performed');
+    })
+    .post((req, res, next) => {
+        res.end('POST Operation is not Performed');
+    })
+    .put(cors.corsWithOptions, authenticate.verifyUser, async (req, res, next) => {
         async function insert(id) {
             var data = await question.findOne({ subject: id });
             if (data === null) {
@@ -114,20 +129,26 @@ questionRouter.route('/post')
                 if (req.body[id].hard.u5.length != 0)
                     for (var i = 0; i < req.body[id].hard.u5.length; i++)
                         data.hard.u5.push(req.body[id].hard.u5[i]);
-                
+
                 var x = await data.save()
                 return x;
             }
         }
-        for (id in req.body) {
-            v = insert(id);
-            v.then(async (res) => {
-                console.log(res);
-            }).catch((err) => next(err));
+        try {
+            for (id in req.body) {
+                v = await insert(id);
+            }
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({ success: true });
+        } catch (err) {
+            console.log(err);
+            res.statusCode = 403;
+            res.send('Failure');
         }
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({ success: true });
+    })
+    .delete((req, res, next) => {
+        res.end('DELETE Operation is not Performed');
     })
 
 module.exports = questionRouter;

@@ -20,6 +20,9 @@ random.use(seedrandom('qpgenerator'));
 mid1Router.use(express.json());
 mid1Router.route('/')
     .options(cors.corsWithOptions, (req, resp) => { resp.sendStatus(200); })
+    .get((req, res, next) => {
+        res.end('GET Operation is not Performed');
+    })
     .post(cors.corsWithOptions, authenticate.verifyUser, (req, response, next) => {
         async function getTemplateHtml() {
             console.log("Loading template file in memory")
@@ -52,121 +55,140 @@ mid1Router.route('/')
             var units = ['u1', 'u2', 'u3'];
             const ints = random.uniformInt(0, 2);
 
-            var a = ints(), b = ints();
-            while (a === b) {
-                b = ints();
+            if (questions.easy[units[0]].length < 5 ||
+                questions.easy[units[0]].length < 5 ||
+                questions.easy[units[2]].length < 5 ||
+                questions.medium[units[0]].length < 3 ||
+                questions.medium[units[1]].length < 3 ||
+                questions.medium[units[2]].length < 3) {
+
+                response.statusCode = 403;
+                response.send("Couldn't generate Paper for less number of questions.");
             }
-            units.forEach((value, index) => {
-                if (index == 2) {
-                    if (a == index || b == index) {
-                        var eas = random.uniformInt(1, questions.easy[value].length - 1);
-                        var x1 = eas();
-                        var x2 = eas();
-                        while (x1 === x2) {
-                            x2 = eas();
+            else {
+                var a = ints(), b = ints();
+                while (a === b) {
+                    b = ints();
+                }
+                units.forEach((value, index) => {
+                    if (index == 2) {
+                        if (a == index || b == index) {
+                            var eas = random.uniformInt(1, questions.easy[value].length - 1);
+                            var x1 = eas();
+                            var x2 = eas();
+                            while (x1 === x2) {
+                                x2 = eas();
+                            }
+                            data.questions.push([
+                                questions.easy[value][x1].name,
+                                questions.easy[value][x2].name
+                            ])
+                        } else {
+                            var med = random.uniformInt(1, questions.medium[value].length - 1);
+                            var p = med();
+                            data.questions.push(questions.medium[value][p].name);
                         }
+                    }
+                    else if (a === index || b === index) {
+                        var ser = new Set();
+                        var serrand = random.uniformInt(0, questions.easy[value].length - 1);
+                        while (ser.size < 4) {
+                            ser.add(serrand());
+                        }
+                        var iterator = ser.keys();
                         data.questions.push([
-                            questions.easy[value][x1].name,
-                            questions.easy[value][x2].name
+                            questions.easy[value][iterator.next().value].name,
+                            questions.easy[value][iterator.next().value].name
+                        ])
+                        data.questions.push([
+                            questions.easy[value][iterator.next().value].name,
+                            questions.easy[value][iterator.next().value].name
                         ])
                     } else {
                         var med = random.uniformInt(1, questions.medium[value].length - 1);
                         var p = med();
-                        data.questions.push(questions.medium[value][p].name);
-                    }
-                }
-                else if (a === index || b === index) {
-                    var ser = new Set();
-                    var serrand = random.uniformInt(0, questions.easy[value].length - 1);
-                    while (ser.size < 4) {
-                        ser.add(serrand());
-                    }
-                    var iterator = ser.keys();
-                    data.questions.push([
-                        questions.easy[value][iterator.next().value].name,
-                        questions.easy[value][iterator.next().value].name
-                    ])
-                    data.questions.push([
-                        questions.easy[value][iterator.next().value].name,
-                        questions.easy[value][iterator.next().value].name
-                    ])
-                } else {
-                    var med = random.uniformInt(1, questions.medium[value].length - 1);
-                    var p = med();
-                    var q = med();
-                    while (p === q) {
-                        q = med();
-                    }
-                    data.questions.push(questions.medium[value][p].name);
-                    data.questions.push(questions.medium[value][q].name);
-                }
-            })
-            //console.log(data.questions);
-            getTemplateHtml().then(async (res) => {
-
-                hb.registerHelper('img', function (data) {
-
-                    var str = '<img src = ' + '"' + data + '" ' + ' width="100px" height="90px" style="margin-left: 4em;" /> '
-                    console.log(str);
-                    return new hb.SafeString(str);
-                })
-                hb.registerHelper('question', function (data) {
-                    var str = '';
-                    for (var i = 0; i < data.length; i++) {
-                        if (typeof (data[i]) === 'object') {
-                            str + '<tr>'
-                            str += '<td class="quetable cen">' + (i + 1) + String.fromCharCode(97) + ').' + '</td>';
-                            str += '<td class="quetable tdcenter">' + data[i][0] + '</td>';
-                            str += '<td class="quetable cen">' + 2 + '</td>';
-                            str += '</tr>'
-                            str += '<tr>'
-                            str += '<td class="quetable cen">' + (i + 1) + String.fromCharCode(98) + ').' + '</td>';
-                            str += '<td class="quetable tdcenter">' + data[i][1] + '</td>';
-                            str += '<td class="quetable cen">' + 3 + '</td>';
-                            str += '</tr>'
-                        } else {
-                            str += '<tr>'
-                            str += '<td class="quetable cen">' + (i + 1) + ').' + '</td>';
-                            str += '<td class="quetable tdcenter">' + data[i] + '</td>';
-                            str += '<td class="quetable cen">' + 5 + '</td>';
-                            str += '</tr>'
+                        var q = med();
+                        while (p === q) {
+                            q = med();
                         }
-                        str += '</tr>';
-                    }
-                    return new hb.SafeString(str);
-                });
-                console.log("Compiling the template with handlebars")
-                const template = hb.compile(res, { strict: true });
-                const result = template(data);
-                const html = result;
-                const browser = await puppeteer.launch({
-                    args: [
-                        '--no-sandbox',
-                        '--disable-setuid-sandbox',
-                    ],
-                });
-                const page = await browser.newPage()
-                await page.setContent(html)
-                await page.pdf({
-                    path: __dirname + '/demo.pdf',
-                    preferCSSPageSize: true,
-                    format: 'A4',
-                    landscape: true,
-                    margin: {
-                        top: '50px',
-                        left: '20px',
-                        right: '20px'
+                        data.questions.push(questions.medium[value][p].name);
+                        data.questions.push(questions.medium[value][q].name);
                     }
                 })
-                await browser.close();
-                console.log("PDF Generated");
-                response.statusCode = 200;
-                response.setHeader('Content-Type', 'application/pdf');
-                response.sendFile(__dirname + '/demo.pdf');
-            }).catch(err => {
-                console.error(err)
-            });
+                //console.log(data.questions);
+                getTemplateHtml().then(async (res) => {
+
+                    hb.registerHelper('img', function (data) {
+
+                        var str = '<img src = ' + '"' + data + '" ' + ' width="100px" height="90px" style="margin-left: 4em;" /> '
+                        console.log(str);
+                        return new hb.SafeString(str);
+                    })
+                    hb.registerHelper('question', function (data) {
+                        var str = '';
+                        for (var i = 0; i < data.length; i++) {
+                            if (typeof (data[i]) === 'object') {
+                                str + '<tr>'
+                                str += '<td class="quetable cen">' + (i + 1) + String.fromCharCode(97) + ').' + '</td>';
+                                str += '<td class="quetable tdcenter">' + data[i][0] + '</td>';
+                                str += '<td class="quetable cen">' + 2 + '</td>';
+                                str += '</tr>'
+                                str += '<tr>'
+                                str += '<td class="quetable cen">' + (i + 1) + String.fromCharCode(98) + ').' + '</td>';
+                                str += '<td class="quetable tdcenter">' + data[i][1] + '</td>';
+                                str += '<td class="quetable cen">' + 3 + '</td>';
+                                str += '</tr>'
+                            } else {
+                                str += '<tr>'
+                                str += '<td class="quetable cen">' + (i + 1) + ').' + '</td>';
+                                str += '<td class="quetable tdcenter">' + data[i] + '</td>';
+                                str += '<td class="quetable cen">' + 5 + '</td>';
+                                str += '</tr>'
+                            }
+                            str += '</tr>';
+                        }
+                        return new hb.SafeString(str);
+                    });
+                    console.log("Compiling the template with handlebars")
+                    const template = hb.compile(res, { strict: true });
+                    const result = template(data);
+                    const html = result;
+                    const browser = await puppeteer.launch({
+                        args: [
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox',
+                        ],
+                    });
+                    const page = await browser.newPage()
+                    await page.setContent(html)
+                    await page.pdf({
+                        path: __dirname + '/demo.pdf',
+                        preferCSSPageSize: true,
+                        format: 'A4',
+                        landscape: true,
+                        margin: {
+                            top: '50px',
+                            left: '20px',
+                            right: '20px'
+                        }
+                    })
+                    await browser.close();
+                    console.log("PDF Generated");
+                    response.statusCode = 200;
+                    response.setHeader('Content-Type', 'application/pdf');
+                    response.sendFile(__dirname + '/demo.pdf');
+                }).catch(err => {
+                    console.error(err)
+                });
+            }
         }
         generatePdf();
     })
+    .put((req, res, next) => {
+        res.end('PUT Operation is not Performed');
+    })
+    .delete((req, res, next) => {
+        res.end('DELETE Operation is not Performed');
+    })
+
 module.exports = mid1Router;

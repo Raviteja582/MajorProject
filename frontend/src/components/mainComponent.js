@@ -7,11 +7,12 @@ import Home from "./home/homeComponent";
 import Forgot from "./forgot/verifyComponent";
 import Update from "./forgot/updateComponent";
 import { connect } from "react-redux";
-import { postLogin, postLogout, fetchSubjects } from "../redux/ActionCreators";
+import { postLogin, postLogout } from "../redux/ActionCreators";
 import SignNav from "./navbar/signNav";
 import LoginNav from "./navbar/loginNav";
 import Alpha from "./insert/alphaComponent";
 import Generate from './generate/schemaComponent';
+import Options from './edit/optionComponent';
 
 const mapStateToProps = (state) => {
     return {
@@ -23,13 +24,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     postLogin: (details) => dispatch(postLogin(details)),
     postLogout: () => dispatch(postLogout()),
-    fetchSubjects: () => dispatch(fetchSubjects()),
 });
 
 class Main extends Component {
-    componentDidMount() {
-        this.props.fetchSubjects();
-    }
     render() {
         const isLogin = this.props.user.user || null;
         let navs;
@@ -53,6 +50,16 @@ class Main extends Component {
             )} />
         );
         const PrivateRoute2 = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.user.user
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
+        const PrivateRoute3 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
                 this.props.user.user
                     ? <Component {...props} />
@@ -91,6 +98,7 @@ class Main extends Component {
                         id={this.props.user.user.id}
                         fetchSubjects={this.props.subjects} />} />
                     <PrivateRoute2 exact path="/generate" component={() => <Generate />} />
+                    <PrivateRoute3 exact path="/edit" component={() => <Options />} />
                     <Redirect to="/home" />
                 </Switch>
             </div>

@@ -3,7 +3,7 @@ import "./style.css";
 import { Button } from "reactstrap";
 import Insert from "./insertComponent";
 import Details from "./numberComponent";
-import { postQuestion } from '../../redux/ActionCreators';
+import { postQuestion, fetchSubjects } from '../../redux/ActionCreators';
 
 class Alpha extends Component {
 	constructor() {
@@ -33,7 +33,16 @@ class Alpha extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ options: this.props.subjects.subjects });
+		fetchSubjects()
+			.then(response => response.json())
+			.then(subjects => {
+				var xs = [];
+				for (var i = 0; i < subjects.length; i++) {
+					xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
+				}
+				this.setState({ options: xs });
+			})
+			.catch(error => alert(error));
 	}
 
 	addClick() {
@@ -87,7 +96,7 @@ class Alpha extends Component {
 		var ss = this.state.ques
 		var j;
 		for (var i = 0; i < this.state.ques.length; i++) {
-			if (xs[ss[i].code.id] === undefined ) xs[ss[i].code.id] = {
+			if (xs[ss[i].code.id] === undefined) xs[ss[i].code.id] = {
 				easy: { u1: [], u2: [], u3: [], u4: [], u5: [] },
 				medium: { u1: [], u2: [], u3: [], u4: [], u5: [] },
 				hard: { u1: [], u2: [], u3: [], u4: [], u5: [] }

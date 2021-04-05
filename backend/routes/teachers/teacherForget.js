@@ -10,6 +10,9 @@ forgetRouter
     .options(cors.corsWithOptions, (req, res) => {
         res.sendStatus(200);
     })
+    .get((req, res, next) => {
+        res.end('GET Operation is not Performed');
+    })
     .post(cors.cors, (req, res, next) => {
         teacher
             .findOne({ email: req.body.email })
@@ -50,10 +53,6 @@ forgetRouter
                 }
             })
             .catch((err) => next(err));
-    })
-    .get(cors.corsWithOptions, (req, res, next) => {
-        res.statusCode = 401;
-        res.end("GET is not Supported");
     })
     .put(cors.corsWithOptions, (req, res, next) => {
         res.statusCode = 401;

@@ -29,19 +29,6 @@ export const logout_success = () => ({
     type: ActionType.LOGOUT_SUCCESS,
 });
 
-export const subject_loading = () => ({
-    type: ActionType.FETCH_SUBJECTS_LOADING,
-});
-
-export const subject_sucess = (payload) => ({
-    type: ActionType.FETCH_SUBJECTS_SUCCESS,
-    payload: payload,
-});
-
-export const subject_failure = (payload) => ({
-    type: ActionType.FETCH_SUBJECTS_FAILURE,
-    payload: payload,
-});
 
 export const postLogin = (details) => async (dispatch) => {
     return fetch(baseUrl + "/teacher/login", {
@@ -73,40 +60,13 @@ export const postLogout = () => (dispatch) => {
     window.location.reload();
 };
 
-export const fetchSubjects = () => async (dispatch) => {
-    dispatch(subject_loading());
+export const fetchSubjects = async () => {
     const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/teacher/subject/', {
         headers: {
             'Authorization': bearer
         },
     })
-        .then(response => {
-            if (response.ok) {
-                return response;
-            } else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
-        },
-            error => {
-                var errmess = new Error(error.message);
-                throw errmess;
-            })
-        .then(response => response.json())
-        .then(subjects => {
-            var xs = [];
-            for (var i = 0; i < subjects.length; i++) {
-                xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
-            }
-            //     subjects.map((sub) => {
-            //         xs.push({ label: sub.name, value: sub._id, depId: sub.department._id, depName: sub.department.name, year: sub.department.year, semester: sub.department.semester });
-            // })
-            return xs;
-        })
-        .then(subjects => dispatch(subject_sucess(subjects)))
-        .catch(error => dispatch(subject_failure(error.message)));
 };
 
 
@@ -146,7 +106,7 @@ export const getMid1 = async (details) => {
             saveAs(pdfBlob, str + '.pdf');
             window.location.reload();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert('Cannot Generate, not enough Questions'));
 }
 
 export const getMid2 = async (details) => {
@@ -165,7 +125,7 @@ export const getMid2 = async (details) => {
             saveAs(pdfBlob, str + '.pdf');
             window.location.reload();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert('Cannot Generate, not enough Questions'));
 }
 
 export const getPdf = async (details) => {
@@ -184,5 +144,34 @@ export const getPdf = async (details) => {
             saveAs(pdfBlob, str + '.pdf');
             window.location.reload();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert('Cannot Generate, not enough Questions'));
+}
+
+export const getQuestions = (details, diffcult) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/' + diffcult + '/get', {
+        method: 'POST',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
+
+export const editQuestions = (details, id, diffcult, unit) => {
+    var xs = {}
+    xs["id"] = id
+    xs["unit"] = unit
+    xs[diffcult] = details;
+    console.log(xs);
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/' + diffcult + '/put', {
+        method: 'PUT',
+        body: JSON.stringify(xs),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
 }

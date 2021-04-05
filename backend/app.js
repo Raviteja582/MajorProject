@@ -20,12 +20,17 @@ var forgetUser = require('./routes/teachers/teacherForget');
 var semPaper = require('./routes/teachers/paperGenerator/getsem/getSemester');
 var mid1 = require('./routes/teachers/paperGenerator/getmid1/getMid1');
 var mid2 = require('./routes/teachers/paperGenerator/getmid2/getMid2');
+
+var easyEdit = require('./routes/teachers/editQuestions/easyEdit');
+var mediumEdit = require('./routes/teachers/editQuestions/mediumEdit');
+var hardEdit = require('./routes/teachers/editQuestions/hardEdit');
 var config = require('./config');
 
 
 
 //MongoDB connection for local
 const mongoose = require('mongoose');
+const easyEditRouter = require('./routes/teachers/editQuestions/easyEdit');
 const url = config.mongourl;
 const connect = mongoose.connect(url,{useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -60,7 +65,9 @@ app.use('/teacher/forgot/', forgetUser);
 app.use('/teacher/semPaper', semPaper);
 app.use('/teacher/mid1', mid1);
 app.use('/teacher/mid2', mid2);
-
+app.use('/teacher/easy', easyEdit);
+app.use('/teacher/medium', mediumEdit);
+app.use('/teacher/hard', hardEdit);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
