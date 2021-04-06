@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getSubjectDetails, getQuestions, editQuestions } from '../../redux/ActionCreators';
+import { getSubjectDetails, getQuestions, editQuestions } from '../ActionCreators';
 import { Col, Row, Button, Form, FormGroup } from 'reactstrap';
 import Select from 'react-select';
 import Edit from './editComponent';

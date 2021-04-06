@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getSubjectDetails, getPdf, getMid1, getMid2 } from '../../redux/ActionCreators';
+import { getSubjectDetails, getPdf, getMid1, getMid2 } from '../ActionCreators';
 import Select from "react-select";
 import { Col, Row, Button, Form, FormGroup, Label } from 'reactstrap';
 import DatePicker from 'react-datepicker';

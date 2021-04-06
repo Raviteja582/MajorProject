@@ -1,47 +1,32 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Signup from "./signup/signupComponent";
 import Confirmation from "./signup/confirmationComponent";
 import Login from "./login/loginComponent";
 import Home from "./home/homeComponent";
 import Forgot from "./forgot/verifyComponent";
 import Update from "./forgot/updateComponent";
-import { connect } from "react-redux";
-import { postLogin, postLogout } from "../redux/ActionCreators";
 import SignNav from "./navbar/signNav";
 import LoginNav from "./navbar/loginNav";
 import Alpha from "./insert/alphaComponent";
 import Generate from './generate/schemaComponent';
 import Options from './edit/optionComponent';
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.user,
-        subjects: state.subjects,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-    postLogin: (details) => dispatch(postLogin(details)),
-    postLogout: () => dispatch(postLogout()),
-});
+import localStorage from "local-storage";
 
 class Main extends Component {
     render() {
-        const isLogin = this.props.user.user || null;
+        const isLogin = localStorage.get('token') || null;
+        console.log(isLogin);
         let navs;
         if (isLogin !== null)
             navs = (
-                <LoginNav
-                    user={this.props.user.user}
-                    logout={this.props.postLogout}
-                />
+                <LoginNav user={localStorage.get('user')}/>
             );
         else navs = <SignNav />;
 
         const PrivateRoute1 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
-                this.props.user.user
+                localStorage.get('token')
                     ? <Component {...props} />
                     : <Redirect to={{
                         pathname: '/home',
@@ -51,7 +36,7 @@ class Main extends Component {
         );
         const PrivateRoute2 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
-                this.props.user.user
+                localStorage.get('token')
                     ? <Component {...props} />
                     : <Redirect to={{
                         pathname: '/home',
@@ -61,7 +46,7 @@ class Main extends Component {
         );
         const PrivateRoute3 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
-                this.props.user.user
+                localStorage.get('token')
                     ? <Component {...props} />
                     : <Redirect to={{
                         pathname: '/home',
@@ -84,8 +69,6 @@ class Main extends Component {
                         render={({ match }) => (
                             <Login
                                 {...match}
-                                login={this.props.postLogin}
-                                user={this.props.user}
                             />
                         )}
                     />
@@ -94,9 +77,7 @@ class Main extends Component {
                         render={({ match }) => <Update {...match} />}
                     />
                     <Route path="/forgot" component={Forgot} />
-                    <PrivateRoute1 exact path="/insert" component={() => <Alpha subjects={this.props.subjects}
-                        id={this.props.user.user.id}
-                        fetchSubjects={this.props.subjects} />} />
+                    <PrivateRoute1 exact path="/insert" component={() => <Alpha  />} />
                     <PrivateRoute2 exact path="/generate" component={() => <Generate />} />
                     <PrivateRoute3 exact path="/edit" component={() => <Options />} />
                     <Redirect to="/home" />
@@ -106,4 +87,4 @@ class Main extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default Main;

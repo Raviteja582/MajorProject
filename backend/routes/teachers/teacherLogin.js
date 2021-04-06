@@ -23,7 +23,7 @@ TeacherRouter.route("/")
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
                 res.json({
-                    status: "LOGIN_FAILURE",
+                    status: false,
                     err: "Cannot find Username with " + req.body.username,
                 });
             }
@@ -33,7 +33,7 @@ TeacherRouter.route("/")
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
                     res.json({
-                        status: "LOGIN_UNSUCCESSFUL",
+                        status: false,
                         err: "Username or Password is incorrect!!!",
                     });
                 } else if (user.isauth) {
@@ -42,7 +42,7 @@ TeacherRouter.route("/")
                     res.setHeader("Content-Type", "application/json");
                     res.json({
                         token: token,
-                        status: "SUCCESS",
+                        status: true,
                         user: {
                             user: user.username,
                             id: user._id,

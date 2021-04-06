@@ -12,6 +12,7 @@ import {
     DropdownMenu,
     DropdownItem,
 } from "reactstrap";
+import { postLogout } from '../ActionCreators';
 import { Link } from "react-router-dom";
 
 const LoginNav = (props) => {
@@ -65,7 +66,7 @@ const LoginNav = (props) => {
                                     </NavLink>
                                 </DropdownItem>
                                 <DropdownItem divider />
-                                <DropdownItem onClick={props.logout}>
+                                <DropdownItem onClick={postLogout}>
                                     LogOut
                                 </DropdownItem>
                             </DropdownMenu>

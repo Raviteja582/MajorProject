@@ -3,7 +3,8 @@ import "./style.css";
 import { Button } from "reactstrap";
 import Insert from "./insertComponent";
 import Details from "./numberComponent";
-import { postQuestion, fetchSubjects } from '../../redux/ActionCreators';
+import { postQuestion, fetchSubjects } from '../ActionCreators';
+import localStorage from 'local-storage';
 
 class Alpha extends Component {
 	constructor() {
@@ -105,29 +106,29 @@ class Alpha extends Component {
 			}
 			if (ss[i].marks === '2') {
 				for (j = 0; j < this.state.ques[i].values.length; j++) {
-					if (ss[i].unit === '1') xs[ss[i].code.id].easy.u1.push({ name: ss[i].values[j].value, teacher: this.props.id });
-					else if (ss[i].unit === '2') xs[ss[i].code.id].easy.u2.push({ name: ss[i].values[j].value, teacher: this.props.id });
-					else if (ss[i].unit === '3') xs[ss[i].code.id].easy.u3.push({ name: ss[i].values[j].value, teacher: this.props.id });
-					else if (ss[i].unit === '4') xs[ss[i].code.id].easy.u4.push({ name: ss[i].values[j].value, teacher: this.props.id });
-					else xs[ss[i].code.id].easy.u5.push({ name: ss[i].values[j].value, teacher: this.props.id });
+					if (ss[i].unit === '1') xs[ss[i].code.id].easy.u1.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id });
+					else if (ss[i].unit === '2') xs[ss[i].code.id].easy.u2.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id });
+					else if (ss[i].unit === '3') xs[ss[i].code.id].easy.u3.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id });
+					else if (ss[i].unit === '4') xs[ss[i].code.id].easy.u4.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id });
+					else xs[ss[i].code.id].easy.u5.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id });
 				}
 			}
 			else if (ss[i].marks === '5') {
 				for (j = 0; j < this.state.ques[i].values.length; j++) {
-					if (ss[i].unit === '1') xs[ss[i].code.id].medium.u1.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '2') xs[ss[i].code.id].medium.u2.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '3') xs[ss[i].code.id].medium.u3.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '4') xs[ss[i].code.id].medium.u4.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else xs[ss[i].code.id].medium.u5.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					if (ss[i].unit === '1') xs[ss[i].code.id].medium.u1.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '2') xs[ss[i].code.id].medium.u2.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '3') xs[ss[i].code.id].medium.u3.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '4') xs[ss[i].code.id].medium.u4.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else xs[ss[i].code.id].medium.u5.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
 				}
 			}
 			else {
 				for (j = 0; j < this.state.ques[i].values.length; j++) {
-					if (ss[i].unit === '1') xs[ss[i].code.id].hard.u1.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '2') xs[ss[i].code.id].hard.u2.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '3') xs[ss[i].code.id].hard.u3.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else if (ss[i].unit === '4') xs[ss[i].code.id].hard.u4.push({ name: ss[i].values[j].value, teacher: this.props.id })
-					else xs[ss[i].code.id].hard.u5.push({ name: ss[i].values[j].value, teacher: this.props.id })
+					if (ss[i].unit === '1') xs[ss[i].code.id].hard.u1.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '2') xs[ss[i].code.id].hard.u2.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '3') xs[ss[i].code.id].hard.u3.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else if (ss[i].unit === '4') xs[ss[i].code.id].hard.u4.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
+					else xs[ss[i].code.id].hard.u5.push({ name: ss[i].values[j].value, teacher: localStorage.get('user').id })
 				}
 			}
 		}

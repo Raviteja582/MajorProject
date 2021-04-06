@@ -20,26 +20,29 @@ teacherRouter
     })
     .post(cors.corsWithOptions, (req, res, next) => {
         teacher.register(
-            new teacher({ username: req.body.username }),
+            new teacher({ username: req.body.email }),
             req.body.password,
             (err, user) => {
                 if (err) {
-                    res.statusCode = 500;
+                    res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
-                    console.log(err);
-                    res.json({ err: err });
+                    res.json({
+                        success: false,
+                        message: 'Already User with Email is Present'
+                    });
                 } else {
                     user.firstname = req.body.firstname;
                     user.lastname = req.body.lastname;
-                    user.email = req.body.email;
                     user.phno = req.body.phno;
                     user.dob = req.body.dob;
                     user.save((err, user) => {
                         if (err) {
-                            res.statusCode = 500;
+                            res.statusCode = 200;
                             res.setHeader("Content-Type", "application-json");
-                            res.json({ err: err });
-                            return;
+                            res.json({
+                                success: false,
+                                message: 'Cannot Create Account with Given Details, Contact Admin.'
+                            });
                         } else {
                             let transporter = nodemailer.createTransport({
                                 service: "gmail",
@@ -55,38 +58,28 @@ teacherRouter
                             var mailOptions = {
                                 from:
                                     "no-replyAdmin <qpgeneratorbvrit@gmail.com>",
-                                to: user.email,
+                                to: user.username,
                                 subject: "Confirmation of Registration",
                                 text: "You are Successful Registered",
-                                html: `<p>To Complete Your Registration, please click on the link</p><br><a href=${url}>Register</a>`,
+                                html: `<p>To Complete Your Registration, please click on the below link</p><br><br><a href=${url}>Register</a>`,
                             };
                             transporter
                                 .sendMail(mailOptions)
                                 .then((err, info) => {
                                     if (!err) {
-                                        console.log(err);
-                                        err = new Error(
-                                            "Cannot Sent Mail to your email-id"
-                                        );
-                                        err.statusCode = 404;
-                                        return next(err);
+                                        res.statusCode = 200;
+                                        res.setHeader("Content-Type", "application/json");
+                                        res.json({
+                                            success: false,
+                                            message: "Cannot Sent Mail to your email-id, Please Provide a Valid Eamil ID."
+                                        });
                                     } else {
-                                        passport.authenticate("local")(
-                                            req,
-                                            res,
-                                            () => {
-                                                res.statusCode = 200;
-                                                res.setHeader(
-                                                    "Content-Type",
-                                                    "application/json"
-                                                );
-                                                res.json({
-                                                    success: true,
-                                                    status:
-                                                        "Registration Successful!",
-                                                });
-                                            }
-                                        );
+                                        res.statusCode = 200;
+                                        res.setHeader("Content-Type", "application/json");
+                                        res.json({
+                                            success: true,
+                                            status: "Registration Successful!",
+                                        });
                                     }
                                 })
                                 .catch((err) => next(err));

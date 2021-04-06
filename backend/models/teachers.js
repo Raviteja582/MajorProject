@@ -12,11 +12,6 @@ const teacherSchema = new Schema({
         type: String,
         default:''
     },
-    email:{
-        type: String,
-        default:'',
-        unique: true
-    },
     dob:{
         type: String,
         default:''
