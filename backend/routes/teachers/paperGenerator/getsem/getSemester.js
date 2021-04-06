@@ -1,6 +1,5 @@
 var express = require('express');
 var semRouter = express.Router();
-var bodyparser = require('body-parser');
 var authenticate = require('../../../../authenticate');
 var cors = require('../../../cors');
 var random = require('random');

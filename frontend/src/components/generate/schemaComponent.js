@@ -12,9 +12,10 @@ class Schema extends Component {
         super();
         this.state = {
             subjects: [],
-            selected: {},
+            selected: "",
             data: "",
             examtype: "sem",
+            dummyExamType: "",
             examOptions: [
                 {
                     label: 'Semester',
@@ -58,7 +59,7 @@ class Schema extends Component {
             .catch((err) => alert(err));
     }
     handleType(e) {
-        this.setState({ examtype: e.value });
+        this.setState({ examtype: e.value, dummyExamType: e });
     }
     handleSubject(e) {
         this.setState({ selected: e })
@@ -71,20 +72,34 @@ class Schema extends Component {
         var xs = { ...this.state.selected };
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         try {
+            
             xs.year = xs.month.getFullYear();
             xs.month = months[xs.month.getMonth()];
-            xs.date = xs.date.getDate() + '/' + xs.date.getMonth() + '/' + xs.date.getFullYear();
-            xs.starttime = xs.starttime.getHours() + ':' + xs.starttime.getMinutes();
-            xs.endtime = xs.endtime.getHours() + ':' + xs.endtime.getMinutes();
+            var dat = xs.date.getDate() < 10 ? '0' + xs.date.getDate() : xs.date.getDate();
+            var mon = xs.date.getMonth() < 10 ? '0' + xs.date.getMonth() : xs.date.getMonth();
+            xs.date = dat + '/' + mon + '/' + xs.date.getFullYear();
+
+            var hour1 = xs.starttime.getHours() < 10 ? '0' + xs.starttime.getHours() : xs.starttime.getHours();
+            var min1 = xs.starttime.getMinutes() < 10 ? '0' + xs.starttime.getMinutes() : xs.starttime.getMinutes();
+            var mer1 = xs.starttime.getHours() >=12? 'PM':'AM'
+            xs.starttime = hour1 + ':' + min1 + ' ' + mer1;
+            hour1 = xs.endtime.getHours() < 10 ? '0' + xs.endtime.getHours() : xs.endtime.getHours();
+            min1 = xs.endtime.getMinutes() < 10 ? '0' + xs.endtime.getMinutes() : xs.endtime.getMinutes();
+            mer1 = xs.endtime.getHours() >=12? 'PM':'AM'
+            xs.endtime = hour1 + ':' + min1 + ' ' + mer1;
+            
             console.log(xs);
-            if (this.state.examtype === 'mid1') getMid1(xs);
-            else getMid2(xs);
+            if (this.state.examtype === 'mid1')
+                getMid1(xs);
+            else
+                getMid2(xs);
             this.setState({
-                selected: {},
+                selected: "",
+                dummyExamType: "",
                 data: "",
                 examtype: "sem",
             })
-        }catch (err) {
+        } catch (err) {
             alert(err);
         }
     }
@@ -170,12 +185,18 @@ class Schema extends Component {
         return (
             <div>
                 <label> Select Exam Type</label>
-                <Select name="exam" options={this.state.examOptions} 
+                <Select name="exam" options={this.state.examOptions}
                     onChange={(e) => this.handleType(e)} required
+                    value={this.state.dummyExamType}
+                    onMenuOpen={() => this.setState({
+                        dummyExamType: ""
+                    })}
                 />
                 <label>Select Subject</label>
                 <Select name="subject" options={this.state.subjects}
-                    onChange={(e) => this.handleSubject(e)} required 
+                    onChange={(e) => this.handleSubject(e)} required
+                    value={this.state.selected}
+                    onMenuOpen={() => this.setState({ selected: "" })}
                 />
                 {value}
             </div>

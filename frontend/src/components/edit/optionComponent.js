@@ -81,20 +81,7 @@ class Options extends Component {
             .then((res) => {
                 if (res.success) {
                     this.setState({
-                        subjects: [],
                         selected: "",
-                        diffcutly: [
-                            { 'label': 'Easy', value: 'easy' },
-                            { 'label': 'Medium', value: 'medium' },
-                            { 'label': 'Hard', value: 'hard' }
-                        ],
-                        units: [
-                            { 'label': 'Unit 1', value: 'u1' },
-                            { 'label': 'Unit 2', value: 'u2' },
-                            { 'label': 'Unit 3', value: 'u3' },
-                            { 'label': 'Unit 4', value: 'u4' },
-                            { 'label': 'Unit 5', value: 'u5' }
-                        ],
                         selectedUnit: "",
                         selectedDiffculty: "",
                         questions: [],
@@ -107,8 +94,6 @@ class Options extends Component {
                     alert('Success');
                 }
                 else alert('Failure');
-
-                // window.location.reload();
             }).catch((err) => {
                 console.log(err);
                 alert('Failure');
@@ -157,7 +142,7 @@ class Options extends Component {
                                     onChange={(e) => this.handleSubject(e)}
                                     placeholder="Select Subject"
                                     value={this.state.i3}
-                                    onMenuOpen={() => { this.setState({ i3: {} }) }}
+                                    onMenuOpen={() => { this.setState({ i3: "" }) }}
                                 />
                             </FormGroup>
                         </Col>
@@ -168,7 +153,7 @@ class Options extends Component {
                                     onChange={(e) => this.handleDiffcutly(e)}
                                     placeholder="Select Diffculty"
                                     value={this.state.i1}
-                                    onMenuOpen={() => { this.setState({ i1: {} }) }}
+                                    onMenuOpen={() => { this.setState({ i1: "" }) }}
                                 />
                             </FormGroup>
                         </Col>
@@ -178,7 +163,7 @@ class Options extends Component {
                                     onChange={(e) => this.handleUnit(e)}
                                     placeholder="Select Unit"
                                     value={this.state.i2}
-                                    onMenuOpen={() => { this.setState({ i2: {} }) }}
+                                    onMenuOpen={() => { this.setState({ i2: "" }) }}
                                 />
                             </FormGroup>
                         </Col>

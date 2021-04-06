@@ -104,7 +104,6 @@ export const getMid1 = async (details) => {
             let date_ob = new Date();
             var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
             saveAs(pdfBlob, str + '.pdf');
-            window.location.reload();
         })
         .catch((err) => alert('Cannot Generate, not enough Questions'));
 }
@@ -123,9 +122,10 @@ export const getMid2 = async (details) => {
             let date_ob = new Date();
             var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
             saveAs(pdfBlob, str + '.pdf');
-            window.location.reload();
         })
-        .catch((err) => alert('Cannot Generate, not enough Questions'));
+        .catch((err) => {
+            alert('Cannot Generate, not enough Questions')
+        });
 }
 
 export const getPdf = async (details) => {
@@ -142,7 +142,6 @@ export const getPdf = async (details) => {
             let date_ob = new Date();
             var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
             saveAs(pdfBlob, str + '.pdf');
-            window.location.reload();
         })
         .catch((err) => alert('Cannot Generate, not enough Questions'));
 }

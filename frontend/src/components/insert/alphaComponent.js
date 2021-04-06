@@ -9,13 +9,14 @@ class Alpha extends Component {
 	constructor() {
 		super();
 		this.state = {
-			options: [],
+			options: [],				
 			ques: [
 				{
 					code: {
 						value: "",
 						id: ""
 					},
+					dummySubject: "",
 					unit: "",
 					marks: "",
 					values: [{ value: null }]
@@ -52,6 +53,7 @@ class Alpha extends Component {
 					value: "",
 					id: ""
 				},
+				dummySubject: "",
 				unit: "",
 				marks: "", values: [{ value: null }]
 			}],
@@ -73,9 +75,9 @@ class Alpha extends Component {
 	handleInput(ind, i, e) {
 		var xs = [...this.state.ques];
 		if (i === -2) {
+			xs[ind].dummySubject = e;
 			xs[ind].code.value = e.value;
 			xs[ind].code.id = e.id;
-			console.log(xs[ind].code)
 		}
 		else if (i === -1)
 			xs[ind] = { ...xs[ind], [e.target.name]: e.target.value }
@@ -143,11 +145,11 @@ class Alpha extends Component {
 								},
 								unit: "",
 								marks: "",
+								dummySubject: "",
 								values: [{ value: null }]
 							}
 						]
 					})
-					window.location.reload();
 				} else {
 					alert('Failed');
 				}
