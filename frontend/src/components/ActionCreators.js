@@ -1,8 +1,5 @@
 import localStorage from "local-storage";
 import { baseUrl } from "../url";
-import axios from 'axios';
-import { saveAs } from 'file-saver';
-
 
 export const postLogout = () => {
     localStorage.clear();
@@ -36,62 +33,6 @@ export const getSubjectDetails = async () => {
             'Authorization': bearer
         },
     })
-}
-
-export const getMid1 = async (details) => {
-    const bearer = 'Bearer ' + localStorage.get('token');
-    const instance = axios.create({
-        baseURL: baseUrl,
-        timeout: 5000,
-        headers: { 'Authorization': bearer },
-        responseType: 'blob'
-    });
-    instance.post('/teacher/mid1', details)
-        .then(response => {
-            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
-            let date_ob = new Date();
-            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
-            saveAs(pdfBlob, str + '.pdf');
-        })
-        .catch((err) => alert('Cannot Generate, not enough Questions'));
-}
-
-export const getMid2 = async (details) => {
-    const bearer = 'Bearer ' + localStorage.get('token');
-    const instance = axios.create({
-        baseURL: baseUrl,
-        timeout: 5000,
-        headers: { 'Authorization': bearer },
-        responseType: 'blob'
-    });
-    instance.post('/teacher/mid2', details)
-        .then(response => {
-            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
-            let date_ob = new Date();
-            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
-            saveAs(pdfBlob, str + '.pdf');
-        })
-        .catch((err) => {
-            alert('Cannot Generate, not enough Questions')
-        });
-}
-
-export const getPdf = async (details) => {
-    const bearer = 'Bearer ' + localStorage.get('token');
-    const instance = axios.create({
-        baseURL: baseUrl,
-        timeout: 5000,
-        headers: { 'Authorization': bearer },
-        responseType: 'blob'
-    });
-    instance.post('/teacher/semPaper', details)
-        .then(response => {
-            const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
-            let date_ob = new Date();
-            var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
-            saveAs(pdfBlob, str + '.pdf');
-        })
-        .catch((err) => alert('Cannot Generate, not enough Questions'));
 }
 
 export const getQuestions = async (details, diffcult) => {
