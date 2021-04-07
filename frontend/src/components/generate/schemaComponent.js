@@ -238,17 +238,6 @@ class Schema extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for="exampleEmail">Start Time</Label><br />
-                                        {/* <DatePicker
-                                            required={true}
-                                            selected={this.state.selected.starttime}
-                                            onChange={date => this.handleStart(date)}
-                                            showTimeSelect
-                                            showTimeSelectOnly
-                                            timeIntervals={15}
-                                            timeCaption="Time"
-                                        dateFormat="h:mm aa"
-                                        style={{innerWidth: "100px"}}
-                                        /> */}
                                         <Input
                                             type="time"
                                             name="time"
@@ -261,16 +250,6 @@ class Schema extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for="examplePassword">End time</Label><br />
-                                        {/* <DatePicker
-                                            required={true}
-                                            selected={this.state.selected.endtime}
-                                            onChange={date => this.handleEnd(date)}
-                                            showTimeSelect
-                                            showTimeSelectOnly
-                                            timeIntervals={15}
-                                            timeCaption="Time"
-                                            dateFormat="h:mm aa"
-                                        /> */}
                                         <Input
                                             type="time"
                                             name="time"

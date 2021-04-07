@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { getSubjectDetails, getQuestions, editQuestions } from '../ActionCreators';
-import { Col, Row, Button, Form, FormGroup } from 'reactstrap';
+import { Container, Col, Row, Button, Form, FormGroup } from 'reactstrap';
 import Select from 'react-select';
 import Edit from './editComponent';
+import { WaveTopBottomLoading } from 'react-loadingg';
 
 class Options extends Component {
     constructor() {
@@ -42,6 +43,7 @@ class Options extends Component {
 
     }
     componentDidMount() {
+        this.setState({ isLoading: true });
         getSubjectDetails()
             .then((res) => res.json())
             .then((res) => {
@@ -55,9 +57,9 @@ class Options extends Component {
                         'deptSem': element.subject.department.semester,
                     })
                 });
-                this.setState({ subjects: xs })
+                this.setState({ subjects: xs, isLoading: false });
             })
-            .catch((err) => alert(err));
+            .catch((err) => alert("Please Logout and Login Once"));
     }
 
 
@@ -75,7 +77,7 @@ class Options extends Component {
 
     handleSubmit1(e) {
         e.preventDefault();
-        this.setState({ questions: [] });
+        this.setState({ isLoading: true });
         editQuestions(this.state.questions, this.state.selected.id, this.state.selectedDiffculty, this.state.selectedUnit)
             .then((res) => res.json())
             .then((res) => {
@@ -95,8 +97,7 @@ class Options extends Component {
                 }
                 else alert('Failure');
             }).catch((err) => {
-                console.log(err);
-                alert('Failure');
+                alert('Please Logout and Login Once.');
             })
     }
 
@@ -128,63 +129,61 @@ class Options extends Component {
                         ...this.state,
                         isEmpty: false, isLoading: false, questions: response,
                     });
-                })
+                }).catch((err) => alert('Please LogOut and Login Back.'));
         }
     }
     render() {
-        return (
-            <div>
-                <Form>
-                    <Row form>
-                        <Col md={3}>
-                            <FormGroup>
-                                <Select options={this.state.subjects}
-                                    onChange={(e) => this.handleSubject(e)}
-                                    placeholder="Select Subject"
-                                    value={this.state.i3}
-                                    onMenuOpen={() => { this.setState({ i3: "" }) }}
-                                />
-                            </FormGroup>
+        if (this.state.isLoading) {
+            return (
+                <WaveTopBottomLoading />
+            )
+        }
+        else
+            return (
+                <Container>
+                    <Row style={{ backgroundColor: 'aqua', width: "100vw" }}>
+                        <Col xs="4" style={{ backgroundColor: "red" }}>
+                            <Form>
+                                <FormGroup style={{ margin: "20% auto" }}>
+                                    <Select options={this.state.subjects}
+                                        onChange={(e) => this.handleSubject(e)}
+                                        placeholder="Select Subject"
+                                        value={this.state.i3}
+                                        onMenuOpen={() => { this.setState({ i3: "" }) }}
+                                    />
+                                </FormGroup>
+                                <FormGroup style={{ margin: "20% auto" }}>
+                                    <Select options={this.state.diffcutly}
+                                        onChange={(e) => this.handleDiffcutly(e)}
+                                        placeholder="Select Diffculty"
+                                        value={this.state.i1}
+                                        onMenuOpen={() => { this.setState({ i1: "" }) }}
+                                    />
+                                </FormGroup>
+                                <FormGroup style={{ margin: "20% auto" }}>
+                                    <Select options={this.state.units}
+                                        onChange={(e) => this.handleUnit(e)}
+                                        placeholder="Select Unit"
+                                        value={this.state.i2}
+                                        onMenuOpen={() => { this.setState({ i2: "" }) }}
+                                    />
+                                </FormGroup>
+                                <FormGroup style={{ margin: "0px 30%" }}>
+                                    <Button color="primary" onClick={(e) => this.handleSubmit(e)}>Submit</Button>
+                                </FormGroup>
+                            </Form>
                         </Col>
-                        <Col md={3}>
-                            <FormGroup>
-
-                                <Select options={this.state.diffcutly}
-                                    onChange={(e) => this.handleDiffcutly(e)}
-                                    placeholder="Select Diffculty"
-                                    value={this.state.i1}
-                                    onMenuOpen={() => { this.setState({ i1: "" }) }}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col md={3}>
-                            <FormGroup>
-                                <Select options={this.state.units}
-                                    onChange={(e) => this.handleUnit(e)}
-                                    placeholder="Select Unit"
-                                    value={this.state.i2}
-                                    onMenuOpen={() => { this.setState({ i2: "" }) }}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col md={3}>
-                            <FormGroup>
-                                <Button color="primary" onClick={(e) => this.handleSubmit(e)}>Submit</Button>
-                            </FormGroup>
+                        <Col xs="8">
+                            <Edit isEmpty={this.state.isEmpty}
+                                questions={this.state.questions}
+                                handleInput={this.handleInput}
+                                removeClick={this.removeClick}
+                                handleSubmit1={this.handleSubmit1}
+                            />
                         </Col>
                     </Row>
-                </Form>
-                <div>
-                    <Edit isEmpty={this.state.isEmpty}
-                        isLoading={this.state.isLoading}
-                        questions={this.state.questions}
-                        handleInput={this.handleInput}
-                        removeClick={this.removeClick}
-                        handleSubmit1={this.handleSubmit1}
-                    />
-                </div>
-            </div>
-        )
+                </Container>
+            )
     }
 }
 

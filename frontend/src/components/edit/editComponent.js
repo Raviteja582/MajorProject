@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactLoading from 'react-loading';
 import {
     InputGroup,
     InputGroupAddon,
@@ -7,27 +6,37 @@ import {
     Input,
     Button,
     Form,
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle
 } from "reactstrap";
 
 class Edit extends Component {
 
     render() {
-        if (this.props.isLoading)
+        if (this.props.isEmpty)
             return (
-                <div style={{width: "100vw"}}>
-                    <ReactLoading type={"balls"} color={"red"} height="30%" width="40%" />
+                <div>
+                    <Card>
+                        <CardImg top width="10%" height="615em" src="/demo.jpg" alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">Fill The Details</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">See Your Questions which was Inserted.</CardSubtitle>
+                            <CardText>Select the Subject, Unit and Diffcutly Level to Access, Modify the statements and Update the Questions.</CardText>
+                        </CardBody>
+                    </Card>
                 </div>
-            )
-        else if (this.props.isEmpty)
-            return (
-                <h1>
-                    Please Fill the Details Above
-                </h1>
             )
         else if (this.props.questions.length === 0) {
             return (
                 <div>
-                    No Questions to display
+                    <Card>
+                        <CardImg top width="10%" height="655em" src="/noquestion.png" alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">No Questions Found</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">Seems Like No question has Inserted in these Section.</CardSubtitle>
+                            <CardText>Go to Insert Option from Above Options and Insert the Question.</CardText>
+                        </CardBody>
+                    </Card>
                 </div>
             )
         }
