@@ -6,7 +6,7 @@ import {
 	InputGroupAddon,
 	InputGroupText,
 	Input,
-	Button,
+	Button, Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
 
 class Insert extends Component {
@@ -35,7 +35,7 @@ class Insert extends Component {
 								placeholder="Select The subject"
 								value={this.props.formd.dummySubject}
 								isSearchable
-								//onMenuOpen={() => this.setState({ ans: "" })}
+							//onMenuOpen={() => this.setState({ ans: "" })}
 							/>
 						</div>
 						<div>
@@ -114,6 +114,25 @@ class Insert extends Component {
 						{" "}
             			Clear All{" "}
 					</Button>
+					<Button
+						className="addmore"
+						color="danger"
+						style={{ margin: "7px" }}
+						onClick={() => this.props.toggleRemove()}
+					>
+						{" "}
+            			Remove{" "}
+					</Button>
+					<Modal isOpen={this.props.toggler} toggle={() => this.props.toggleRemove()}>
+						<ModalHeader toggle={() => this.props.toggleRemove()}>Modal title</ModalHeader>
+						<ModalBody>
+							Do you want remove the Questions?
+        						</ModalBody>
+						<ModalFooter>
+							<Button color="secondary" onClick={() => this.props.toggleRemove()}>Cancel</Button>{' '}
+							<Button color="danger" onClick={() => this.props.removeForm(this.props.index)}>Yes</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
 			</div>
 		);

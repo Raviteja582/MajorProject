@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Button } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Insert from "./insertComponent";
 import Details from "./numberComponent";
 import { postQuestion, fetchSubjects } from '../ActionCreators';
 import localStorage from 'local-storage';
+import { WaveTopBottomLoading } from 'react-loadingg';
 
 class Alpha extends Component {
 	constructor() {
 		super();
 		this.state = {
-			options: [],				
+			options: [],
+			isloading: false,
+			tRemove: false,
+			tRemoveAll: false,
 			ques: [
 				{
 					code: {
@@ -30,11 +34,16 @@ class Alpha extends Component {
 		this.addFormClick = this.addFormClick.bind(this);
 		this.formClearAll = this.formClearAll.bind(this);
 		this.handleSubmit2 = this.handleSubmit2.bind(this);
+		this.removeForm = this.removeForm.bind(this);
 		this.addClick = this.addClick.bind(this);
+		this.removeAllForm = this.removeAllForm.bind(this);
+		this.toggleRemove = this.toggleRemove.bind(this);
+		this.toggleRemoveAll = this.toggleRemoveAll.bind(this);
 
 	}
 
 	componentDidMount() {
+		this.setState({ isloading: true });
 		fetchSubjects()
 			.then(response => response.json())
 			.then(subjects => {
@@ -42,7 +51,7 @@ class Alpha extends Component {
 				for (var i = 0; i < subjects.length; i++) {
 					xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
 				}
-				this.setState({ options: xs });
+				this.setState({ options: xs, isloading: false });
 			})
 			.catch(error => alert(error));
 	}
@@ -93,6 +102,40 @@ class Alpha extends Component {
 		this.setState({ ques: xs });
 	}
 
+	removeForm(ind) {
+		var xs = [...this.state.ques];
+		if (xs.length === 1) this.setState({ tRemove: !this.state.tRemove });
+		else {
+			xs.splice(ind, 1);
+			this.setState({ ques: xs, tRemove: !this.state.tRemove });
+		}
+	}
+
+	removeAllForm() {
+		this.setState({
+			ques: [
+				{
+					code: {
+						value: "",
+						id: ""
+					},
+					unit: "",
+					marks: "",
+					dummySubject: "",
+					values: [{ value: null }]
+				}
+			],
+			tRemoveAll: !this.state.tRemoveAll
+		})
+	}
+
+	toggleRemoveAll() {
+		this.setState({ tRemoveAll: !this.state.tRemoveAll })
+	}
+	toggleRemove() {
+		this.setState({ tRemove: !this.state.tRemove })
+	}
+
 	handleSubmit2(e) {
 		e.preventDefault();
 		var xs = {}
@@ -132,12 +175,15 @@ class Alpha extends Component {
 				}
 			}
 		}
+		this.setState({ isloading: true });
 		const x = postQuestion(xs)
+
 		x.then((res) => res.json())
 			.then(res => {
 				if (res.success) {
 					alert('Success');
 					this.setState({
+						isloading: false,
 						ques: [
 							{
 								code: {
@@ -153,47 +199,75 @@ class Alpha extends Component {
 					})
 				} else {
 					alert('Failed');
+					alert('Please Logout and Login Back');
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => alert('Please Logout and Login Back'));
 	}
 
 	render() {
-		return (
-			<div className="container">
-				<div className="list1">
-					<Details />
-				</div>
-				<div className="list2">
-					<form onSubmit={this.handleSubmit2}>
-						{
-							this.state.ques.map((el, i) => (
+		if (this.state.isloading) {
+			return (
+				<WaveTopBottomLoading />
+			)
+		}
+		else
+			return (
+				<div className="container">
+					<div className="list1">
+						<Details />
+					</div>
+					<div className="list2">
+						<form onSubmit={this.handleSubmit2}>
+							{
+								this.state.ques.map((el, i) => (
 
-								<Insert index={i} formd={el}
-									options={this.state.options}
-									handleInput={this.handleInput}
-									removeClick={this.removeClick}
-									addFormClick={this.addFormClick}
-									formClearAll={this.formClearAll}
-								/>
-							)
-							)
-						}
-						<Button
-							color="primary"
-							style={{ margin: "7px" }}
-							className="addmore"
-							onClick={() => this.addClick()}
-						>
-							Add more
+									<Insert index={i} formd={el}
+										toggler={this.state.tRemove}
+										options={this.state.options}
+										handleInput={this.handleInput}
+										removeClick={this.removeClick}
+										addFormClick={this.addFormClick}
+										formClearAll={this.formClearAll}
+										removeForm={this.removeForm}
+										toggleRemove={this.toggleRemove}
+									/>
+								)
+								)
+							}
+							<Button
+								color="primary"
+								style={{ margin: "7px" }}
+								className="addmore"
+								onClick={() => this.addClick()}
+							>
+								Add more
 						</Button>
-						<Button className="addmore" role="submit" color="primary" style={{ margin: "7px" }}>
-							Submit
+							<Button className="addmore" role="submit" color="primary" style={{ margin: "7px" }}>
+								Submit
 						</Button>
-					</form>
+							<Button
+								color="danger"
+								style={{ marginLeft: "65%" }}
+								className="addmore"
+								onClick={() => this.toggleRemoveAll()}
+							>
+								Remove All
+						</Button>
+							<Modal isOpen={this.state.tRemoveAll} toggle={() => this.toggleRemoveAll()}>
+								<ModalHeader toggle={() => this.toggleRemoveAll()}>Modal title</ModalHeader>
+								<ModalBody>
+									Do you want remove all the Questions?
+        						</ModalBody>
+								<ModalFooter>
+									<Button color="secondary" onClick={() => this.toggleRemoveAll()}>Cancel</Button>{' '}
+									<Button color="danger" onClick={()=>this.removeAllForm()}>Yes</Button>
+								</ModalFooter>
+							</Modal>
+						</form>
+					</div>
 				</div>
-			</div>
-		);
+			);
 	}
 }
 
