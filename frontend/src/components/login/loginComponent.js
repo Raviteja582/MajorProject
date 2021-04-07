@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { UncontrolledAlert, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { baseUrl } from "../../url";
 import localStorage from "local-storage";
+import { WaveTopBottomLoading } from 'react-loadingg';
 import "./index.css";
 
 const ModalExample = (props) => {
@@ -36,6 +37,7 @@ class Login extends Component {
     }
     async handleSubmit(e) {
         e.preventDefault();
+        this.setState({ isLoading: true });
         const response = await fetch(baseUrl + "/teacher/login", {
             method: "POST",
             body: JSON.stringify(this.state.cred),
@@ -47,22 +49,26 @@ class Login extends Component {
         const response_1 = await response.json();
         console.log(response_1);
         if (response_1.status === "VERIFY") {
-            this.setState({ verify: true });
+            this.setState({ verify: true,isLoading:false });
         }
         else if (response_1.status) {
             localStorage.set("token", response_1.token);
             localStorage.set("user", response_1.user);
-            this.setState({ success: true });
+            this.setState({ success: true,isLoading:false });
             window.location.reload();
         }
         else {
-            this.setState({ failure: true, err: response_1.err });
+            this.setState({ failure: true, err: response_1.err, isLoading:false });
         }
     }
 
     render() {
-
-        if (this.state.success) return (
+        if (this.state.isLoading) {
+            return (
+                <WaveTopBottomLoading />
+            )
+        }
+        else if (this.state.success) return (
             <ModalExample />
         )
         else {

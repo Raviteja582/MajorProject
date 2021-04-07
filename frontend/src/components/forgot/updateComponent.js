@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { baseUrl } from "../../url";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from "reactstrap";
 import "./index.css";
 import { Link } from "react-router-dom";
+import { WaveTopBottomLoading } from 'react-loadingg';
 
 class Update extends Component {
     constructor() {
@@ -12,6 +13,7 @@ class Update extends Component {
             rewrite: "",
             status: false,
             message: "",
+            isloading: false
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +25,10 @@ class Update extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        if (this.state.password === this.state.rewrite) this.update();
+        if (this.state.password === this.state.rewrite) {
+            this.setState({ isloading: true });
+            this.update();
+        }
         else {
             this.setState({
                 status: true,
@@ -53,46 +58,48 @@ class Update extends Component {
                 this.setState({
                     status: true,
                     message: "Updated Successfully",
+                    isloading: false
                 });
             })
             .catch((err) => {
                 this.setState({
                     status: true,
                     message: "Cannot find User!! Unauthorized Action!!",
+                    isloading: false,
                 });
             });
     };
     render() {
+        if (this.state.isloading) {
+            return (
+                <WaveTopBottomLoading />
+            )
+        }
         return (
-            <div className="signup">
-                <form onSubmit={this.handleSubmit} className="form1">
-                    <div className="form-element">
-                        <input
-                            type="password"
+            <div>
+                <Form onSubmit={this.handleSubmit} style={{width: "50%",margin:"20px auto"}}>
+                    <FormGroup>
+                        <Label for="password">New Password</Label>
+                        <Input type="password"
                             name="password"
                             value={this.state.password}
                             onChange={this.handleInput}
                             required
                             autoComplete="off"
-                            placeholder="Enter New Password"
-                        />
-                    </div>
-                    <div className="form-element">
-                        <input
-                            type="password"
+                            placeholder="Enter New Password" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="rewrite">Re-Enter New Password</Label>
+                        <Input type="password"
                             name="rewrite"
                             value={this.state.rewrite}
                             onChange={this.handleInput}
                             required
                             autoComplete="off"
-                            placeholder="Re-enter new password"
-                        />
-                    </div>
-                    <div className="form-element">
-                        <button type="submit">Update</button>
-                    </div>
-                </form>
-
+                            placeholder="Re-enter new password" />
+                    </FormGroup>
+                    <Button role="submit" style={{margin:"20px 40%"}} color="primary">Submit</Button>
+                </Form>
                 <div>
                     <Modal isOpen={this.state.status} toggle={this.toggle}>
                         <ModalHeader toggle={this.toggle}>

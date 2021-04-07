@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../../url";
-import { Col, Row, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Col, Row, Button, Form, FormGroup, Label, Input, FormText,Jumbotron } from 'reactstrap';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import './index.css';
 
@@ -109,7 +109,7 @@ class Signup extends Component {
                             <FormGroup>
                                 <Label for="lastname">Last Name</Label>
                                 <Input type="text"
-                                    name="lastname"
+                                    con name="lastname"
                                     value={this.state.lastname}
                                     onChange={this.handleInput}
                                     placeholder="Last Name"
@@ -183,11 +183,13 @@ class Signup extends Component {
             );
         else
             return (
-                <div className="signup">
-                    <div className="success">
-                        <p>Your Successfully Registerd.</p> Please Check your
-                        mail.
-                    </div>
+                <div>
+                    <Jumbotron>
+                        <h1 className="display-3">QP Generator</h1>
+                        <p className="lead">Thank You for Signing up to QP Generator</p>
+                        <hr className="my-2" />
+                        <p>Please Complete the Sign Up process by verifying the email account, by clicking the link forwarded to your mail given during the Registration process.</p>
+                    </Jumbotron>
                 </div>
             );
     }

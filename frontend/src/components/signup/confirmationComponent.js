@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { baseUrl } from "../../url";
+import { Jumbotron } from 'reactstrap';
+import { WaveTopBottomLoading } from 'react-loadingg';
+
+
 class Confirmation extends Component {
     constructor() {
         super();
@@ -30,33 +34,37 @@ class Confirmation extends Component {
         this.check();
     }
     render() {
-        if (typeof this.state.isVerify === "number") return <div></div>;
+        if (typeof this.state.isVerify === "number") return (
+            <WaveTopBottomLoading />
+        );
         else if (typeof this.state.isVerify === "boolean") {
             if (this.state.isVerify) {
                 return (
-                    <div className="signup">
-                        <div className="form">
-                            <p> SUCCESSFULLY VERIFIED </p>
-                        </div>
-                    </div>
+                    <Jumbotron>
+                        <h1 className="display-3">QP Generator</h1>
+                        <p className="lead">SUCCESSFULLY VERIFIED</p>
+                        <hr className="lead" />
+                        <p> You can Continue using the app for generating papers, by login for next time.</p>
+                    </Jumbotron>
                 );
             } else {
-                console.log(this.state.isVerify);
                 return (
-                    <div className="signup">
-                        <div className="form">
-                            <p> CANNOT FIND USER </p>
-                        </div>
-                    </div>
+                    <Jumbotron>
+                        <h1 className="display-3">QP Generator</h1>
+                        <p className="lead">Incorrect Verification.</p>
+                        <hr className="lead" />
+                        <p> Use the mail which is given during Registration Process</p>
+                    </Jumbotron>
                 );
             }
         } else {
             return (
-                <div className="signup">
-                    <div className="form">
-                        <p>{this.state.isVerify}!!!!</p>
-                    </div>
-                </div>
+                <Jumbotron>
+                        <h1 className="display-3">QP Generator</h1>
+                        <p className="lead">An Error Occured.</p>
+                        <hr className="lead" />
+                        <p> Please Report this to the site Owners. </p>
+                    </Jumbotron>
             );
         }
     }

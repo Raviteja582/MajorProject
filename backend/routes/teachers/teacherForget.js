@@ -15,7 +15,7 @@ forgetRouter
     })
     .post(cors.cors, (req, res, next) => {
         teacher
-            .findOne({ email: req.body.email })
+            .findOne({ username: req.body.email })
             .then((teach) => {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
@@ -31,7 +31,7 @@ forgetRouter
                     // 'https://questionpaper07.herokuapp.com/teacher/forgot/change/'+teach._id;
                     var mailOptions = {
                         from: "no-replyAdmin <qpgeneratorbvrit@gmail.com>",
-                        to: teach.email,
+                        to: teach.username,
                         subject: "Password Recovery",
                         text: "To Change your Password",
                         html: `<p>To Set up your new password, please click on these <a href=${url}>Link</a> now.</p>`,

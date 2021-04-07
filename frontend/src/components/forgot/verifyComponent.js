@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from "reactstrap";
 import "./index.css";
 import { baseUrl } from "../../url";
+import { WaveTopBottomLoading } from 'react-loadingg';
 import { Link } from "react-router-dom";
 
 class Forgot extends Component {
@@ -11,6 +12,7 @@ class Forgot extends Component {
             email: "",
             status: false,
             message: "",
+            isloading: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -28,6 +30,7 @@ class Forgot extends Component {
         this.verify();
     }
     verify = async () => {
+        this.setState({isloading: true})
         return fetch(baseUrl + "/teacher/forgot/check", {
             method: "POST",
             body: JSON.stringify({ email: this.state.email }),
@@ -44,35 +47,39 @@ class Forgot extends Component {
                         message:
                             "Please Reset Your Password using the link forward to your Mail",
                         email: "",
+                        isloading: false
                     });
                 } else {
                     this.setState({
                         status: true,
                         message: "Cannot Find Email given !!!!",
                         email: "",
+                        isloading: false
                     });
                 }
             });
     };
     render() {
+        if (this.state.isloading) {
+            return (
+                <WaveTopBottomLoading />
+            )
+        }
         return (
-            <div className="signup">
-                <form onSubmit={this.handleSubmit} className="form1">
-                    <div className="form-element">
-                        <input
-                            type="email"
+            <div>
+                <Form onSubmit={this.handleSubmit} style={{width: "50%", margin:"10vh auto"}}>
+                    <FormGroup>
+                        <Label for="email">Email</Label>
+                        <Input type="email"
                             name="email"
                             value={this.state.email}
                             onChange={this.handleInput}
                             required
                             placeholder="Enter Registered Email"
-                            autoComplete="off"
-                        />
-                    </div>
-                    <div className="form-element">
-                        <button type="submit">VerifyEmail</button>
-                    </div>
-                </form>
+                            autoComplete="off" />
+                    </FormGroup>
+                    <Button role="submit" style={{margin:"10px 40%"}} color='primary' >Submit</Button>
+                </Form>
                 <div>
                     <Modal isOpen={this.state.status} toggle={this.toggle}>
                         <ModalHeader toggle={this.toggle}>
