@@ -43,23 +43,26 @@ class Options extends Component {
 
     }
     componentDidMount() {
-        this.setState({ isLoading: true });
-        getSubjectDetails()
-            .then((res) => res.json())
-            .then((res) => {
-                var xs = []
-                res.forEach(element => {
-                    xs.push({
-                        'label': element.subject.name,
-                        'value': element.subject.code,
-                        'id': element._id,
-                        'deptYear': element.subject.department.year,
-                        'deptSem': element.subject.department.semester,
-                    })
-                });
-                this.setState({ subjects: xs, isLoading: false });
-            })
-            .catch((err) => alert("Please Logout and Login Once"));
+        if (this.state.subjects.length === 0) {
+
+            this.setState({ isLoading: true });
+            getSubjectDetails()
+                .then((res) => res.json())
+                .then((res) => {
+                    var xs = []
+                    res.forEach(element => {
+                        xs.push({
+                            'label': element.subject.name,
+                            'value': element.subject.code,
+                            'id': element._id,
+                            'deptYear': element.subject.department.year,
+                            'deptSem': element.subject.department.semester,
+                        })
+                    });
+                    this.setState({ subjects: xs, isLoading: false });
+                })
+                .catch((err) => alert("Please Logout and Login Once"));
+        }
     }
 
 

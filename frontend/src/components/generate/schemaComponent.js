@@ -50,23 +50,26 @@ class Schema extends Component {
         this.getPdf = this.getPdf.bind(this);
     }
     componentDidMount() {
-        this.setState({ isloading: false });
-        getSubjectDetails()
-            .then((res) => res.json())
-            .then((res) => {
-                var xs = []
-                res.forEach(element => {
-                    xs.push({
-                        'label': element.subject.name,
-                        'value': element.subject.code,
-                        'id': element._id,
-                        'deptYear': element.subject.department.year,
-                        'deptSem': element.subject.department.semester,
-                    })
-                });
-                this.setState({ subjects: xs, isloading: false })
-            })
-            .catch((err) => alert('Please Logout and Login once again'));
+        if (this.state.subjects.length === 0) {
+            
+            this.setState({ isloading: false });
+            getSubjectDetails()
+                .then((res) => res.json())
+                .then((res) => {
+                    var xs = []
+                    res.forEach(element => {
+                        xs.push({
+                            'label': element.subject.name,
+                            'value': element.subject.code,
+                            'id': element._id,
+                            'deptYear': element.subject.department.year,
+                            'deptSem': element.subject.department.semester,
+                        })
+                    });
+                    this.setState({ subjects: xs, isloading: false })
+                })
+                .catch((err) => alert('Please Logout and Login once again'));
+        }
     }
     handleType(e) {
         this.setState({ examtype: e.value, dummyExamType: e });

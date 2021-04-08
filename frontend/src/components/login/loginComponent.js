@@ -47,7 +47,6 @@ class Login extends Component {
             credential: "same-origin",
         });
         const response_1 = await response.json();
-        console.log(response_1);
         if (response_1.status === "VERIFY") {
             this.setState({ verify: true,isLoading:false });
         }

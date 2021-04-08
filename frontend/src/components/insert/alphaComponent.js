@@ -43,17 +43,19 @@ class Alpha extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ isloading: true });
-		fetchSubjects()
-			.then(response => response.json())
-			.then(subjects => {
-				var xs = [];
-				for (var i = 0; i < subjects.length; i++) {
-					xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
-				}
-				this.setState({ options: xs, isloading: false });
-			})
-			.catch(error => alert(error));
+		if (this.state.options.length === 0) {
+			this.setState({ isloading: true });
+			fetchSubjects()
+				.then(response => response.json())
+				.then(subjects => {
+					var xs = [];
+					for (var i = 0; i < subjects.length; i++) {
+						xs.push({ id: subjects[i]._id, label: subjects[i].name, value: subjects[i].code, depId: subjects[i].department._id, depName: subjects[i].department.name, year: subjects[i].department.year, semester: subjects[i].department.semester });
+					}
+					this.setState({ options: xs, isloading: false });
+				})
+				.catch((err) => alert('Please Logout and Login once again'));
+		}
 	}
 
 	addClick() {
