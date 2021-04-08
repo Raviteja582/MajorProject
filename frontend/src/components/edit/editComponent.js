@@ -17,7 +17,7 @@ class Edit extends Component {
             return (
                 <div>
                     <Card>
-                        <CardImg top width="10%" height="615em" src="/demo.jpg" alt="Card image cap" />
+                        <CardImg top width="10%" height="615em" src="/img/demo.jpg" alt="Card image cap" />
                         <CardBody>
                             <CardTitle tag="h5">Fill The Details</CardTitle>
                             <CardSubtitle tag="h6" className="mb-2 text-muted">See Your Questions which was Inserted.</CardSubtitle>
@@ -30,7 +30,7 @@ class Edit extends Component {
             return (
                 <div>
                     <Card>
-                        <CardImg top width="10%" height="655em" src="/noquestion.png" alt="Card image cap" />
+                        <CardImg top width="10%" height="655em" src="/img/noquestion.png" alt="Card image cap" />
                         <CardBody>
                             <CardTitle tag="h5">No Questions Found</CardTitle>
                             <CardSubtitle tag="h6" className="mb-2 text-muted">Seems Like No question has Inserted in these Section.</CardSubtitle>

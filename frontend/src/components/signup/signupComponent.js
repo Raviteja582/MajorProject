@@ -88,7 +88,7 @@ class Signup extends Component {
         }
         else if (!this.state.value)
             return (
-                <Form onSubmit={this.handleSubmit} style={{ width: "95%", margin: "5px auto" }}>
+                <Form onSubmit={this.handleSubmit} style={{ width: "95%", margin: "5px auto",padding:"2%" }}>
                     <h3 style={{ color: "blue", marginLeft: "40%" }}>
                         Sign Up
                         </h3>
@@ -178,7 +178,7 @@ class Signup extends Component {
                             <Link to="/signin">Login</Link>
                         </FormText>
                     </FormGroup>
-                    <Button role="submit" color="primary">Sign in</Button>
+                    <Button role="submit" color="primary" style={{margin:"0px 40%"}}>Sign in</Button>
                 </Form>
             );
         else

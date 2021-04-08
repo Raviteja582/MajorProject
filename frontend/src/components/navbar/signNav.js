@@ -21,24 +21,24 @@ const SignNav = (props) => {
                 <Navbar color="light" light expand="md">
                     <NavbarBrand>
                         <NavLink tag={Link} to="/home" style={{ color: "black" }}>
-                            reactstrap
-                    </NavLink>
+                            QP Generator
+                    </NavLink> 
                     </NavbarBrand>
                     <NavbarToggler onClick={toggle} />
                     <Collapse isOpen={isOpen} navbar>
-                        <Nav className="ml-auto center " navbar>
+                        <Nav className="ml-auto" tabs>
                             <NavItem>
-                                <NavLink tag={Link} to="/home">
+                                <NavLink tag={Link} to="/home" style={{color: "grey"}}>
                                     Home
                             </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/signin">
+                                <NavLink tag={Link} to="/signin" style={{color: "grey"}}>
                                     Login
                             </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/signup">
+                                <NavLink tag={Link} to="/signup" style={{color: "grey"}}>
                                     SignUp
                             </NavLink>
                             </NavItem>
