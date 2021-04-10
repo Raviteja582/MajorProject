@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getSubjectDetails } from '../ActionCreators';
 import Select from "react-select";
+import Custome from './customeComponent';
 import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 import { WaveTopBottomLoading } from 'react-loadingg';
@@ -32,11 +33,11 @@ class Schema extends Component {
                 }, {
                     label: 'Mid 2',
                     value: 'mid2'
+                }, {
+                    label: 'Custom',
+                    value: 'custom'
                 }
             ],
-            month: [
-                'January'
-            ]
         }
         this.handleType = this.handleType.bind(this);
         this.handleSubject = this.handleSubject.bind(this);
@@ -45,6 +46,7 @@ class Schema extends Component {
         this.handleDate = this.handleDate.bind(this);
         this.handleStart = this.handleStart.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
+        this.handleSchema = this.handleSchema.bind(this);
         this.getMid1 = this.getMid1.bind(this);
         this.getMid2 = this.getMid2.bind(this);
         this.getPdf = this.getPdf.bind(this);
@@ -126,6 +128,12 @@ class Schema extends Component {
         } catch (err) {
             alert(err);
         }
+    }
+
+    handleSchema(section) {
+        var xs = { ...this.state.selected };
+        xs.sections = section;
+        console.log(xs);
     }
 
     // Mid Details
@@ -218,6 +226,9 @@ class Schema extends Component {
                 value = <Button role="submit" color="primary" style={{ margin: "7px" }} onClick={() => this.handleSubmit1()}>
                     Submit
                         </Button>;
+            }
+            else if (this.state.examtype === 'custom') {
+                value = <Custome handleSchema={this.handleSchema}/>
             }
             else {
                 value =
