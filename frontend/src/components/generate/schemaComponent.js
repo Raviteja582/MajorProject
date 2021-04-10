@@ -38,6 +38,7 @@ class Schema extends Component {
                     value: 'custom'
                 }
             ],
+            
         }
         this.handleType = this.handleType.bind(this);
         this.handleSubject = this.handleSubject.bind(this);
@@ -50,10 +51,11 @@ class Schema extends Component {
         this.getMid1 = this.getMid1.bind(this);
         this.getMid2 = this.getMid2.bind(this);
         this.getPdf = this.getPdf.bind(this);
+        
     }
     componentDidMount() {
         if (this.state.subjects.length === 0) {
-            
+
             this.setState({ isloading: false });
             getSubjectDetails()
                 .then((res) => res.json())
@@ -73,6 +75,7 @@ class Schema extends Component {
                 .catch((err) => alert('Please Logout and Login once again'));
         }
     }
+
     handleType(e) {
         this.setState({ examtype: e.value, dummyExamType: e });
     }
@@ -114,11 +117,11 @@ class Schema extends Component {
             hour1 = hour1 < 10 ? '0' + hour1 : hour1;
             xs.endtime = hour1 + ':' + sm[1] + ' ' + mer1;
 
-            if (this.state.examtype === 'mid1') 
+            if (this.state.examtype === 'mid1')
                 this.getMid1(xs);
             else
                 this.getMid2(xs);
-            
+
             this.setState({
                 selected: "",
                 dummyExamType: "",
@@ -134,6 +137,12 @@ class Schema extends Component {
         var xs = { ...this.state.selected };
         xs.sections = section;
         console.log(xs);
+        this.setState({
+            selected: "",
+            dummyExamType: "",
+            data: "",
+            examtype: "sem",
+        })
     }
 
     // Mid Details
@@ -228,7 +237,7 @@ class Schema extends Component {
                         </Button>;
             }
             else if (this.state.examtype === 'custom') {
-                value = <Custome handleSchema={this.handleSchema}/>
+                value = <Custome handleSchema={this.handleSchema} subject={this.state.selected} />
             }
             else {
                 value =
@@ -282,19 +291,19 @@ class Schema extends Component {
             }
             return (
                 <div style={{ width: "80%", margin: "20px auto" }}>
-                    <label> Select Exam Type</label>
+                    <label>Select Subject</label>
+                    <Select name="subject" options={this.state.subjects}
+                        onChange={(e) => this.handleSubject(e)} required
+                        value={this.state.selected}
+                        onMenuOpen={() => this.setState({ selected: "" })}
+                    />
+                     <label> Select Exam Type</label>
                     <Select name="exam" options={this.state.examOptions}
                         onChange={(e) => this.handleType(e)} required
                         value={this.state.dummyExamType}
                         onMenuOpen={() => this.setState({
                             dummyExamType: ""
                         })}
-                    />
-                    <label>Select Subject</label>
-                    <Select name="subject" options={this.state.subjects}
-                        onChange={(e) => this.handleSubject(e)} required
-                        value={this.state.selected}
-                        onMenuOpen={() => this.setState({ selected: "" })}
                     />
                     {value}
                 </div>

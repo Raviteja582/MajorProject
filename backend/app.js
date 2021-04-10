@@ -20,6 +20,7 @@ var forgetUser = require('./routes/teachers/teacherForget');
 var semPaper = require('./routes/teachers/paperGenerator/getsem/getSemester');
 var mid1 = require('./routes/teachers/paperGenerator/getmid1/getMid1');
 var mid2 = require('./routes/teachers/paperGenerator/getmid2/getMid2');
+var schema = require('./routes/teachers/paperGenerator/getschema/getpaper');
 
 var easyEdit = require('./routes/teachers/editQuestions/easyEdit');
 var mediumEdit = require('./routes/teachers/editQuestions/mediumEdit');
@@ -68,6 +69,7 @@ app.use('/teacher/mid2', mid2);
 app.use('/teacher/easy', easyEdit);
 app.use('/teacher/medium', mediumEdit);
 app.use('/teacher/hard', hardEdit);
+app.use('/teacher/schema', schema);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
