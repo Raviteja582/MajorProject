@@ -77,7 +77,7 @@ class Custome extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getLengths = this.getLengths.bind(this);
+        this.getLengths = this.getLengths.bind(this)
     }
 
     componentDidMount() {
@@ -100,6 +100,7 @@ class Custome extends Component {
                 alert('Please Login and Logout Once');
             });
     }
+
     handleInput(ind, e) {
         var xs = [...this.state.sections];
         xs[ind][e.target.name] = e.target.value;
@@ -148,16 +149,16 @@ class Custome extends Component {
     handleClick() {
         var xs = { ...this.state };
         var ind = xs.sections.length - 1;
-        if (xs.sections[ind].u1 !== "0") xs[xs.sections[ind].type].u1 = true;
-        else xs.sections[ind].u1 = "-1"
-        if (xs.sections[ind].u2 !== "0") xs[xs.sections[ind].type].u2 = true;
-        else xs.sections[ind].u2 = "-1"
-        if (xs.sections[ind].u3 !== "0") xs[xs.sections[ind].type].u3 = true;
-        else xs.sections[ind].u3 = "-1"
-        if (xs.sections[ind].u4 !== "0") xs[xs.sections[ind].type].u4 = true;
-        else xs.sections[ind].u4 = "-1"
-        if (xs.sections[ind].u5 !== "0") xs[xs.sections[ind].type].u5 = true;
-        else xs.sections[ind].u5 = "-1"
+        if ( !xs[xs.sections[ind]['type']].u1  && xs.sections[ind].u1 !== "0") xs[xs.sections[ind].type].u1 = true;
+        else xs.sections[ind].u1 = ""
+        if ( !xs[xs.sections[ind]['type']].u2 && xs.sections[ind].u2 !== "0") xs[xs.sections[ind].type].u2 = true;
+        else xs.sections[ind].u2 = ""
+        if ( !xs[xs.sections[ind]['type']].u3 && xs.sections[ind].u3 !== "0") xs[xs.sections[ind].type].u3 = true;
+        else xs.sections[ind].u3 = ""
+        if ( !xs[xs.sections[ind]['type']].u4 && xs.sections[ind].u4 !== "0") xs[xs.sections[ind].type].u4 = true;
+        else xs.sections[ind].u4 = ""
+        if ( !xs[xs.sections[ind]['type']].u5 && xs.sections[ind].u5 !== "0") xs[xs.sections[ind].type].u5 = true;
+        else xs.sections[ind].u5 = ""
         xs.sections[ind].done = true;
         xs.sections.push({
             sname: '',
@@ -241,7 +242,7 @@ class Custome extends Component {
                                                         name="u1"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u1']}
-                                                        disabled={(this.state[this.state.sections[ind]['type']]['u1'] && this.state.sections[ind]['u1'] === '') || this.state.sections[ind]['u1'] === "-1"}
+                                                        disabled={ this.state[this.state.sections[ind]['type']]['u1'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u1']}
                                                         min={0}
                                                         required
@@ -261,7 +262,7 @@ class Custome extends Component {
                                                         name="u2"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u2']}
-                                                        disabled={(this.state[this.state.sections[ind]['type']]['u2'] && this.state.sections[ind]['u2'] === '') || this.state.sections[ind]['u2'] === "-1"}
+                                                        disabled={this.state[this.state.sections[ind]['type']]['u2'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u2']}
                                                         min={0}
                                                         required
@@ -281,7 +282,7 @@ class Custome extends Component {
                                                         name="u3"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u3']}
-                                                        disabled={(this.state[this.state.sections[ind]['type']]['u3'] && this.state.sections[ind]['u3'] === '') || this.state.sections[ind]['u3'] === "-1"}
+                                                        disabled={this.state[this.state.sections[ind]['type']]['u3'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u3']}
                                                         min={0}
                                                         required
@@ -301,7 +302,7 @@ class Custome extends Component {
                                                         name="u4"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u4']}
-                                                        disabled={(this.state[this.state.sections[ind]['type']]['u4'] && this.state.sections[ind]['u4'] === '') || this.state.sections[ind]['u4'] === "-1"}
+                                                        disabled={this.state[this.state.sections[ind]['type']]['u4'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u4']}
                                                         min={0}
                                                         required
@@ -321,7 +322,7 @@ class Custome extends Component {
                                                         name="u5"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u5']}
-                                                        disabled={(this.state[this.state.sections[ind]['type']]['u5'] && this.state.sections[ind]['u5'] === '') || this.state.sections[ind]['u5'] === "-1"}
+                                                        disabled={this.state[this.state.sections[ind]['type']]['u5'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u5']}
                                                         min={0}
                                                         required
