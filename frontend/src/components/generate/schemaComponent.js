@@ -23,6 +23,7 @@ class Schema extends Component {
             data: "",
             examtype: "sem",
             dummyExamType: "",
+            my: '',
             examOptions: [
                 {
                     label: 'Semester',
@@ -38,7 +39,7 @@ class Schema extends Component {
                     value: 'custom'
                 }
             ],
-            
+
         }
         this.handleType = this.handleType.bind(this);
         this.handleSubject = this.handleSubject.bind(this);
@@ -51,7 +52,8 @@ class Schema extends Component {
         this.getMid1 = this.getMid1.bind(this);
         this.getMid2 = this.getMid2.bind(this);
         this.getPdf = this.getPdf.bind(this);
-        
+        this.getSchema = this.getSchema.bind(this);
+
     }
     componentDidMount() {
         if (this.state.subjects.length === 0) {
@@ -82,15 +84,16 @@ class Schema extends Component {
     handleSubject(e) {
         this.setState({ selected: e })
     }
-    handleSubmit1() {
+    handleSubmit1(e) {
+        e.preventDefault();
         if (Object.keys(this.state.selected).length === 0) alert('Please Enter Required Details');
-        this.getPdf(this.state.selected)
-        this.setState({
-            selected: "",
-            dummyExamType: "",
-            data: "",
-            examtype: "sem",
-        })
+        else {
+            var xs = { ...this.state.selected }
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            xs.year = this.state.my.getFullYear();
+            xs.month = months[this.state.my.getMonth()];
+            this.getPdf(xs)
+        }
     }
     handleSubmit2() {
         var xs = { ...this.state.selected };
@@ -113,7 +116,7 @@ class Schema extends Component {
 
             sm = xs.endtime.split(':');
             mer1 = Number(sm[0]) >= 12 ? 'PM' : 'AM';
-            hour1 = Number(sm[0]) >= 12 ? (Number(sm[0]) % 12 || 12) : sm[0];
+            hour1 = Number(sm[0]) >= 12 ? (Number(sm[0]) % 12 || 12) : Number(sm[0]);
             hour1 = hour1 < 10 ? '0' + hour1 : hour1;
             xs.endtime = hour1 + ':' + sm[1] + ' ' + mer1;
 
@@ -133,16 +136,12 @@ class Schema extends Component {
         }
     }
 
-    handleSchema(section) {
-        var xs = { ...this.state.selected };
-        xs.sections = section;
-        console.log(xs);
-        this.setState({
-            selected: "",
-            dummyExamType: "",
-            data: "",
-            examtype: "sem",
-        })
+    handleSchema(sectionw) {
+        var xs = { ...this.state.selected, ...sectionw };
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        xs.year = xs.my.getFullYear();
+        xs.month = months[xs.my.getMonth()];
+        this.getSchema(xs);
     }
 
     // Mid Details
@@ -175,7 +174,12 @@ class Schema extends Component {
                 let date_ob = new Date();
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
-                this.setState({ isloading: false });
+                this.setState({
+                    isloading: false, selected: "",
+                    dummyExamType: "",
+                    data: "",
+                    examtype: "sem",
+                });
             })
             .catch((err) => alert('Cannot Generate, not enough Questions'));
     }
@@ -195,7 +199,12 @@ class Schema extends Component {
                 let date_ob = new Date();
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
-                this.setState({ isloading: false });
+                this.setState({
+                    isloading: false, selected: "",
+                    dummyExamType: "",
+                    data: "",
+                    examtype: "sem",
+                });
             })
             .catch((err) => {
                 alert('Cannot Generate, not enough Questions')
@@ -203,6 +212,7 @@ class Schema extends Component {
     }
 
     getPdf = async (details) => {
+        console.log(details);
         this.setState({ isloading: true });
         const bearer = 'Bearer ' + localStorage.get('token');
         const instance = axios.create({
@@ -217,11 +227,44 @@ class Schema extends Component {
                 let date_ob = new Date();
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
-                this.setState({ isloading: false });
+                this.setState({
+                    isloading: false, selected: "",
+                    dummyExamType: "",
+                    data: "",
+                    examtype: "sem", my: ''
+                });
             })
             .catch((err) => alert('Cannot Generate, not enough Questions'));
     }
 
+    getSchema = async (details) => {
+        this.setState({ isloading: true });
+        const bearer = 'Bearer ' + localStorage.get('token');
+        const instance = axios.create({
+            baseURL: baseUrl,
+            timeout: 5000,
+            headers: { 'Authorization': bearer },
+            responseType: 'blob'
+        });
+        instance.post('/teacher/schema/post', details)
+            .then(response => {
+                const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
+                let date_ob = new Date();
+                var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
+                saveAs(pdfBlob, str + '.pdf');
+                this.setState({
+                    isloading: false, selected: "",
+                    dummyExamType: "",
+                    data: "",
+                    examtype: "sem",
+                });
+            })
+            .catch((err) => alert('Cannot Generate, not enough Questions'));
+    }
+
+    handleMonth1(e) {
+        this.setState({ my: e })
+    }
 
     render() {
         if (this.state.isloading) {
@@ -232,9 +275,23 @@ class Schema extends Component {
         else {
             var value = "";
             if (this.state.examtype === 'sem') {
-                value = <Button role="submit" color="primary" style={{ margin: "7px" }} onClick={() => this.handleSubmit1()}>
-                    Submit
-                        </Button>;
+                value = <div style={{ marginTop: "5%" }}>
+                    <Form onSubmit={(e) => this.handleSubmit1(e)}>
+                        <FormGroup>
+                            <Label for="my">Month and Year:  {"  "}</Label>
+                            <DatePicker
+                                required
+                                selected={this.state.my}
+                                onChange={date => this.handleMonth1(date)}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                            />
+                        </FormGroup>
+                        <Button role="submit" color="primary" style={{ margin: "7px" }}>
+                            Submit
+                        </Button>
+                    </Form>
+                </div>
             }
             else if (this.state.examtype === 'custom') {
                 value = <Custome handleSchema={this.handleSchema} subject={this.state.selected} />
@@ -297,7 +354,7 @@ class Schema extends Component {
                         value={this.state.selected}
                         onMenuOpen={() => this.setState({ selected: "" })}
                     />
-                     <label> Select Exam Type</label>
+                    <label> Select Exam Type</label>
                     <Select name="exam" options={this.state.examOptions}
                         onChange={(e) => this.handleType(e)} required
                         value={this.state.dummyExamType}

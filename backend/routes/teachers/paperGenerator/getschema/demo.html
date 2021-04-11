@@ -11,14 +11,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-      }
-      .regulation {
-        border: 1px solid black;
-        margin-top: 15px;
-        margin-left: 20px;
-        margin-right: 20px;
-        padding: 10px;
-      }
+      }    
       .pcode {
         margin: 10px;
       }
@@ -55,35 +48,16 @@
         justify-content: space-between;
         margin: 0px 10px;
       }
-      .exampattern {
-        margin: 0px 10px;
-        text-align: justify;
-        font-size: 1.2em;
-      }
       .secdetails {
-        /* border: 1px solid black; */
         display: flex;
         flex-direction: row;
         margin: 10px;
-        width: 60%;
-        margin-left: auto;
+        justify-content: space-between;
         font-size: 1.3em;
+        font-weight: 500;
       }
-      .questions {
-        margin-left: 10px;
-        display: flex;
-        flex-direction: column;
-      }
-      .question {
-        margin: 7px;
-        font-size: 1.6em;
-      }
-      .multi{
-        padding-left: 20px;
-      }
-      .limiters {
-        text-align: center;
-        font-size: 1.2em;
+      .question{
+          font-size: 1.2em;
       }
     </style>
   </head>
@@ -91,52 +65,37 @@
     <header>
       <section class="code">
         <div class="pcode">Code: {{code}}</div>
-        <div class="regulation">{{regulation}}</div>
       </section>
       <section>
         <div class="cllgename">B V RAJU INSTITUTE OF TECHNOLOGY</div>
         <div class="cllgetype">(UGC AUTONOMUOUS)</div>
         <div class="examdetails">
-          B.Tech {{Year}} Year {{sem}} Semester Regular/Supplementary
+          B.Tech {{subyear}} Year {{subsem}} Semester Regular/Supplementary
           Examinations, {{month}} {{year}}
         </div>
         <div class="subjectname">{{subjectname}}</div>
-        <div class="subjectdetail">{{subjecttype}}</div>
       </section>
       <section class="examdet">
         <h3>Time: {{time}} Hours</h3>
-        <h3>Max Marks: {{marks}}</h3>
-      </section>
-      <section class="exampattern">
-        <p style="margin: 0px">
-          Note: This Question Papers Contains Two Parts A and B
-        </p>
-        <p style="margin: 0px">
-          Part A: is compulsory Which Carries 20marks. Answer all Questions in
-          Part A at one place only.
-        </p>
-        <p style="margin: 0px">
-          Part B consists of 10 Questions. Answer any five (one full question
-          from each unit). Each question carries 10 marks and may have a, b, c
-          as sub questions.
-        </p>
+        <h3>Max Marks: {{maxMarks}}</h3>
       </section>
     </header>
     <div>
-      <section>
+        {{section details}}
+      <!-- <section>
         <section class="secdetails">
-          <div>Part - A</div>
-          <div style="margin-left: auto">(2 x 10 = 20)</div>
+          <div>{{sname}}</div>
+          <div>Marks: {{marks}}</div>
         </section>
-        {{small squestion}}
-      </section>
-      <section>
-        <section class="secdetails">
-          <div>Part - B</div>
-          <div style="margin-left: auto">(5 x 10 = 50)</div>
-        </section>
-        {{large lquestion}}
-      </section>
+        <div>
+            <ol>
+                <li class="question" style="margin-left: 5px;">Explain the Following terms a) TB b) ScanAndBag c) BagAndEAS d) Finish</li>
+                <li class="question" style="margin-left: 5px;">Explain the Following terms a) TB b) ScanAndBag c) BagAndEAS d) Finish</li>
+                <li class="question" style="margin-left: 5px;">Explain the Following terms a) TB b) ScanAndBag c) BagAndEAS d) Finish</li>
+                <li class="question" style="margin-left: 5px;">Explain the Following terms a) TB b) ScanAndBag c) BagAndEAS d) Finish</li>
+            </ol>
+        </div>
+      </section> -->
     </div>
   </body>
 </html>

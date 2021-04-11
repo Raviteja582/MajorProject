@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, FormGroup, Input, FormText, Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import localStorage from "local-storage";
+import DatePicker from 'react-datepicker';
 import { baseUrl } from "../../url";
 
 class Custome extends Component {
@@ -46,6 +47,9 @@ class Custome extends Component {
             tAddModal: false,
             tRemoveModal: false,
             isloading: false,
+            my: '',
+            duration: '',
+            maxMarks: '',
             sublens: {
                 easy: {
                     u1: 0,
@@ -78,6 +82,8 @@ class Custome extends Component {
         this.handleRemove = this.handleRemove.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLengths = this.getLengths.bind(this)
+        this.handleMonth = this.handleMonth.bind(this);
+        this.handleDet = this.handleDet.bind(this);
     }
 
     componentDidMount() {
@@ -123,7 +129,7 @@ class Custome extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.handleSchema(this.state.sections);
+        this.props.handleSchema({ sections: this.state.sections, my: this.state.my, maxMarks: this.state.maxMarks, duration: this.state.duration });
         this.handleRemove();
     }
 
@@ -149,15 +155,15 @@ class Custome extends Component {
     handleClick() {
         var xs = { ...this.state };
         var ind = xs.sections.length - 1;
-        if ( !xs[xs.sections[ind]['type']].u1  && xs.sections[ind].u1 !== "0") xs[xs.sections[ind].type].u1 = true;
+        if (!xs[xs.sections[ind]['type']].u1 && xs.sections[ind].u1 !== "0") xs[xs.sections[ind].type].u1 = true;
         else xs.sections[ind].u1 = ""
-        if ( !xs[xs.sections[ind]['type']].u2 && xs.sections[ind].u2 !== "0") xs[xs.sections[ind].type].u2 = true;
+        if (!xs[xs.sections[ind]['type']].u2 && xs.sections[ind].u2 !== "0") xs[xs.sections[ind].type].u2 = true;
         else xs.sections[ind].u2 = ""
-        if ( !xs[xs.sections[ind]['type']].u3 && xs.sections[ind].u3 !== "0") xs[xs.sections[ind].type].u3 = true;
+        if (!xs[xs.sections[ind]['type']].u3 && xs.sections[ind].u3 !== "0") xs[xs.sections[ind].type].u3 = true;
         else xs.sections[ind].u3 = ""
-        if ( !xs[xs.sections[ind]['type']].u4 && xs.sections[ind].u4 !== "0") xs[xs.sections[ind].type].u4 = true;
+        if (!xs[xs.sections[ind]['type']].u4 && xs.sections[ind].u4 !== "0") xs[xs.sections[ind].type].u4 = true;
         else xs.sections[ind].u4 = ""
-        if ( !xs[xs.sections[ind]['type']].u5 && xs.sections[ind].u5 !== "0") xs[xs.sections[ind].type].u5 = true;
+        if (!xs[xs.sections[ind]['type']].u5 && xs.sections[ind].u5 !== "0") xs[xs.sections[ind].type].u5 = true;
         else xs.sections[ind].u5 = ""
         xs.sections[ind].done = true;
         xs.sections.push({
@@ -173,6 +179,15 @@ class Custome extends Component {
         });
         this.setState({ ...xs, tAddModal: !this.state.tAddModal });
     }
+
+    handleMonth(e) {
+        this.setState({ my: e })
+    }
+
+    handleDet(e) {
+        this.setState({ [e.target.name] : e.target.value })
+    }
+
     render() {
         if (this.state.isloading) {
             return (
@@ -183,6 +198,36 @@ class Custome extends Component {
             return (
                 <div>
                     <Form onSubmit={(e) => this.handleSubmit(e)}>
+                        <FormGroup>
+                            <Row>
+                                <Col>
+                                    <Label for="my">Month and Year</Label>
+                                    <DatePicker
+                                        required
+                                        selected={this.state.my}
+                                        onChange={date => this.handleMonth(date)}
+                                        dateFormat="MM/yyyy"
+                                        showMonthYearPicker
+                                    />
+                                </Col>
+                                <Col>
+                                    <Label for="maxMarks">Max Marks</Label>
+                                    <Input type="number"
+                                        name="maxMarks"
+                                        value={this.state.maxMarks}
+                                        onChange={(e) => this.handleDet(e)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Label for="duration">Duration:</Label>
+                                    <Input type="number"
+                                        name="duration"
+                                        value={this.state.duration}
+                                        onChange={(e) => this.handleDet(e)}
+                                    />
+                                </Col>
+                            </Row>
+                        </FormGroup>
                         {
                             this.state.sections.map((question, ind) => (
 
@@ -242,7 +287,7 @@ class Custome extends Component {
                                                         name="u1"
                                                         onChange={(e) => this.handleInput(ind, e)}
                                                         value={this.state.sections[ind]['u1']}
-                                                        disabled={ this.state[this.state.sections[ind]['type']]['u1'] || this.state.sections[ind]['done']}
+                                                        disabled={this.state[this.state.sections[ind]['type']]['u1'] || this.state.sections[ind]['done']}
                                                         max={this.state.sublens[this.state.sections[ind]['type']]['u1']}
                                                         min={0}
                                                         required

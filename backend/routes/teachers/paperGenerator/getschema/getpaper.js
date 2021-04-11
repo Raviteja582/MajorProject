@@ -78,7 +78,15 @@ schemaRouter.route('/post')
         async function generatePdf() {
             const questions = await question.findById(req.body.id, { easy: 1, medium: 1 });
             let data = {
-
+                code: req.body.value,
+                subyear: req.body.deptYear,
+                subsem: req.body.deptSem,
+                month: req.body.month,
+                year: req.body.year,
+                subjectname: req.body.label,
+                time: req.body.duration,
+                maxMarks: req.body.maxMarks,
+                details: req.body.sections
             };
             //console.log(data.questions);
             getTemplateHtml().then(async (res) => {

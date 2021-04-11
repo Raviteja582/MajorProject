@@ -37,12 +37,14 @@ semRouter.route('/')
             let data = {
                 code: req.body.value,
                 regulation: "R15",
-                year: req.body.deptYear,
+                Year: req.body.deptYear,
                 sem: req.body.deptSem,
                 subjectname: req.body.label,
                 subjecttype: 'ACADEMIC',
                 time: '3',
                 marks: '70',
+                year: req.body.year,
+                month: req.body.month,
                 squestion: [],
                 lquestion: []
             };
