@@ -59,16 +59,18 @@ schemaRouter.route('/:uid')
     .delete((req, res, next) => {
         res.end('DELETE Operation is not Performed');
     })
-schemaRouter.route('/post')
+
+
+schemaRouter.route('/')
     .options(cors.corsWithOptions, (req, resp) => { resp.sendStatus(200); })
     .get((req, res, next) => {
-        res.end('PUT Operation is not Performed');
+        res.end('GET Operation is not Performed');
     })
-    .post(cors.corsWithOptions, authenticate.verifyUser, (req, response, next) => {
+    .post(cors.corsWithOptions, authenticate.verifyUser, async (req, response, next) => {
         async function getTemplateHtml() {
             console.log("Loading template file in memory")
             try {
-                const invoicePath = path.resolve("routes/teachers/paperGenerator/getmid2" + "/demo.html");
+                const invoicePath = path.resolve("routes/teachers/paperGenerator/getschema" + "/demo.html");
                 console.log(invoicePath);
                 return await readFile(invoicePath, 'utf8');
             } catch (err) {
@@ -76,7 +78,8 @@ schemaRouter.route('/post')
             }
         }
         async function generatePdf() {
-            const questions = await question.findById(req.body.id, { easy: 1, medium: 1 });
+            const questions = await question.findById(req.body.id);
+            console.log(questions);
             let data = {
                 code: req.body.value,
                 subyear: req.body.deptYear,
@@ -88,11 +91,75 @@ schemaRouter.route('/post')
                 maxMarks: req.body.maxMarks,
                 details: req.body.sections
             };
-            //console.log(data.questions);
-            getTemplateHtml().then(async (res) => {
 
-                hb.registerHelper('question', function (data) {
-                    var str = '';
+
+            const randomBetween = (a, b) => {
+                return Math.ceil((Math.random() * (b - a)) + a);
+            };
+            const randomBetweenRange = (num, range) => {
+                const res = [];
+                for (let i = 0; i < num;) {
+                    const random = randomBetween(range[0], range[1]);
+                    if (!res.includes(random)) {
+                        res.push(random);
+                        i++;
+                    };
+                };
+                return res;
+            }
+
+            var units = ['u1', 'u2', 'u3', 'u4', 'u5'];
+
+            for (var i = 0; i < data.details.length; i++) {
+                data.details[i]['questions'] = [];
+                for (var j = 0; j < units.length; j++) {
+                    if (data.details[i][units[j]] !== '') {
+                        var num = Number(data.details[i][units[j]]);
+                        var range = [0, questions[data.details[i]['type']][units[j]].length - 1];
+                        if (num <= range[1]) {
+                            var randArray = randomBetweenRange(num, range);
+                            for (var k = 0; k < randArray.length; k++){
+                                data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][randArray[k]].name);
+                                // console.log(questions[data.details[i]['type']][units[j]][randArray[k]]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            function romanize(num) {
+                if (isNaN(num))
+                    return NaN;
+                var digits = String(+num).split(""),
+                    key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
+                        "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
+                        "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+                    roman = "",
+                    i = 3;
+                while (i--)
+                    roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+                return Array(+digits.join("") + 1).join("M") + roman;
+            }
+
+            getTemplateHtml().then(async (res) => {
+                hb.registerHelper('section', function (data) {
+                    console.log(data);
+                    var str = '<section>';
+                    for (var i = 1; i <= data.length; i++) {
+                        if (data[i-1]['questions'].length > 0) {
+                            str += '<section class="secdetails">\
+                              <div>'+ romanize(i)+'. ' + data[i-1]['sname'] + '</div>\
+                              <div>Marks: '+ data[i-1]['marks'] + '</div>\
+                            </section>';
+                            str += '<div> \
+                                <ol> '
+                            for (var j = 0; j < data[i-1]['questions'].length; j++) {
+                                str+='<li class="question" style="margin-left: 5px;"> '+data[i-1]['questions'][j]+'</li>'
+                            }
+                            str += '</ol></div>';
+                        }
+                    }
+                    str += '</section>'
                     return new hb.SafeString(str);
                 });
 

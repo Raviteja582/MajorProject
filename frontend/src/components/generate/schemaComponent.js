@@ -82,7 +82,7 @@ class Schema extends Component {
         this.setState({ examtype: e.value, dummyExamType: e });
     }
     handleSubject(e) {
-        this.setState({ selected: e })
+        this.setState({ selected: e,examtype: 'sem',dummyExamType: '' })
     }
     handleSubmit1(e) {
         e.preventDefault();
@@ -242,11 +242,11 @@ class Schema extends Component {
         const bearer = 'Bearer ' + localStorage.get('token');
         const instance = axios.create({
             baseURL: baseUrl,
-            timeout: 5000,
-            headers: { 'Authorization': bearer },
+            timeout: 10000,
+            headers: { 'Authorization': bearer, credentials: "same-origin" },
             responseType: 'blob'
         });
-        instance.post('/teacher/schema/post', details)
+        instance.post('/teacher/schema', details)
             .then(response => {
                 const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
                 let date_ob = new Date();
@@ -259,7 +259,10 @@ class Schema extends Component {
                     examtype: "sem",
                 });
             })
-            .catch((err) => alert('Cannot Generate, not enough Questions'));
+            .catch((err) => {
+                console.log(err);
+                alert('Cannot Generate, not enough Questions')
+            });
     }
 
     handleMonth1(e) {
