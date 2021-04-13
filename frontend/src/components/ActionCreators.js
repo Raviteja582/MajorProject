@@ -63,3 +63,36 @@ export const editQuestions = async(details, id, diffcult, unit) => {
         }
     })
 }
+
+export const addDepartment = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/department/GetandAddandRemove', {
+        method: 'POST',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
+
+export const removeDepartment = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/department/GetandAddandRemove', {
+        method: 'DELETE',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
+
+export const getDepartment = async () => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/department/GetandAddandRemove', {
+        headers: {
+            'Authorization': bearer
+        }
+    })
+}
