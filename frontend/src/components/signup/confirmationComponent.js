@@ -18,7 +18,6 @@ class Confirmation extends Component {
         return fetch(baseUrl + this.props.url)
             .then((response) => response.json())
             .then((response) => {
-                console.log(response);
                 if (response.sucess) {
                     this.setState({ isVerify: true });
                 } else {

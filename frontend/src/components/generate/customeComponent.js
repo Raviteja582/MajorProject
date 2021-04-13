@@ -99,7 +99,6 @@ class Custome extends Component {
             },
         }).then((res) => res.json())
             .then((res) => {
-                console.log(res);
                 this.setState({ sublens: res.sublens, isloading: false });
             }).catch((err) => {
                 alert("Please Logout and Login Once");

@@ -15,7 +15,7 @@ import {
 import { postLogout } from '../ActionCreators';
 import { Link } from "react-router-dom";
 
-const LoginNav = (props) => {
+const AdminLoginNav = (props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
@@ -32,23 +32,23 @@ const LoginNav = (props) => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink tag={Link} to="/home" className={"tab"}>
-                                Home
+                            <NavLink tag={Link} to="/department" className={"tab"}>
+                                Department
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/insert" className={"tab"}>
-                                Insert
+                            <NavLink tag={Link} to="/subject" className={"tab"}>
+                                Subjects
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/generate" className={"tab"}>
-                                Generate
+                            <NavLink tag={Link} to="/teacher" className={"tab"}>
+                                Teachers
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} to="/edit" className={"tab"}>
-                                Edit
+                            <NavLink tag={Link} to="/question" className={"tab"}>
+                                Questions
                             </NavLink>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
@@ -78,4 +78,4 @@ const LoginNav = (props) => {
     );
 };
 
-export default LoginNav;
+export default AdminLoginNav;

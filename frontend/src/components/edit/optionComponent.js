@@ -133,7 +133,6 @@ class Options extends Component {
             getQuestions(xs, this.state.selectedDiffculty)
                 .then((response) => response.json())
                 .then((response) => {
-                    console.log(response);
                     this.setState({
                         ...this.state,
                         isEmpty: false, isLoading: false, questions: response,

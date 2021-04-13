@@ -101,7 +101,6 @@ class Schema extends Component {
     }
     handleSubmit2() {
         var xs = { ...this.state.selected };
-        // console.log(xs);
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         try {
 
@@ -216,7 +215,6 @@ class Schema extends Component {
     }
 
     getPdf = async (details) => {
-        console.log(details);
         this.setState({ isloading: true });
         const bearer = 'Bearer ' + localStorage.get('token');
         const instance = axios.create({
@@ -264,7 +262,6 @@ class Schema extends Component {
                 });
             })
             .catch((err) => {
-                console.log(err);
                 alert('Cannot Generate, not enough Questions')
             });
     }

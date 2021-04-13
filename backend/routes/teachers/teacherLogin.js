@@ -46,6 +46,7 @@ TeacherRouter.route("/")
                         user: {
                             user: user.username,
                             id: user._id,
+                            admin: user.admin,
                         }
                     });
                 } else {
