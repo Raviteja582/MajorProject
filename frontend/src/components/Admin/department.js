@@ -132,7 +132,6 @@ class Department extends Component {
                             departmentList: res.list,
                             isLoading: false
                         }));
-                        console.log(res.list);
                     } else {
                         this.setState({
                             isLoading: false,

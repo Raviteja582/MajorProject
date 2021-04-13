@@ -96,3 +96,15 @@ export const getDepartment = async () => {
         }
     })
 }
+
+export const addSubject = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/subject/GetandAddandRemove', {
+        method: 'POST',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
