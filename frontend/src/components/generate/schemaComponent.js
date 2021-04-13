@@ -26,14 +26,14 @@ class Schema extends Component {
             my: '',
             examOptions: [
                 {
-                    label: 'Semester',
-                    value: 'sem'
-                }, {
                     label: 'Mid 1',
                     value: 'mid1'
                 }, {
                     label: 'Mid 2',
                     value: 'mid2'
+                }, {
+                    label: 'Semester',
+                    value: 'sem'
                 }, {
                     label: 'Custom',
                     value: 'custom'
@@ -74,7 +74,11 @@ class Schema extends Component {
                     });
                     this.setState({ subjects: xs, isloading: false })
                 })
-                .catch((err) => alert('Please Logout and Login once again'));
+                .catch((err) => {
+                    alert("Please Logout and Login Once");
+                    localStorage.clear();
+                    window.location.reload();
+                });
         }
     }
 
@@ -82,7 +86,7 @@ class Schema extends Component {
         this.setState({ examtype: e.value, dummyExamType: e });
     }
     handleSubject(e) {
-        this.setState({ selected: e,examtype: 'sem',dummyExamType: '' })
+        this.setState({ selected: e, examtype: 'sem', dummyExamType: '' })
     }
     handleSubmit1(e) {
         e.preventDefault();
@@ -278,10 +282,10 @@ class Schema extends Component {
         else {
             var value = "";
             if (this.state.examtype === 'sem') {
-                value = <div style={{ marginTop: "5%" }}>
+                value = <div style={{ marginTop: "3%" }}>
                     <Form onSubmit={(e) => this.handleSubmit1(e)}>
                         <FormGroup>
-                            <Label for="my">Month and Year:  {"  "}</Label>
+                            <Label for="my">Month and Year:</Label><br />
                             <DatePicker
                                 required
                                 selected={this.state.my}
@@ -350,7 +354,7 @@ class Schema extends Component {
                     </div>
             }
             return (
-                <div style={{ width: "80%", margin: "20px auto" }}>
+                <div style={{ width: "80%", margin: "3% auto" }}>
                     <label>Select Subject</label>
                     <Select name="subject" options={this.state.subjects}
                         onChange={(e) => this.handleSubject(e)} required

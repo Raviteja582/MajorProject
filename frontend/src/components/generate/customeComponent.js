@@ -102,8 +102,9 @@ class Custome extends Component {
                 console.log(res);
                 this.setState({ sublens: res.sublens, isloading: false });
             }).catch((err) => {
-                console.log(err);
-                alert('Please Login and Logout Once');
+                alert("Please Logout and Login Once");
+                localStorage.clear();
+                window.location.reload();
             });
     }
 
@@ -199,7 +200,7 @@ class Custome extends Component {
                 <div>
                     <Form onSubmit={(e) => this.handleSubmit(e)}>
                         <FormGroup>
-                            <Row>
+                            <Row style={{marginTop: '3%'}}>
                                 <Col>
                                     <Label for="my">Month and Year</Label>
                                     <DatePicker

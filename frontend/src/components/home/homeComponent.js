@@ -62,17 +62,18 @@ const Home = () => {
                 onExiting={() => setAnimating(true)}
                 onExited={() => setAnimating(false)}
                 key={item.src}
+                // style={{ height: "1080px", width: "1024px",minHeight: "600px", minWidth: '300px' }}
             >
-                <img src={item.src} alt={item.altText} width="2080px"
-                    height="750px" />
+                <img src={item.src} alt={item.altText}
+                style={{ height: "100vh", width: "100vw",minHeight: "600px", minWidth: '300px', backgroundImage: "url(/img/intro.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: 'center' }}/>
                 <CarouselCaption captionText={item.caption} captionHeader={item.header} className="text-danger" />
             </CarouselItem>
         );
     });
 
     return (
-        <div>
-            <div style={{ height: "100vh", backgroundImage: "url(/img/intro.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+        <div style={{ minWidth: "300px" }}>
+            <div style={{ height: "100vh", minHeight: "600px", backgroundImage: "url(/img/intro.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: 'center' }}>
             </div>
             <div>
                 <Carousel
@@ -89,11 +90,11 @@ const Home = () => {
                     <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
                 </Carousel>
             </div>
-            <div style={{ backgroundColor: "aqua" }}>
-                <Container style={{ margin: "10px auto", padding: "30px" }}>
-                    <Row>
-                        <Col>
-                            <Card style={{ height: "90%" }} >
+            <div>
+                <Container style={{ margin: "10px auto", padding: "30px", display: "flex", flexDirection: 'column' }}>
+                    <Row style={{ backgroundColor: "aqua", margin: '10px 10px' }}>
+                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                            <Card >
                                 <CardBody>
                                     <CardTitle tag="h5" style={{ margin: "20px" }}>Inserting</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Prepare Questions</CardSubtitle>
@@ -116,8 +117,8 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col>
-                            <Card style={{ height: "90%" }}>
+                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                            <Card>
                                 <CardBody>
                                     <CardTitle tag="h5" style={{ margin: "20px" }}>Editing</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Modify the Questions</CardSubtitle>
@@ -140,15 +141,15 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col>
-                            <Card style={{ height: "90%" }}>
+                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                            <Card>
                                 <CardBody>
                                     <CardTitle tag="h5" style={{ margin: "20px" }}>Generate</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Prepare Question Paper</CardSubtitle>
                                     <CardText style={{ margin: "20px", textAlign: "justify", textJustify: "inter-word" }}>
                                         User have a choice based on there needs of the exam. If the Exam is of type Semester
                                         then they can choose Semester as format of Questio paper. If the Exams are of Internal type
-                                        they can go with the mid exam format by providing the required details for the exam. User can get Question in .pdf format.
+                                        they can go with the mid exam format by providing the required details for the exam. User can get Question in .pdf
                                     </CardText>
                                     <Button style={{ margin: "20px" }}>
                                         {
@@ -165,43 +166,59 @@ const Home = () => {
                             </Card>
                         </Col>
                     </Row>
+                    <Row style={{margin: '10px 10px' }}>
+                        <footer>
+                            <section class="ft-main">
+                                <div class="ft-main-item">
+                                    <h2 clas="ft-title">Quick Links</h2>
+                                    <ul>
+                                        <li>
+                                            <NavLink tag={Link} to="/signin" >
+                                                login
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink tag={Link} to="/signup">
+                                                SignUp
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink tag={Link} to="/forgot">
+                                                forgot Password
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ft-main-item">
+                                    <h2 class="ft-title">Contact Us</h2>
+                                    <ul>
+                                        <li>
+                                            <NavLink tag={Link} to="/generate" >
+                                                Admin
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink tag={Link} to="/generate">
+                                                Developers
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink tag={Link} to="/generate">
+                                                Email
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink tag={Link} to="/generate">
+                                                Twitter
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </footer >
+                    </Row>
                 </Container>
             </div>
-            <footer>
-                <section class="ft-main">
-                    <div class="ft-main-item">
-                        <h2 clas="ft-title">Quick Links</h2>
-                        <ul>
-                            <li><NavLink tag={Link} to="/signin" >
-                                login
-                    </NavLink></li>
-                            <li>< NavLink tag={Link} to="/signup">
-                                SignUp
-                                            </NavLink></li>
-                            <li>< NavLink tag={Link} to="/forgot">
-                                forgot Password
-                                            </NavLink></li>
-                        </ul>
-                    </div>
-                    <div class="ft-main-item">
-                        <h2 class="ft-title">Contact Us</h2>
-                        <ul>
-                            <li><NavLink tag={Link} to="/generate" >
-                                Admin
-                    </NavLink></li>
-                            <li>< NavLink tag={Link} to="/generate">
-                                Developers
-                                            </NavLink></li>
-                            <li>< NavLink tag={Link} to="/generate">
-                                Email
-                                            </NavLink></li>
-                            <li>< NavLink tag={Link} to="/generate">
-                                Twitter
-                                            </NavLink></li>
-                        </ul>
-                    </div>
-                </section>
-            </footer >
         </div >
     );
 };

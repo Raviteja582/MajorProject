@@ -17,7 +17,7 @@ const SignNav = (props) => {
     if (localStorage.get('token')) return <div></div>
     else
         return (
-            <div>
+            <div style={{ width: "100vw" }}>
                 <Navbar color="light" light expand="md">
                     <NavbarBrand>
                         <NavLink tag={Link} to="/home" style={{ color: "black" }}>

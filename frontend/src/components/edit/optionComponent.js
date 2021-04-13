@@ -61,7 +61,11 @@ class Options extends Component {
                     });
                     this.setState({ subjects: xs, isLoading: false });
                 })
-                .catch((err) => alert("Please Logout and Login Once"));
+                .catch((err) => {
+                    alert("Please Logout and Login Once");
+                    localStorage.clear();
+                    window.location.reload();
+                });
         }
     }
 
@@ -100,7 +104,9 @@ class Options extends Component {
                 }
                 else alert('Failure');
             }).catch((err) => {
-                alert('Please Logout and Login Once.');
+                alert("Please Logout and Login Once");
+                localStorage.clear();
+                window.location.reload();
             })
     }
 
@@ -132,7 +138,11 @@ class Options extends Component {
                         ...this.state,
                         isEmpty: false, isLoading: false, questions: response,
                     });
-                }).catch((err) => alert('Please LogOut and Login Back.'));
+                }).catch((err) => {
+                    alert("Please Logout and Login Once");
+                    localStorage.clear();
+                    window.location.reload();
+                });
         }
     }
     render() {

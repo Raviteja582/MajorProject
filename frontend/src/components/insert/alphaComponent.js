@@ -54,7 +54,11 @@ class Alpha extends Component {
 					}
 					this.setState({ options: xs, isloading: false });
 				})
-				.catch((err) => alert('Please Logout and Login once again'));
+				.catch((err) => {
+                    alert("Please Logout and Login Once");
+                    localStorage.clear();
+                    window.location.reload();
+                });
 		}
 	}
 
@@ -200,11 +204,16 @@ class Alpha extends Component {
 						]
 					})
 				} else {
-					alert('Failed');
-					alert('Please Logout and Login Back');
-				}
+                    alert("Please Logout and Login Once");
+                    localStorage.clear();
+                    window.location.reload();
+                }
 			})
-			.catch((err) => alert('Please Logout and Login Back'));
+			.catch((err) => {
+				alert("Please Logout and Login Once");
+				localStorage.clear();
+				window.location.reload();
+			});
 	}
 
 	render() {

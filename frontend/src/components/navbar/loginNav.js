@@ -21,7 +21,7 @@ const LoginNav = (props) => {
     const toggle = () => setIsOpen(!isOpen);
 
     return (
-        <div>
+        <div style={{ width: "100vw" }}>
             <Navbar color="light" light expand="md">
                 <NavbarBrand>
                     <NavLink to="/home" style={{ color: "black" }}>
