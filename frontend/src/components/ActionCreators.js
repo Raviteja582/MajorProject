@@ -122,10 +122,30 @@ export const removeSubject = async (code) => {
 }
 
 export const getSubjects = async (details) => {
-    console.log(details);
     const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/admin/subject/get', {
         method: 'POST',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
+
+export const getProfile = async () => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/update', {
+        headers: {
+            'Authorization': bearer
+        }
+    })
+}
+
+export const updateProfile = async (details) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/teacher/update', {
+        method: 'PUT',
         body: JSON.stringify(details),
         headers: {
             'Content-Type': 'application/json',

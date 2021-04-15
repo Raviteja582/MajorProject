@@ -79,7 +79,6 @@ schemaRouter.route('/')
         }
         async function generatePdf() {
             const questions = await question.findById(req.body.id);
-            console.log(questions);
             let data = {
                 code: req.body.value,
                 subyear: req.body.deptYear,
@@ -116,7 +115,7 @@ schemaRouter.route('/')
                     if (data.details[i][units[j]] !== '') {
                         var num = Number(data.details[i][units[j]]);
                         var range = [0, questions[data.details[i]['type']][units[j]].length - 1];
-                        if (num <= range[1]) {
+                        if (num <= (range[1]+1)) {
                             var randArray = randomBetweenRange(num, range);
                             for (var k = 0; k < randArray.length; k++){
                                 data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][randArray[k]].name);
@@ -182,7 +181,8 @@ schemaRouter.route('/')
                     margin: {
                         top: '50px',
                         left: '20px',
-                        right: '20px'
+                        right: '20px',
+                        bottom: '20px'
                     }
                 })
                 await browser.close();

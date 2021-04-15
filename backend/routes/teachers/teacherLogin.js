@@ -24,7 +24,7 @@ TeacherRouter.route("/")
                 res.setHeader("Content-Type", "application/json");
                 res.json({
                     status: false,
-                    err: "Cannot find Username with " + req.body.username,
+                    err: "Username or Password is incorrect!!!",
                 });
             }
 

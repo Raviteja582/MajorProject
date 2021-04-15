@@ -41,16 +41,6 @@ const AdminLoginNav = (props) => {
                                 Subjects
                             </NavLink>
                         </NavItem>
-                        <NavItem>
-                            <NavLink tag={Link} to="/teacher" className={"tab"}>
-                                Teachers
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink tag={Link} to="/question" className={"tab"}>
-                                Questions
-                            </NavLink>
-                        </NavItem>
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
                                 {props.user.user}
@@ -59,8 +49,7 @@ const AdminLoginNav = (props) => {
                                 <DropdownItem>
                                     <NavLink
                                         tag={Link}
-                                        to="/home"
-                                        className={"tab"}
+                                        to="/profile"
                                     >
                                         Profile
                                     </NavLink>

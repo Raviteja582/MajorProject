@@ -7,6 +7,7 @@ import Home from "./home/homeComponent";
 import Forgot from "./forgot/verifyComponent";
 import Update from "./forgot/updateComponent";
 import SignNav from "./navbar/signNav";
+import Profile from './profileComponent';
 import LoginNav from "./navbar/loginNav";
 import AdminLoginNav from './navbar/adminNav';
 import Alpha from "./insert/alphaComponent";
@@ -58,6 +59,17 @@ class Main extends Component {
             )} />
         );
 
+        const PrivateAdminProfile = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                localStorage.get('token') && localStorage.get('user').admin
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
+
 
         const PrivateRoute1 = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
@@ -89,6 +101,16 @@ class Main extends Component {
                     }} />
             )} />
         );
+        const PrivateRoute4 = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                localStorage.get('token')
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
 
         const isLogin = localStorage.get('token') || null;
         let navs, routes;
@@ -101,6 +123,7 @@ class Main extends Component {
                     <PrivateRouteHome path="/home" component={AdminHome} />
                     <PrivateRouteDepartment path="/department" component={Department} />
                     <PrivateRouteSubject path="/subject" component={Subject} />
+                    <PrivateAdminProfile path="/profile" component={Profile} />
                     <Redirect to="/home" />
                 </Switch>
             }
@@ -131,6 +154,7 @@ class Main extends Component {
                     <PrivateRoute1 exact path="/insert" component={() => <Alpha />} />
                     <PrivateRoute2 exact path="/generate" component={() => <Generate />} />
                     <PrivateRoute3 exact path="/edit" component={() => <Options />} />
+                    <PrivateRoute4 exact path="/profile" component={() => <Profile />} />
                     <Redirect to="/home" />
                 </Switch>
             }

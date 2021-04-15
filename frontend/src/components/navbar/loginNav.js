@@ -59,8 +59,8 @@ const LoginNav = (props) => {
                                 <DropdownItem>
                                     <NavLink
                                         tag={Link}
-                                        to="/home"
-                                        className={"tab"}
+                                        to="/profile"
+                                        
                                     >
                                         Profile
                                     </NavLink>

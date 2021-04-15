@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UncontrolledAlert, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { baseUrl } from "../../url";
@@ -31,9 +31,13 @@ class Login extends Component {
     }
 
     handleInput(e) {
-        var xs = { ...this.state.cred }
-        xs = { ...xs, [e.target.name]: e.target.value };
-        this.setState({ cred: xs });
+        this.setState((prev) => ({
+            ...prev,
+            cred: {
+                ...prev.cred,
+                [e.target.name]: e.target.value,
+            }
+        }));
     }
     async handleSubmit(e) {
         e.preventDefault();
@@ -48,16 +52,16 @@ class Login extends Component {
         });
         const response_1 = await response.json();
         if (response_1.status === "VERIFY") {
-            this.setState({ verify: true,isLoading:false });
+            this.setState({ verify: true, isLoading: false });
         }
         else if (response_1.status) {
             localStorage.set("token", response_1.token);
             localStorage.set("user", response_1.user);
-            this.setState({ success: true,isLoading:false });
+            this.setState({ success: true, isLoading: false });
             window.location.reload();
         }
         else {
-            this.setState({ failure: true, err: response_1.err, isLoading:false });
+            this.setState({ failure: true, err: response_1.err, isLoading: false });
         }
     }
 
@@ -78,7 +82,7 @@ class Login extends Component {
                     </UncontrolledAlert>
             }
             else if (this.state.failure) {
-                block = <UncontrolledAlert>
+                block = <UncontrolledAlert color="danger">
                     {this.state.err}
                 </UncontrolledAlert>
             }
@@ -90,7 +94,7 @@ class Login extends Component {
                         <Input
                             type="text"
                             name="username"
-                            value={this.state.username}
+                            value={this.state.cred.username}
                             onChange={this.handleInput}
                             placeholder="Email"
                             autoComplete="off"
@@ -101,7 +105,7 @@ class Login extends Component {
                         <Input
                             type="password"
                             name="password"
-                            value={this.state.password}
+                            value={this.state.cred.password}
                             onChange={this.handleInput}
                             placeholder="Password"
                             required />

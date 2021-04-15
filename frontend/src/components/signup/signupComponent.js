@@ -48,7 +48,6 @@ class Signup extends Component {
             credentials: "same-origin",
         })
             .then((response) => {
-                console.log(response);
                 return response.json();
             })
             .then((response) => {
@@ -109,7 +108,7 @@ class Signup extends Component {
                             <FormGroup>
                                 <Label for="lastname">Last Name</Label>
                                 <Input type="text"
-                                    con name="lastname"
+                                    name="lastname"
                                     value={this.state.lastname}
                                     onChange={this.handleInput}
                                     placeholder="Last Name"
