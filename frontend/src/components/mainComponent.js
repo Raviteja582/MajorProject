@@ -15,8 +15,6 @@ import Options from './edit/optionComponent';
 import localStorage from "local-storage";
 import Department from './Admin/department';
 import Subject from './Admin/subject';
-import Question from './Admin/question';
-import Teacher from './Admin/teacher';
 import AdminHome from './Admin/adminHome';
 
 
@@ -50,28 +48,6 @@ class Main extends Component {
         );
 
         const PrivateRouteSubject = ({ component: Component, ...rest }) => (
-            <Route {...rest} render={(props) => (
-                localStorage.get('token') && localStorage.get('user').admin
-                    ? <Component {...props} />
-                    : <Redirect to={{
-                        pathname: '/home',
-                        state: { from: props.location }
-                    }} />
-            )} />
-        );
-
-        const PrivateRouteTeacher = ({ component: Component, ...rest }) => (
-            <Route {...rest} render={(props) => (
-                localStorage.get('token') && localStorage.get('user').admin
-                    ? <Component {...props} />
-                    : <Redirect to={{
-                        pathname: '/home',
-                        state: { from: props.location }
-                    }} />
-            )} />
-        );
-
-        const PrivateRouteQuestion = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
                 localStorage.get('token') && localStorage.get('user').admin
                     ? <Component {...props} />
@@ -124,9 +100,7 @@ class Main extends Component {
                 routes = <Switch>
                     <PrivateRouteHome path="/home" component={AdminHome} />
                     <PrivateRouteDepartment path="/department" component={Department} />
-                    <PrivateRouteTeacher path="/teacher" component={Teacher} />
                     <PrivateRouteSubject path="/subject" component={Subject} />
-                    <PrivateRouteQuestion path="/question" component={Question} />
                     <Redirect to="/home" />
                 </Switch>
             }

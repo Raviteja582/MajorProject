@@ -108,3 +108,28 @@ export const addSubject = async (details) => {
         }
     })
 }
+
+export const removeSubject = async (code) => {
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/subject/GetandAddandRemove', {
+        method: 'DELETE',
+        body: JSON.stringify(code),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
+
+export const getSubjects = async (details) => {
+    console.log(details);
+    const bearer = 'Bearer ' + localStorage.get('token');
+    return fetch(baseUrl + '/admin/subject/get', {
+        method: 'POST',
+        body: JSON.stringify(details),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+    })
+}
