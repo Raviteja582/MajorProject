@@ -91,37 +91,65 @@ schemaRouter.route('/')
                 details: req.body.sections
             };
 
-
-            const randomBetween = (a, b) => {
-                return Math.ceil((Math.random() * (b - a)) + a);
-            };
-            const randomBetweenRange = (num, range) => {
-                const res = [];
-                for (let i = 0; i < num;) {
-                    const random = randomBetween(range[0], range[1]);
-                    if (!res.includes(random)) {
-                        res.push(random);
-                        i++;
-                    };
-                };
-                return res;
+            function shuffle(array) {
+                var m = array.length, t, i;
+                while (m) {
+                    i = Math.floor(Math.random() * m--);
+                    t = array[m];
+                    array[m] = array[i];
+                    array[i] = t;
+                }
+                return array;
             }
 
             var units = ['u1', 'u2', 'u3', 'u4', 'u5'];
-
+            var s = {}
+            var bo = false;
             for (var i = 0; i < data.details.length; i++) {
                 data.details[i]['questions'] = [];
                 for (var j = 0; j < units.length; j++) {
                     if (data.details[i][units[j]] !== '') {
                         var num = Number(data.details[i][units[j]]);
-                        var range = [0, questions[data.details[i]['type']][units[j]].length - 1];
-                        if (num <= (range[1]+1)) {
-                            var randArray = randomBetweenRange(num, range);
-                            for (var k = 0; k < randArray.length; k++){
-                                data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][randArray[k]].name);
-                                // console.log(questions[data.details[i]['type']][units[j]][randArray[k]]);
+                        var range = questions[data.details[i]['type']][units[j]].length;  // if 10 questions gives 10
+                        const ints = random.uniformInt(0, range - 1); // gives a number from 0 - 9 inclusive
+                        if (range in s) {
+                            var arr = s[range];
+                            var len = arr.length;
+                            var startIndex = ints()
+                            if (bo) {
+                                while (num > 0) {
+                                    data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][arr[startIndex]].name);
+                                    startIndex = (startIndex + 1) % len;
+                                    num--;
+                                }
+                            } else {
+                                while (num > 0) {
+                                    data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][arr[startIndex]].name);
+                                    startIndex = startIndex - 1 < 0 ? len - 1 : startIndex - 1;
+                                    num--;
+                                }
+                            }
+                        } else {
+                            var newArray = shuffle([...Array(range).keys()]);  // [ 0 ... 9 ] range exclusive.
+                            s[range] = newArray;
+                            var arr = s[range];
+                            var len = arr.length;
+                            var startIndex = ints();  // [0 - range-1] inclusive the index number lies in shuffled array. 
+                            if (bo) {
+                                while (num > 0) {
+                                    data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][arr[startIndex]].name);
+                                    startIndex = (startIndex + 1) % len;
+                                    num--;
+                                }
+                            } else {
+                                while (num > 0) {
+                                    data.details[i]['questions'].push(questions[data.details[i]['type']][units[j]][arr[startIndex]].name);
+                                    startIndex = startIndex - 1 < 0 ? len - 1 : startIndex - 1;
+                                    num--;
+                                }
                             }
                         }
+                        bo = !bo;
                     }
                 }
             }
@@ -142,18 +170,17 @@ schemaRouter.route('/')
 
             getTemplateHtml().then(async (res) => {
                 hb.registerHelper('section', function (data) {
-                    console.log(data);
                     var str = '<section>';
                     for (var i = 1; i <= data.length; i++) {
-                        if (data[i-1]['questions'].length > 0) {
+                        if (data[i - 1]['questions'].length > 0) {
                             str += '<section class="secdetails">\
-                              <div>'+ romanize(i)+'. ' + data[i-1]['sname'] + '</div>\
-                              <div>Marks: '+ data[i-1]['marks'] + '</div>\
+                              <div>'+ romanize(i) + '. ' + data[i - 1]['sname'] + '</div>\
+                              <div>Marks: '+ data[i - 1]['marks'] + '</div>\
                             </section>';
                             str += '<div> \
                                 <ol> '
-                            for (var j = 0; j < data[i-1]['questions'].length; j++) {
-                                str+='<li class="question" style="margin-left: 5px;"> '+data[i-1]['questions'][j]+'</li>'
+                            for (var j = 0; j < data[i - 1]['questions'].length; j++) {
+                                str += '<li class="question" style="margin-left: 5px;"> ' + data[i - 1]['questions'][j] + '</li>'
                             }
                             str += '</ol></div>';
                         }
@@ -192,6 +219,7 @@ schemaRouter.route('/')
                 response.sendFile(__dirname + '/demo.pdf');
             }).catch(err => {
                 console.error(err)
+                next(err);
             });
         }
         generatePdf();
