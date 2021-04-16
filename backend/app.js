@@ -40,6 +40,9 @@ connect.then((db) => {
 },(err) => { console.log(err);
 })
 
+mongoose.set('useFindAndModify', false);
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

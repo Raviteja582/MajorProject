@@ -62,7 +62,8 @@ class Options extends Component {
                     this.setState({ subjects: xs, isLoading: false });
                 })
                 .catch((err) => {
-                    alert("Please Logout and Login Once");
+                    this.setState({ isLoading: false });
+                    alert("Can't Cannot to Server!!!");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -100,11 +101,14 @@ class Options extends Component {
                         i2: "",
                         i3: ""
                     })
-                    alert('Success');
+                    alert('Successfully Edited!!!');
+                } else {
+                    this.setState({ isLoading: false });
+                    alert('Fail to Edit');
                 }
-                else alert('Failure');
             }).catch((err) => {
-                alert("Please Logout and Login Once");
+                this.setState({ isLoading: false });
+                alert("Can't Connect to Server!!!, Logging Out...");
                 localStorage.clear();
                 window.location.reload();
             })
@@ -138,7 +142,8 @@ class Options extends Component {
                         isEmpty: false, isLoading: false, questions: response,
                     });
                 }).catch((err) => {
-                    alert("Please Logout and Login Once");
+                    this.setState({ isLoading: false });
+                    alert("Can't Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -153,8 +158,8 @@ class Options extends Component {
         else
             return (
                 <Container>
-                    <Row style={{ backgroundColor: 'aqua', width: "100vw" }}>
-                        <Col xs="4" style={{ backgroundColor: "red" }}>
+                    <Row style={{ width: "100vw" }}>
+                        <Col xs="4">
                             <Form>
                                 <FormGroup style={{ margin: "20% auto" }}>
                                     <Select options={this.state.subjects}

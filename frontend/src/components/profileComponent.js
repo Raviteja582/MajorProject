@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getProfile, updateProfile } from './ActionCreators';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import localStorage from 'local-storage';
 
 class Profile extends Component {
     constructor() {
@@ -40,7 +41,8 @@ class Profile extends Component {
                     this.setState({ user: user, updated: user, isLoading: false });
                 })
                 .catch((err) => {
-                    alert('Cannot Find Details')
+                    this.setState({ isLoading: false });
+                    alert('Cannot Find Details');
                 })
         }
     }
@@ -57,13 +59,20 @@ class Profile extends Component {
                 .then((res) => res.json())
                 .then((res) => {
                     if (res.success) {
+                        if (this.state.user.username !== this.state.updated.username) {
+                            alert('Logging out....');
+                            localStorage.clear();
+                            window.location.reload();
+                        }
                         this.setState({ user: res.user, updated: res.user, isLoading: false });
                         this.handleUpdate();
                     } else {
                         alert("Please Give valid Email address or else don't change");
                     }
                 }).catch((err) => {
-                    console.log(err);
+                    alert('Failure!!!!');
+                    localStorage.clear();
+                    window.location.reload();
                 })
         } else {
             this.setState({ password: "", rewrite: "" });

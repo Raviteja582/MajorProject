@@ -101,7 +101,8 @@ class Custome extends Component {
             .then((res) => {
                 this.setState({ sublens: res.sublens, isloading: false });
             }).catch((err) => {
-                alert("Please Logout and Login Once");
+                this.setState({ isloading: false });
+                alert("Can't Connect to Server!!!, Logging Out...");
                 localStorage.clear();
                 window.location.reload();
             });

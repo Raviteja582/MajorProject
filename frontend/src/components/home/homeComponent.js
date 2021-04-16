@@ -62,10 +62,10 @@ const Home = () => {
                 onExiting={() => setAnimating(true)}
                 onExited={() => setAnimating(false)}
                 key={item.src}
-                // style={{ height: "1080px", width: "1024px",minHeight: "600px", minWidth: '300px' }}
+            // style={{ height: "1080px", width: "1024px",minHeight: "600px", minWidth: '300px' }}
             >
                 <img src={item.src} alt={item.altText}
-                style={{ height: "100vh", width: "100vw",minHeight: "600px", minWidth: '300px', backgroundImage: "url(/img/intro.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: 'center' }}/>
+                    style={{ height: "100vh", width: "100vw", minHeight: "600px", minWidth: '300px', backgroundImage: "url(/img/intro.jpg)", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: 'center' }} />
                 <CarouselCaption captionText={item.caption} captionHeader={item.header} className="text-danger" />
             </CarouselItem>
         );
@@ -93,17 +93,15 @@ const Home = () => {
             <div>
                 <Container style={{ margin: "10px auto", padding: "30px", display: "flex", flexDirection: 'column' }}>
                     <Row style={{ backgroundColor: "aqua", margin: '10px 10px' }}>
-                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                        <Col md={4} sm={12} style={{ marginTop: '20px', marginBottom: '20px' }}>
                             <Card >
                                 <CardBody>
-                                    <CardTitle tag="h5" style={{ margin: "20px" }}>Inserting</CardTitle>
+                                    <CardTitle tag="h5" style={{ margin: "20px" }}>Insert</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Prepare Questions</CardSubtitle>
                                     <CardText style={{ margin: "20px", textAlign: "justify", textJustify: "inter-word" }}>
-                                        Here User can Create And Insert Questions in to the Database, where the user has option to
-                                        Select Multiple Subjecsts at a time and Insert Multiple Questions at a time. As many questions from multiple Subjects
-                                        can be inserted at a time from different units with different diffculty level.
+                                        User can insert questions of choice into the database. User has the option to choose subject, difficulty and insert multiple questions into multiple subjects at a time.
                                     </CardText>
-                                    <Button style={{ margin: "20px" }}>
+                                    <Button style={{ margin: "20px",marginTop: '20%' }}>
                                         {
                                             localStorage.get('token') ?
                                                 < NavLink tag={Link} to="/insert" style={{ color: "black" }}>
@@ -117,15 +115,13 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                        <Col md={4} sm={12} style={{ marginTop: '20px', marginBottom: '20px' }}>
                             <Card>
                                 <CardBody>
                                     <CardTitle tag="h5" style={{ margin: "20px" }}>Editing</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Modify the Questions</CardSubtitle>
                                     <CardText style={{ margin: "20px", textAlign: "justify", textJustify: "inter-word" }}>
-                                        Here User can Select the Questions which are inserted by them as per the selection of Subject,
-                                        diffculty and unit. User has a choice of Editing the questions
-                                        or they can delete the questions if the want. After Editing the Question user can also undo them if they don't want to change.
+                                    User can select the subject and difficulty level and be able to view the questions which are present in the database and edit or delete the questions as required. The users will also have the option to undo the changes if they wish to go to back to the original. 
                                     </CardText>
                                     <Button style={{ margin: "20px" }}>
                                         {
@@ -141,17 +137,15 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col md={4} sm={12} style={{marginTop: '20px',marginBottom: '20px'}}>
+                        <Col md={4} sm={12} style={{ marginTop: '20px', marginBottom: '20px' }}>
                             <Card>
                                 <CardBody>
                                     <CardTitle tag="h5" style={{ margin: "20px" }}>Generate</CardTitle>
                                     <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ margin: "20px" }}>Prepare Question Paper</CardSubtitle>
                                     <CardText style={{ margin: "20px", textAlign: "justify", textJustify: "inter-word" }}>
-                                        User have a choice based on there needs of the exam. If the Exam is of type Semester
-                                        then they can choose Semester as format of Questio paper. If the Exams are of Internal type
-                                        they can go with the mid exam format by providing the required details for the exam. User can get Question in .pdf
+                                    User can generate Question Papers in different formats depending on the type of examination (Semester and Mid-term). Users can choose Date and time of the examination and then generate the Question Paper.
                                     </CardText>
-                                    <Button style={{ margin: "20px" }}>
+                                    <Button style={{ margin: "20px",marginTop: '11%' }}>
                                         {
                                             localStorage.get('token') ?
                                                 < NavLink tag={Link} to="/generate" style={{ color: "black" }}>
@@ -166,7 +160,7 @@ const Home = () => {
                             </Card>
                         </Col>
                     </Row>
-                    <Row style={{margin: '10px 10px' }}>
+                    <Row style={{ margin: '10px 10px' }}>
                         <footer>
                             <section class="ft-main">
                                 <div class="ft-main-item">

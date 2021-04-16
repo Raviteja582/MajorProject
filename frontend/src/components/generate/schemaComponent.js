@@ -75,7 +75,8 @@ class Schema extends Component {
                     this.setState({ subjects: xs, isloading: false })
                 })
                 .catch((err) => {
-                    alert("Please Logout and Login Once");
+                    this.setState({ isloading: false });
+                    alert("Can't Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -184,7 +185,10 @@ class Schema extends Component {
                     examtype: "sem",
                 });
             })
-            .catch((err) => alert('Cannot Generate, not enough Questions'));
+            .catch((err) => {
+                this.setState({ isloading: false });
+                alert('Cannot Generate Paper, not enough Questions in Subject')
+            });
     }
 
     getMid2 = async (details) => {
@@ -210,7 +214,8 @@ class Schema extends Component {
                 });
             })
             .catch((err) => {
-                alert('Cannot Generate, not enough Questions')
+                this.setState({ isloading: false });
+                alert('Cannot Generate Paper, not enough Questions in Subject')
             });
     }
 
@@ -236,7 +241,11 @@ class Schema extends Component {
                     examtype: "sem", my: ''
                 });
             })
-            .catch((err) => alert('Cannot Generate, not enough Questions'));
+            .catch((err) => {
+                this.setState({ isloading: false });
+                alert('Cannot Generate Paper, not enough Questions in Subject')
+            }
+            );
     }
 
     getSchema = async (details) => {
@@ -262,7 +271,8 @@ class Schema extends Component {
                 });
             })
             .catch((err) => {
-                alert('Cannot Generate, not enough Questions')
+                this.setState({ isloading: false });
+                alert('Cannot Generate Paper, not enough Questions in Subject')
             });
     }
 

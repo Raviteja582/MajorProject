@@ -55,7 +55,8 @@ class Alpha extends Component {
 					this.setState({ options: xs, isloading: false });
 				})
 				.catch((err) => {
-                    alert("Please Logout and Login Once");
+					this.setState({ isloading: false });
+                    alert("Can't Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -204,13 +205,15 @@ class Alpha extends Component {
 						]
 					})
 				} else {
-                    alert("Please Logout and Login Once");
+					this.setState({ isloading: false });
+                    alert("Can't Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 }
 			})
 			.catch((err) => {
-				alert("Please Logout and Login Once");
+				this.setState({ isloading: false });
+				alert("Can't Connect to Server!!!, Logging Out...");
 				localStorage.clear();
 				window.location.reload();
 			});
