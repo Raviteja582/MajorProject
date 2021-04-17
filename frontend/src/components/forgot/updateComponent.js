@@ -50,7 +50,6 @@ class Update extends Component {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                credentials: "same-origin",
             }
         )
             .then((res) => res.json())

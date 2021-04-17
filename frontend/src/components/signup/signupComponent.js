@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../../url";
-import { Col, Row, Button, Form, FormGroup, Label, Input, FormText,Jumbotron } from 'reactstrap';
+import { Col, Row, Button, Form, FormGroup, Label, Input, FormText, Jumbotron } from 'reactstrap';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import './index.css';
 
@@ -45,7 +45,6 @@ class Signup extends Component {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "same-origin",
         })
             .then((response) => {
                 return response.json();
@@ -87,7 +86,7 @@ class Signup extends Component {
         }
         else if (!this.state.value)
             return (
-                <Form onSubmit={this.handleSubmit} style={{ width: "95%", margin: "5px auto",padding:"2%" }}>
+                <Form onSubmit={this.handleSubmit} style={{ width: "95%", margin: "5px auto", padding: "2%" }}>
                     <h3 style={{ color: "blue", marginLeft: "40%" }}>
                         Sign Up
                         </h3>
@@ -177,7 +176,7 @@ class Signup extends Component {
                             <Link to="/signin">Login</Link>
                         </FormText>
                     </FormGroup>
-                    <Button role="submit" color="primary" style={{margin:"0px 40%"}}>Sign in</Button>
+                    <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>Sign in</Button>
                 </Form>
             );
         else

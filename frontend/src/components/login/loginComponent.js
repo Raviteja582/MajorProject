@@ -48,7 +48,6 @@ class Login extends Component {
             headers: {
                 "Content-Type": "application/json",
             },
-            credential: "same-origin",
         });
         const response_1 = await response.json();
         if (response_1.status === "VERIFY") {

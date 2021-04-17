@@ -52,7 +52,6 @@ export const editQuestions = async(details, id, diffcult, unit) => {
     xs["id"] = id
     xs["unit"] = unit
     xs[diffcult] = details;
-    console.log(xs);
     const bearer = 'Bearer ' + localStorage.get('token');
     return fetch(baseUrl + '/teacher/' + diffcult + '/put', {
         method: 'PUT',

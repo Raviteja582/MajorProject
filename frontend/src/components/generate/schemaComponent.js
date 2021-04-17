@@ -254,7 +254,7 @@ class Schema extends Component {
         const instance = axios.create({
             baseURL: baseUrl,
             timeout: 10000,
-            headers: { 'Authorization': bearer, credentials: "same-origin" },
+            headers: { 'Authorization': bearer, },
             responseType: 'blob'
         });
         instance.post('/teacher/schema', details)

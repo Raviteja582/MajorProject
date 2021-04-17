@@ -37,7 +37,6 @@ class Forgot extends Component {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "same-origin",
         })
             .then((res) => res.json())
             .then((res) => {
