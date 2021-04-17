@@ -102,7 +102,7 @@ class Custome extends Component {
                 this.setState({ sublens: res.sublens, isloading: false });
             }).catch((err) => {
                 this.setState({ isloading: false });
-                alert("Can't Connect to Server!!!, Logging Out...");
+                alert("Cannot Connect to Server!!!, Logging Out...");
                 localStorage.clear();
                 window.location.reload();
             });
@@ -219,6 +219,7 @@ class Custome extends Component {
                                         value={this.state.maxMarks}
                                         onChange={(e) => this.handleDet(e)}
                                         min={0}
+                                        required
                                     />
                                 </Col>
                                 <Col>
@@ -228,6 +229,7 @@ class Custome extends Component {
                                         value={this.state.duration}
                                         onChange={(e) => this.handleDet(e)}
                                         min={0}
+                                        required
                                     />
                                 </Col>
                             </Row>

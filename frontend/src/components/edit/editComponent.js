@@ -20,9 +20,9 @@ class Edit extends Component {
                     <Card>
                         <CardImg top width="10%" height="615em" src="/img/demo.jpg" alt="Card image cap" />
                         <CardBody>
-                            <CardTitle tag="h5">Fill The Details</CardTitle>
-                            <CardSubtitle tag="h6" className="mb-2 text-muted">See Your Questions which was Inserted.</CardSubtitle>
-                            <CardText>Select the Subject, Unit and Diffcutly Level to Access, Modify the statements and Update the Questions.</CardText>
+                            <CardTitle tag="h5">Fill in the Details</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">View the questions which are present in the database</CardSubtitle>
+                            <CardText>Select Subject, Unit and Difficulty to Access, Modify and Update the Questions as required.</CardText>
                         </CardBody>
                     </Card>
                 </div>

@@ -5,7 +5,7 @@ class Details extends Component {
     render() {
         return (
             <div>
-                <h4>Number of Units for the Subject</h4>
+                <h4>Number of Units </h4>
                 <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", margin: "2px" }}>
                     <div>1</div>
                     <div>2</div>
@@ -13,7 +13,7 @@ class Details extends Component {
                     <div>4</div>
                     <div>5</div>
                 </div>
-                <h4> Types of Marks for Each Question </h4>
+                <h4> Marks distribution for each difficulty level </h4>
                 <Table hover bordered size="sm" className="tables">
                     <thead>
                         <tr>

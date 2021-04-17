@@ -60,7 +60,7 @@ class Options extends Component {
                 })
                 .catch((err) => {
                     this.setState({ isLoading: false });
-                    alert("Can't Cannot to Server!!!");
+                    alert("Cannot Connect to Server!!!!, Logging out.....");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -121,7 +121,7 @@ class Options extends Component {
                 }
             }).catch((err) => {
                 this.setState({ isLoading: false });
-                alert("Can't Connect to Server!!!, Logging Out...");
+                alert("Cannot Connect to Server!!!, Logging Out...");
                 localStorage.clear();
                 window.location.reload();
             })
@@ -140,7 +140,7 @@ class Options extends Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.state.selectedSubject === '' || this.state.selectedDiffculty === "" || this.state.selectedUnit === "")
-            alert("Please Fill all necessary Details");
+            alert("Fill in the Details");
         else {
             this.setState({ ...this.state, isEmpty: false, isLoading: true });
             var xs = {
@@ -157,7 +157,7 @@ class Options extends Component {
                     });
                 }).catch((err) => {
                     this.setState({ isLoading: false });
-                    alert("Can't Connect to Server!!!, Logging Out...");
+                    alert("Cannot Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 });

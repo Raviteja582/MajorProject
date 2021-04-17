@@ -112,7 +112,7 @@ class Login extends Component {
                             Forget Username/Password?{" "}<Link to="/forgot" style={{ textDecoration: "underline" }}>Click here</Link>
                         </FormText>
                     </FormGroup>
-                    <Button role="submit" color="primary" style={{ marginLeft: '30%' }}>Sign In</Button>
+                    <Button role="submit" color="primary" style={{ marginLeft: '30%' }}>Sign in</Button>
                 </Form>
             );
         }

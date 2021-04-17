@@ -43,7 +43,7 @@ class Confirmation extends Component {
                         <h1 className="display-3">QP Generator</h1>
                         <p className="lead">SUCCESSFULLY VERIFIED</p>
                         <hr className="lead" />
-                        <p> You can Continue using the app for generating papers, by login for next time.</p>
+                        <p> You have successfully verified your account. You can login with your credentials and generate question papers.</p>
                     </Jumbotron>
                 );
             } else {

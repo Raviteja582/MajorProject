@@ -59,7 +59,7 @@ teacherRouter
                                 to: user.username,
                                 subject: "Confirmation of Registration",
                                 text: "You are Successful Registered",
-                                html: `<p>To Complete Your Registration, please click on the below link</p><br><br><a href=${url}>Register</a>`,
+                                html: `<p>To complete the registration process, please click on the link below</p><br><br><a href=${url}>Register</a>`,
                             };
                             transporter
                                 .sendMail(mailOptions)

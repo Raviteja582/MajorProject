@@ -166,7 +166,7 @@ class Signup extends Component {
                             <Link to="/signin">Login</Link>
                         </FormText>
                     </FormGroup>
-                    <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>Sign Up</Button>
+                    <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>Sign up</Button>
                 </Form>
             );
         else
@@ -174,9 +174,9 @@ class Signup extends Component {
                 <div>
                     <Jumbotron>
                         <h1 className="display-3">QP Generator</h1>
-                        <p className="lead">Thank You for Signing up to QP Generator</p>
+                        <p className="lead">Thanks for signing up with QP Generator.</p>
                         <hr className="my-2" />
-                        <p>Please Complete the Sign Up process by verifying the email account, by clicking the link forwarded to your mail given during the Registration process.</p>
+                        <p>Please complete the signup process by verifying your account using the link sent to your email address.</p>
                     </Jumbotron>
                 </div>
             );

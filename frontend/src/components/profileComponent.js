@@ -38,7 +38,7 @@ class Profile extends Component {
                 })
                 .catch((err) => {
                     this.setState({ isLoading: false });
-                    alert('Cannot Find Details');
+                    alert('Cannot Connect to Server!!!,  Logging Out...');
                 })
         }
     }

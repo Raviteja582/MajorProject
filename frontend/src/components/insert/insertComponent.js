@@ -32,7 +32,7 @@ class Insert extends Component {
 							<Select
 								options={this.props.options}
 								onChange={(e) => this.props.handleInput(this.props.index, -2, e)}
-								placeholder="Select The subject"
+								placeholder="Select subject"
 								value={this.props.formd.dummySubject}
 								isSearchable
 							//onMenuOpen={() => this.setState({ ans: "" })}
