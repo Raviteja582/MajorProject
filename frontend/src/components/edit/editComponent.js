@@ -7,7 +7,8 @@ import {
     Button,
     Form,
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle
+    CardTitle, CardSubtitle,
+    Row,Col
 } from "reactstrap";
 
 class Edit extends Component {
@@ -57,20 +58,38 @@ class Edit extends Component {
                                         onChange={(e) =>
                                             this.props.handleInput(i, e)
                                         }
+                                        disabled={this.props.removedQuestions[i]}
                                     />
                                     <InputGroupAddon addonType="append">
-                                        <Button
-                                            size="sm"
-                                            onClick={() => this.props.removeClick(i)}
-                                        >
-                                            X
-                                      </Button>
+                                        {
+                                            !this.props.removedQuestions[i] ?
+                                                <Button
+                                                    size="sm"
+                                                    onClick={() => this.props.removeClick(i)}
+                                                    color="danger"
+                                                >
+                                                    Remove
+                                                </Button> : <Button
+                                                    size="sm"
+                                                    onClick={() => this.props.removeClick(i)}
+                                                    color="success"
+                                                >
+                                                    Add
+                                                            </Button>
+                                        }
                                     </InputGroupAddon>
                                 </InputGroup>
                             </div>
                         ))
                     }
-                    <Button color="primary" role="submit">Submit</Button>
+                    <Row>
+                        <Col>
+                            <Button color="primary" role="submit" style={{ margin: '3%', marginLeft: '40%' }}>Submit</Button>
+                        </Col>
+                        <Col>
+                            <Button color="white" style={{ margin: '3%', marginLeft: '40%', border: '1px solid' }} onClick={(e) => this.props.handleCancel(e)}>Cancel</Button>
+                        </Col>
+                    </Row>
                 </Form>
             )
         }
