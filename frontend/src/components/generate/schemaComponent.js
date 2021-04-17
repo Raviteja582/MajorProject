@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { getSubjectDetails } from '../ActionCreators';
 import Select from "react-select";
 import Custome from './customeComponent';
-import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Row, Button, Form, FormGroup, Label} from 'reactstrap';
 import DatePicker from 'react-datepicker';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import localStorage from "local-storage";
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { baseUrl } from "../../url";
+import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,13 +18,17 @@ class Schema extends Component {
     constructor() {
         super();
         this.state = {
+            selectedSubject: '',
+            selectedType: '',
             subjects: [],
             isloading: false,
-            selected: "",
-            data: "",
-            examtype: "sem",
-            dummyExamType: "",
             my: '',
+            mids: {
+                month: new Date(),
+                date: new Date(),
+                start: '',
+                end: ''
+            },
             examOptions: [
                 {
                     label: 'Mid 1',
@@ -57,7 +62,6 @@ class Schema extends Component {
     }
     componentDidMount() {
         if (this.state.subjects.length === 0) {
-
             this.setState({ isloading: false });
             getSubjectDetails()
                 .then((res) => res.json())
@@ -76,7 +80,7 @@ class Schema extends Component {
                 })
                 .catch((err) => {
                     this.setState({ isloading: false });
-                    alert("Can't Connect to Server!!!, Logging Out...");
+                    alert("Cannot Connect to Server!!!, Logging Out...");
                     localStorage.clear();
                     window.location.reload();
                 });
@@ -84,16 +88,16 @@ class Schema extends Component {
     }
 
     handleType(e) {
-        this.setState({ examtype: e.value, dummyExamType: e });
+        this.setState({ selectedType: e });
     }
     handleSubject(e) {
-        this.setState({ selected: e, examtype: 'sem', dummyExamType: '' })
+        this.setState({ selectedSubject: e })
     }
     handleSubmit1(e) {
         e.preventDefault();
-        if (Object.keys(this.state.selected).length === 0) alert('Please Enter Required Details');
+        if (this.state.selectedSubject === '' && this.state.selectedType === '') alert('Please Enter Required Details');
         else {
-            var xs = { ...this.state.selected }
+            var xs = { ...this.state.selectedSubject }
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             xs.year = this.state.my.getFullYear();
             xs.month = months[this.state.my.getMonth()];
@@ -101,9 +105,11 @@ class Schema extends Component {
         }
     }
     handleSubmit2() {
-        var xs = { ...this.state.selected };
+        var xs = { ...this.state.mids, ...this.state.selectedSubject };
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        try {
+        if (this.state.mids.date === '' || this.state.mids.month === '' || this.state.mids.start === '' || this.state.mids.end === '')
+            alert('Please fill all the details');
+        else {
 
             xs.year = xs.month.getFullYear();
             xs.month = months[xs.month.getMonth()];
@@ -112,36 +118,27 @@ class Schema extends Component {
             xs.date = dat + '/' + mon + '/' + xs.date.getFullYear();
 
 
-            var sm = xs.starttime.split(':')
+            var sm = xs.start.split(':')
             var mer1 = Number(sm[0]) >= 12 ? 'PM' : 'AM'
             var hour1 = Number(sm[0]) >= 12 ? (Number(sm[0]) % 12 || 12) : Number(sm[0]);
             hour1 = hour1 < 10 ? '0' + hour1 : hour1;
-            xs.starttime = hour1 + ':' + sm[1] + ' ' + mer1;
+            xs.start = hour1 + ':' + sm[1] + ' ' + mer1;
 
-            sm = xs.endtime.split(':');
+            sm = xs.end.split(':');
             mer1 = Number(sm[0]) >= 12 ? 'PM' : 'AM';
             hour1 = Number(sm[0]) >= 12 ? (Number(sm[0]) % 12 || 12) : Number(sm[0]);
             hour1 = hour1 < 10 ? '0' + hour1 : hour1;
-            xs.endtime = hour1 + ':' + sm[1] + ' ' + mer1;
+            xs.end = hour1 + ':' + sm[1] + ' ' + mer1;
 
             if (this.state.examtype === 'mid1')
                 this.getMid1(xs);
             else
                 this.getMid2(xs);
-
-            this.setState({
-                selected: "",
-                dummyExamType: "",
-                data: "",
-                examtype: "sem",
-            })
-        } catch (err) {
-            alert(err);
         }
     }
 
     handleSchema(sectionw) {
-        var xs = { ...this.state.selected, ...sectionw };
+        var xs = { ...this.state.selectedSubject, ...sectionw };
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         xs.year = xs.my.getFullYear();
         xs.month = months[xs.my.getMonth()];
@@ -150,16 +147,18 @@ class Schema extends Component {
 
     // Mid Details
     handleMonth(e) {
-        this.setState({ selected: { ...this.state.selected, month: e } })
+        this.setState({ mids: { ...this.state.mids, month: e } })
     }
     handleDate(e) {
-        this.setState({ selected: { ...this.state.selected, date: e } });
+        this.setState({ mids: { ...this.state.mids, date: e } });
     }
     handleStart(e) {
-        this.setState({ selected: { ...this.state.selected, starttime: e.target.value } });
+        console.log(e);
+        this.setState({ mids: { ...this.state.mids, start: e } });
     }
     handleEnd(e) {
-        this.setState({ selected: { ...this.state.selected, endtime: e.target.value } });
+        console.log(e);
+        this.setState({ mids: { ...this.state.mids, end: e } });
     }
 
 
@@ -179,11 +178,16 @@ class Schema extends Component {
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
                 this.setState({
-                    isloading: false, selected: "",
-                    dummyExamType: "",
-                    data: "",
-                    examtype: "sem",
-                });
+                    isloading: false,
+                    selectedSubject: "",
+                    selectedType: "",
+                    mids: {
+                        month: '',
+                        date: '',
+                        start: '',
+                        end: ''
+                    }
+                })
             })
             .catch((err) => {
                 this.setState({ isloading: false });
@@ -207,11 +211,16 @@ class Schema extends Component {
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
                 this.setState({
-                    isloading: false, selected: "",
-                    dummyExamType: "",
-                    data: "",
-                    examtype: "sem",
-                });
+                    isloading: false,
+                    selectedSubject: "",
+                    selectedType: "",
+                    mids: {
+                        month: '',
+                        date: '',
+                        start: '',
+                        end: ''
+                    }
+                })
             })
             .catch((err) => {
                 this.setState({ isloading: false });
@@ -235,10 +244,10 @@ class Schema extends Component {
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
                 this.setState({
-                    isloading: false, selected: "",
-                    dummyExamType: "",
-                    data: "",
-                    examtype: "sem", my: ''
+                    isloading: false,
+                    my: '',
+                    selectedSubject: '',
+                    selectedType: ''
                 });
             })
             .catch((err) => {
@@ -264,11 +273,10 @@ class Schema extends Component {
                 var str = details.value + "_" + date_ob.getHours() + "_" + date_ob.getMinutes();
                 saveAs(pdfBlob, str + '.pdf');
                 this.setState({
-                    isloading: false, selected: "",
-                    dummyExamType: "",
-                    data: "",
-                    examtype: "sem",
-                });
+                    selectedSubject: "",
+                    selectedType: "",
+                    isloading: false
+                })
             })
             .catch((err) => {
                 this.setState({ isloading: false });
@@ -287,8 +295,10 @@ class Schema extends Component {
             )
         }
         else {
-            var value = "";
-            if (this.state.examtype === 'sem') {
+            var value = <div></div>;
+            if (this.state.selectedSubject === '' || this.state.selectedType === '')
+                value = <div></div>;
+            else if (this.state.selectedType.value === 'sem' && this.state.selectedSubject !== '') {
                 value = <div style={{ marginTop: "3%" }}>
                     <Form onSubmit={(e) => this.handleSubmit1(e)}>
                         <FormGroup>
@@ -307,8 +317,8 @@ class Schema extends Component {
                     </Form>
                 </div>
             }
-            else if (this.state.examtype === 'custom') {
-                value = <Custome handleSchema={this.handleSchema} subject={this.state.selected} />
+            else if (this.state.selectedType.value === 'custom' && this.state.selectedSubject !== '') {
+                value = <Custome handleSchema={this.handleSchema} subject={this.state.selectedSubject} />
             }
             else {
                 value =
@@ -318,7 +328,7 @@ class Schema extends Component {
                                 <Label for="exampleEmail">Select Month and Year of Semester</Label><br />
                                 <DatePicker
                                     required
-                                    selected={this.state.selected.month}
+                                    selected={this.state.mids.month}
                                     onChange={date => this.handleMonth(date)}
                                     dateFormat="MM/yyyy"
                                     showMonthYearPicker
@@ -326,30 +336,36 @@ class Schema extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="exampleAddress">Date of Exam</Label><br />
-                                <DatePicker required selected={this.state.selected.date} onChange={date => this.handleDate(date)} />
+                                <DatePicker
+                                    required
+                                    selected={this.state.mids.date}
+                                    onChange={date => this.handleDate(date)}
+                                />
                             </FormGroup>
                             <Row form>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label for="exampleEmail">Start Time</Label><br />
-                                        <Input
-                                            type="time"
-                                            name="time"
-                                            id="exampleTime"
-                                            placeholder="time placeholder"
+                                        <Label for="starttime">Start Time</Label><br />
+                                        <TimePicker
+                                            name="starttime"
+                                            id="starttime"
                                             onChange={(e) => this.handleStart(e)}
+                                            value={this.state.mids.start}
+                                            clockIcon={null}
+                                            disableClock={true}
                                         />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label for="examplePassword">End time</Label><br />
-                                        <Input
-                                            type="time"
-                                            name="time"
-                                            id="exampleTime"
-                                            placeholder="time placeholder"
+                                        <Label for="endtime">End time</Label><br />
+                                        <TimePicker
+                                            name="endtime"
+                                            id="endtime"
                                             onChange={(e) => this.handleEnd(e)}
+                                            value={this.state.mids.end}
+                                            clockIcon={null}
+                                            disableClock={true}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -364,16 +380,16 @@ class Schema extends Component {
                 <div style={{ width: "80%", margin: "3% auto" }}>
                     <label>Select Subject</label>
                     <Select name="subject" options={this.state.subjects}
-                        onChange={(e) => this.handleSubject(e)} required
-                        value={this.state.selected}
-                        onMenuOpen={() => this.setState({ selected: "" })}
+                        onChange={(e) => this.handleSubject(e)}
+                        value={this.state.selectedSubject}
+                        onMenuOpen={() => this.setState({ selectedSubject: "" })}
                     />
                     <label> Select Exam Type</label>
                     <Select name="exam" options={this.state.examOptions}
-                        onChange={(e) => this.handleType(e)} required
-                        value={this.state.dummyExamType}
+                        onChange={(e) => this.handleType(e)}
+                        value={this.state.selectedType}
                         onMenuOpen={() => this.setState({
-                            dummyExamType: ""
+                            selectedType: ""
                         })}
                     />
                     {value}

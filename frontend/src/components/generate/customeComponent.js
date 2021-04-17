@@ -47,7 +47,7 @@ class Custome extends Component {
             tAddModal: false,
             tRemoveModal: false,
             isloading: false,
-            my: '',
+            my: new Date(),
             duration: '',
             maxMarks: '',
             sublens: {
@@ -130,6 +130,7 @@ class Custome extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        // console.log(this.state.sections);
         this.props.handleSchema({ sections: this.state.sections, my: this.state.my, maxMarks: this.state.maxMarks, duration: this.state.duration });
         this.handleRemove();
     }
@@ -217,6 +218,7 @@ class Custome extends Component {
                                         name="maxMarks"
                                         value={this.state.maxMarks}
                                         onChange={(e) => this.handleDet(e)}
+                                        min={0}
                                     />
                                 </Col>
                                 <Col>
@@ -225,6 +227,7 @@ class Custome extends Component {
                                         name="duration"
                                         value={this.state.duration}
                                         onChange={(e) => this.handleDet(e)}
+                                        min={0}
                                     />
                                 </Col>
                             </Row>
@@ -258,6 +261,7 @@ class Custome extends Component {
                                                     value={this.state.sections[ind]['marks']}
                                                     onChange={(e) => this.handleInput(ind, e)}
                                                     required
+                                                    min={0}
                                                 />
                                             </FormGroup>
                                         </Col>
