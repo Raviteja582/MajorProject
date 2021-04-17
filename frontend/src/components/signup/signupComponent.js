@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { baseUrl } from "../../url";
-import { Col, Row, Button, Form, FormGroup, Label, Input, FormText, Jumbotron } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Jumbotron, UncontrolledTooltip } from 'reactstrap';
 import { WaveTopBottomLoading } from 'react-loadingg';
 import './index.css';
 
@@ -10,11 +10,9 @@ class Signup extends Component {
     constructor() {
         super();
         this.state = {
-            firstname: "",
-            lastname: "",
+            name: "",
             email: "",
             phno: "",
-            dob: "",
             password: "",
             rewrite: "",
             value: false,
@@ -29,12 +27,28 @@ class Signup extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        if (this.state.password === this.state.rewrite) {
-            this.Status(this.state);
-            this.setState({ isLoading: true });
+        if (/^[A-Za-z0-9]+(@bvrit\.ac\.in)$/.test(this.state.email)) {
+            if (/\+?\d[\d -]{8,12}\d$/.test(this.state.phno)) {
+                if (this.state.password === this.state.rewrite) {
+                    if (/[A-Za-z0-9]+.{8,32}$/.test(this.state.password)) {
+                        this.Status(this.state);
+                        this.setState({ isLoading: true });
+                    } else {
+                        this.setState({ password: "", rewrite: "" });
+                        alert("Password should not contain any special symbols.");
+                    }
+                } else {
+                    this.setState({ password: "", rewrite: "" });
+                    alert("Both Password Field's should be match");
+                }
+            } else {
+                this.setState({ phno: "" });
+                alert('Not a Vaid Phone Number');
+
+            }
         } else {
-            this.setState({ password: "", rewrite: "" });
-            alert("Both Password Field's should be match");
+            this.setState({ email: '' });
+            alert('Please use College provided email.');
         }
     }
 
@@ -52,11 +66,9 @@ class Signup extends Component {
             .then((response) => {
                 if (response.success) {
                     this.setState({
-                        firstname: "",
-                        lastname: "",
+                        name: "",
                         email: "",
                         phno: "",
-                        dob: "",
                         password: "",
                         rewrite: "",
                         value: true,
@@ -65,11 +77,9 @@ class Signup extends Component {
                 } else {
                     alert(response.message);
                     this.setState({
-                        firstname: "",
-                        lastname: "",
+                        name: "",
                         email: "",
                         phno: "",
-                        dob: "",
                         password: "",
                         rewrite: "",
                         value: false,
@@ -90,32 +100,16 @@ class Signup extends Component {
                     <h3 style={{ color: "blue", marginLeft: "40%" }}>
                         Sign Up
                         </h3>
-                    <Row form>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="firstname">First Name</Label>
-                                <Input type="text"
-                                    name="firstname"
-                                    value={this.state.firstname}
-                                    onChange={this.handleInput}
-                                    placeholder="First Name"
-                                    autoComplete="off"
-                                    required />
-                            </FormGroup>
-                        </Col>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="lastname">Last Name</Label>
-                                <Input type="text"
-                                    name="lastname"
-                                    value={this.state.lastname}
-                                    onChange={this.handleInput}
-                                    placeholder="Last Name"
-                                    autoComplete="off"
-                                    required />
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                    <FormGroup>
+                        <Label for="name">Name</Label>
+                        <Input type="text"
+                            name="name"
+                            value={this.state.name}
+                            onChange={this.handleInput}
+                            placeholder="First Name"
+                            autoComplete="off"
+                            required />
+                    </FormGroup>
                     <FormGroup>
                         <Label for="email">Email</Label>
                         <Input type="email"
@@ -127,7 +121,7 @@ class Signup extends Component {
                             autoComplete="off" />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="phno">Phno Number</Label>
+                        <Label for="phno">Phone Number</Label>
                         <Input type="text"
                             name="phno"
                             value={this.state.phno}
@@ -137,21 +131,10 @@ class Signup extends Component {
                             required />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="date">Date</Label>
-                        <Input
-                            type="date"
-                            name="dob"
-                            value={this.state.dob}
-                            onChange={this.handleInput}
-                            placeholder="Date of Birth"
-                            autoComplete="off"
-                            required
-                        />
-                    </FormGroup>
-                    <FormGroup>
                         <Label for="password">Password</Label>
                         <Input
                             type="password"
+                            id="UncontrolledTooltipExample1"
                             name="password"
                             value={this.state.password}
                             onChange={this.handleInput}
@@ -159,11 +142,15 @@ class Signup extends Component {
                             autoComplete="off"
                             required
                         />
+                        <UncontrolledTooltip placement="left" target="UncontrolledTooltipExample1" style={{ width: '500%' }}>
+                            At least 8 characters in length, but no more than 32.
+                        </UncontrolledTooltip>
                     </FormGroup>
                     <FormGroup>
                         <Label for="rewrite">Re-Enter Password</Label>
                         <Input
                             type="password"
+                            id="UncontrolledTooltipExample2"
                             name="rewrite"
                             value={this.state.rewrite}
                             onChange={this.handleInput}
@@ -171,12 +158,15 @@ class Signup extends Component {
                             autoComplete="off"
                             required
                         />
+                        <UncontrolledTooltip placement="left" target="UncontrolledTooltipExample2" style={{ width: '500%' }}>
+                            At least 8 characters in length, but no more than 32.
+                        </UncontrolledTooltip>
                         <FormText color="muted">
                             Already Have Account?{" "}
                             <Link to="/signin">Login</Link>
                         </FormText>
                     </FormGroup>
-                    <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>Sign in</Button>
+                    <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>Sign Up</Button>
                 </Form>
             );
         else

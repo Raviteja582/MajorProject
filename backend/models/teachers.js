@@ -4,17 +4,9 @@ const Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
 const teacherSchema = new Schema({
-    firstname:{
-        type:String,
-        default:''
-    },
-    lastname:{
+    name: {
         type: String,
-        default:''
-    },
-    dob:{
-        type: String,
-        default:''
+        default: ''
     },
     phno:{
         type: String,

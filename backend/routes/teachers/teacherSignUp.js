@@ -31,10 +31,8 @@ teacherRouter
                         message: 'Already User with Email is Present'
                     });
                 } else {
-                    user.firstname = req.body.firstname;
-                    user.lastname = req.body.lastname;
+                    user.name = req.body.name;
                     user.phno = req.body.phno;
-                    user.dob = req.body.dob;
                     user.save((err, user) => {
                         if (err) {
                             res.statusCode = 200;
