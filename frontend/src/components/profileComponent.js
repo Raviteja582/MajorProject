@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getProfile, updateProfile } from './ActionCreators';
 import { WaveTopBottomLoading } from 'react-loadingg';
-import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Row, Button, Form, FormGroup, Label, Input, UncontrolledTooltip } from 'reactstrap';
 import localStorage from 'local-storage';
 
 class Profile extends Component {
@@ -9,17 +9,13 @@ class Profile extends Component {
         super()
         this.state = {
             user: {
-                firstname: '',
-                lastname: '',
+                name: '',
                 phno: '',
-                dob: '',
                 username: ''
             },
             updated: {
-                firstname: '',
-                lastname: '',
+                name: '',
                 phno: '',
-                dob: '',
                 username: '',
                 password: '',
                 rewrite: ''
@@ -33,7 +29,7 @@ class Profile extends Component {
         this.handleInput = this.handleInput.bind(this);
     }
     componentDidMount() {
-        if (this.state.user.firstname === '') {
+        if (this.state.user.name === '') {
             this.setState({ isLoading: true });
             getProfile()
                 .then((res) => res.json())
@@ -103,28 +99,14 @@ class Profile extends Component {
                     <h3 style={{ color: "blue", marginLeft: "40%" }}>
                         Profile
                         </h3>
-                    <Row form>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="firstname">First Name</Label>
-                                <Input type="text"
-                                    name="firstname"
-                                    value={this.state.user.firstname}
-                                    disabled={this.state.isDisabled}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="lastname">Last Name</Label>
-                                <Input type="text"
-                                    name="lastname"
-                                    value={this.state.user.lastname}
-                                    disabled={this.state.isDisabled}
-                                />
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                    <FormGroup>
+                        <Label for="name">Name</Label>
+                        <Input type="text"
+                            name="name"
+                            value={this.state.user.name}
+                            disabled={this.state.isDisabled}
+                        />
+                    </FormGroup>
                     <FormGroup>
                         <Label for="email">Email</Label>
                         <Input type="email"
@@ -141,15 +123,6 @@ class Profile extends Component {
                             disabled={this.state.isDisabled}
                         />
                     </FormGroup>
-                    <FormGroup>
-                        <Label for="date">Date</Label>
-                        <Input
-                            type="date"
-                            name="dob"
-                            value={this.state.user.dob}
-                            disabled={this.state.isDisabled}
-                        />
-                    </FormGroup>
                     <Button color="primary" style={{ margin: "0px 40%" }} onClick={() => this.handleUpdate()}>Update</Button>
                 </Form>
             )
@@ -160,91 +133,82 @@ class Profile extends Component {
                     <h3 style={{ color: "blue", marginLeft: "40%" }}>
                         Profile
                         </h3>
-                    <Row form>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="firstname">First Name</Label>
-                                <Input type="text"
-                                    name="firstname"
-                                    value={this.state.updated.firstname}
-                                    onChange={(e) => this.handleInput(e)}
-                                    placeholder="First Name"
-                                    autoComplete="off"
-                                    required
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label for="lastname">Last Name</Label>
-                                <Input type="text"
-                                    name="lastname"
-                                    value={this.state.updated.lastname}
-                                    onChange={(e) => this.handleInput(e)}
-                                    placeholder="First Name"
-                                    autoComplete="off"
-                                    required
-                                />
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                    <FormGroup>
+                        <Label for="name">Name</Label>
+                        <Input type="text"
+                            name="name"
+                            value={this.state.updated.lastname}
+                            onChange={(e) => this.handleInput(e)}
+                            placeholder="Name"
+                            autoComplete="off"
+                            required
+                        />
+                    </FormGroup>
                     <FormGroup>
                         <Label for="email">Email</Label>
                         <Input type="email"
                             name="username"
+                            id='email'
                             value={this.state.updated.username}
                             onChange={(e) => this.handleInput(e)}
-                            placeholder="First Name"
+                            placeholder="Email"
                             autoComplete="off"
+                            pattern="^[A-Za-z0-9]+(@bvrit\.ac\.in)$"
                             required
                         />
+                        <UncontrolledTooltip placement="left" target="email" style={{ width: '500%' }}>
+                            Please use College email Id.
+                        </UncontrolledTooltip>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="phno">Phno Number</Label>
+                        <Label for="phno">Phone Number</Label>
                         <Input type="text"
                             name="phno"
+                            id="phno"
                             value={this.state.updated.phno}
                             onChange={(e) => this.handleInput(e)}
                             placeholder="First Name"
                             autoComplete="off"
+                            pattern="\+?\d[\d -]{8,12}\d$"
                             required
                         />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="date">Date</Label>
-                        <Input
-                            type="date"
-                            name="dob"
-                            value={this.state.updated.dob}
-                            onChange={(e) => this.handleInput(e)}
-                            placeholder="First Name"
-                            autoComplete="off"
-                            required
-                        />
+                        <UncontrolledTooltip placement="left" target="phno" style={{ width: '500%' }}>
+                            Please use valid Mobile number.
+                        </UncontrolledTooltip>
                     </FormGroup>
                     <FormGroup>
                         <Label for="password">Password</Label>
                         <Input
                             type="password"
                             name="password"
+                            id="password"
                             value={this.state.updated.password}
                             onChange={(e) => this.handleInput(e)}
                             placeholder="Password"
                             autoComplete="off"
+                            pattern="[A-Za-z0-9]+.{8,32}$"
                             required
                         />
+                        <UncontrolledTooltip placement="left" target="password" style={{ width: '500%' }}>
+                            At least 8 characters in length, but no more than 32.
+                        </UncontrolledTooltip>
                     </FormGroup>
                     <FormGroup>
                         <Label for="rewrite">Re-Enter Password</Label>
                         <Input
                             type="password"
                             name="rewrite"
+                            id="rewrite"
                             value={this.state.updated.rewrite}
                             onChange={(e) => this.handleInput(e)}
                             placeholder="Re-Enter Password"
                             autoComplete="off"
+                            pattern="[A-Za-z0-9]+.{8,32}$"
                             required
                         />
+                        <UncontrolledTooltip placement="left" target="rewrite" style={{ width: '500%' }}>
+                            At least 8 characters in length, but no more than 32.
+                        </UncontrolledTooltip>
                     </FormGroup>
                     <FormGroup>
                         <Row>
