@@ -8,6 +8,8 @@ import {
   Label,
   Input,
   FormText,
+  Row,
+  Col,
 } from "reactstrap";
 import { baseUrl } from "../../url";
 import localStorage from "local-storage";
@@ -88,47 +90,58 @@ class Login extends Component {
         );
       }
       return (
-        <div>
-              <img src="/back.jpeg" alt="vishu logo" style={{ marginLeft: '40%'}}/>
-          <Form
-            onSubmit={this.handleSubmit}
-            style={{ width: "60%", margin: "20px auto" }}
-          >
-            {block}
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                type="text"
-                name="username"
-                value={this.state.cred.username}
-                onChange={this.handleInput}
-                placeholder="Email"
-                autoComplete="off"
-                required
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="password">Password</Label>
-              <Input
-                type="password"
-                name="password"
-                value={this.state.cred.password}
-                onChange={this.handleInput}
-                placeholder="Password"
-                required
-              />
-              <FormText color="muted" style={{ marginLeft: "63%" }}>
-                Forget Username/Password?{" "}
-                <Link to="/forgot" style={{ textDecoration: "underline" }}>
-                  Click here
-                </Link>
-              </FormText>
-            </FormGroup>
-            <Button role="submit" color="primary" style={{ marginLeft: "30%" }}>
-              Sign in
-            </Button>
-          </Form>
-        </div>
+        <Row style={{justifyContent: 'center', marginLeft: '12%', marginTop: '5%', marginRight: '10%', marginBottom: '1%', padding: '2%'}}>
+          <Col xs={12} md={2} style={{ padding: '1em'}}>
+            <img
+              src="/back.jpeg"
+              alt="vishu logo"
+              width="290em"
+            />
+          </Col>
+          <Col xs={12} md={10} style={{ paddingLeft: '10%'}}>
+            <Form
+              onSubmit={this.handleSubmit}
+            >
+              {block}
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input
+                  type="text"
+                  name="username"
+                  value={this.state.cred.username}
+                  onChange={this.handleInput}
+                  placeholder="Email"
+                  autoComplete="off"
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="password">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  value={this.state.cred.password}
+                  onChange={this.handleInput}
+                  placeholder="Password"
+                  required
+                />
+                <FormText color="muted">
+                  Forget Username/Password?{" "}
+                  <Link to="/forgot" style={{ textDecoration: "underline" }}>
+                    Click here
+                  </Link>
+                </FormText>
+              </FormGroup>
+              <Button
+                role="submit"
+                color="primary"
+                style={{ marginLeft: "30%" }}
+              >
+                Sign in
+              </Button>
+            </Form>
+          </Col>
+        </Row>
       );
     }
   }

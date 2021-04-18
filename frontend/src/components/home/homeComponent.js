@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Provider, Heading, Subhead, Flex, NavLink, Box, Pre } from "rebass";
+import { Row, Col } from "reactstrap";
 import {
   Hero,
   CallToAction,
@@ -61,8 +62,7 @@ class App extends Component {
         <Heading textAlign="center">Why do this Project?</Heading>
         <Subhead textAlign="center">maybe this will help</Subhead>
         <Checklist
-          width={1000}
-          style={{ marginLeft: "25%" }}
+          style={{ padding: "2em" }}
           checkmark="★"
           children={[
             "Automate the Task",
@@ -81,45 +81,58 @@ class App extends Component {
             avatar="/guide.jpg"
           ></Contributor>
         </Section>
-        <Heading textAlign="center" >Made by</Heading>
-        <Flex justifyContent="space-around" mt={4}>
-          <Contributor
-            fullName="Gireesh Chandra Busam"
-            title="17211A0581"
-            avatar="/gireesh1.jpeg"
-          >
-            <Flex>
-              <NavLink href="https://github.com/gireeshchandra">GitHub</NavLink>
-            </Flex>
-          </Contributor>
-          <Contributor
-            fullName="Ravi Teja Girijala"
-            title="17211A0582"
-            avatar="/linux.png"
-          >
-            <Flex>
-              <NavLink href="https://github.com/Raviteja582">GitHub</NavLink>
-            </Flex>
-          </Contributor>
-          <Contributor
-            fullName="Nag Pavan"
-            title="17211A0599"
-            avatar="/np.png"
-          >
-            <Flex>
-              <NavLink href="#">GitHub</NavLink>
-            </Flex>
-          </Contributor>
-          <Contributor
-            fullName="Tiger Naresh"
-            title="18211A0518"
-            avatar="/tiger.png"
-          >
-            <Flex>
-              <NavLink href="#">GitHub</NavLink>
-            </Flex>
-          </Contributor>
-        </Flex>
+        <Heading textAlign="center">Made by</Heading>
+          <Row>
+            <Col md={3} xs={6}>
+              <Contributor
+                fullName="Gireesh Chandra Busam"
+                title="17211A0581"
+                avatar="/gireesh1.jpeg"
+                className="d-flex flex-sm-column"
+              >
+                <Flex>
+                  <NavLink href="https://github.com/gireeshchandra">
+                    GitHub
+                  </NavLink>
+                </Flex>
+              </Contributor>
+            </Col>
+            <Col md={3} xs={6}>
+              <Contributor
+                fullName="Ravi Teja Girijala"
+                title="17211A0582"
+                avatar="/linux.png"
+              >
+                <Flex>
+                  <NavLink href="https://github.com/Raviteja582">
+                    GitHub
+                  </NavLink>
+                </Flex>
+              </Contributor>
+            </Col>
+            <Col md={3} xs={6}>
+              <Contributor
+                fullName="Naga Pavan Reddy"
+                title="17211A0599"
+                avatar="/np.png"
+              >
+                <Flex>
+                  <NavLink href="#">GitHub</NavLink>
+                </Flex>
+              </Contributor>
+            </Col>
+            <Col md={3} xs={6}>
+              <Contributor
+                fullName="Kommu Naresh Tiger"
+                title="18215A0518"
+                avatar="/tiger.png"
+              >
+                <Flex>
+                  <NavLink href="#">GitHub</NavLink>
+                </Flex>
+              </Contributor>
+            </Col>
+          </Row>
       </Provider>
     );
   }

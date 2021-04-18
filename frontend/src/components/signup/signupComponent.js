@@ -190,7 +190,7 @@ class Signup extends Component {
             Already Have Account? <Link to="/signin">Login</Link>
           </FormText>
 
-          <Button role="submit" color="primary" style={{ margin: "0px 40%" }}>
+          <Button role="submit" color="primary" style={{ marginLeft: "40%" }}>
             Sign up
           </Button>
         </Form>
