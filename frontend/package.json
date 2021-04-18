@@ -24,6 +24,8 @@
     "react-select": "^4.3.0",
     "react-time-picker": "^4.2.1",
     "react-transition-group": "^4.4.1",
+    "react-landing-page": "^2.0.2",
+    "styled-components": "^5.2.3",
     "reactstrap": "^8.9.0",
     "web-vitals": "^0.2.4",
     "yarn": "^1.22.10"

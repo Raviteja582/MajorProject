@@ -70,7 +70,7 @@ class Options extends Component {
 
     handleInput(i, e) {
         var xs = [...this.state.questions]
-        xs[i].name = e.target.value;
+        xs[i].name = e.target.value.trimLeft();
         this.setState({ questions: xs });
     }
 
@@ -97,7 +97,8 @@ class Options extends Component {
         var xs = [];
         for (var i = 0; i < this.state.questions.length; i++){
             if (!this.state.removedQuestions[i]) {
-                xs.push(this.state.questions[i]);
+                var sp = { ...this.state.questions[i], name: this.state.questions[i].name.trim() }
+                xs.push(sp);
             }
         }
         this.setState({ isLoading: true });
@@ -205,7 +206,7 @@ class Options extends Component {
                                     />
                                 </FormGroup>
                                 <FormGroup style={{ margin: "0px 30%" }}>
-                                    <Button color="primary" onClick={(e) => this.handleSubmit(e)}>Submit</Button>
+                                    <Button color="primary" onClick={(e) => this.handleSubmit(e)} disabled={this.state.questions.length !== 0}>Submit</Button>
                                 </FormGroup>
                             </Form>
                         </Col>

@@ -21,6 +21,7 @@ const SignNav = (props) => {
                 <Navbar color="light" light expand="md">
                     <NavbarBrand>
                         <NavLink tag={Link} to="/home" style={{ color: "black" }}>
+                        <img src="/favicon.ico" alt="icon" width={60}/> { "  "}
                             QP Generator
                     </NavLink> 
                     </NavbarBrand>

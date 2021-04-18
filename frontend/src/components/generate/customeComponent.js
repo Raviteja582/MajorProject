@@ -210,6 +210,7 @@ class Custome extends Component {
                                         onChange={date => this.handleMonth(date)}
                                         dateFormat="MM/yyyy"
                                         showMonthYearPicker
+                                        minDate={new Date()}
                                     />
                                 </Col>
                                 <Col>

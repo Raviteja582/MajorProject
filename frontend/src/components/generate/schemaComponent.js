@@ -309,6 +309,7 @@ class Schema extends Component {
                                 onChange={date => this.handleMonth1(date)}
                                 dateFormat="MM/yyyy"
                                 showMonthYearPicker
+                                minDate={new Date()}
                             />
                         </FormGroup>
                         <Button role="submit" color="primary" style={{ margin: "7px" }}>
@@ -331,7 +332,8 @@ class Schema extends Component {
                                     selected={this.state.mids.month}
                                     onChange={date => this.handleMonth(date)}
                                     dateFormat="MM/yyyy"
-                                    showMonthYearPicker
+                                showMonthYearPicker
+                                minDate={new Date()}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -339,7 +341,8 @@ class Schema extends Component {
                                 <DatePicker
                                     required
                                     selected={this.state.mids.date}
-                                    onChange={date => this.handleDate(date)}
+                                onChange={date => this.handleDate(date)}
+                                minDate={new Date()}
                                 />
                             </FormGroup>
                             <Row form>
