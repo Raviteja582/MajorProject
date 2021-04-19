@@ -14,7 +14,6 @@ import {
 import { baseUrl } from "../../url";
 import localStorage from "local-storage";
 import { WaveTopBottomLoading } from "react-loadingg";
-import "./index.css";
 
 const ModalExample = (props) => {
   const history = useHistory();

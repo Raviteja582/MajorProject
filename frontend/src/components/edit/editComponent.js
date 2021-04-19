@@ -16,29 +16,29 @@ class Edit extends Component {
     render() {
         if (this.props.isEmpty)
             return (
-                <div>
+                <Row xs={12}>
                     <Card>
-                        <CardImg top width="10%" height="615em" src="/img/demo.jpg" alt="Card image cap" />
+                        <CardImg top height="615em" src="/img/demo.jpg" alt="Card image cap" />
                         <CardBody>
                             <CardTitle tag="h5">Fill in the Details</CardTitle>
                             <CardSubtitle tag="h6" className="mb-2 text-muted">View the questions which are present in the database</CardSubtitle>
                             <CardText>Select Subject, Unit and Difficulty to Access, Modify and Update the Questions as required.</CardText>
                         </CardBody>
                     </Card>
-                </div>
+                </Row>
             )
         else if (this.props.questions.length === 0) {
             return (
-                <div>
+                <Row xs={12}>
                     <Card>
-                        <CardImg top width="10%" height="655em" src="/img/noquestion.png" alt="Card image cap" />
+                        <CardImg top height="615em" src="/img/noquestion.png" alt="Card image cap" />
                         <CardBody>
                             <CardTitle tag="h5">No Questions Found</CardTitle>
                             <CardSubtitle tag="h6" className="mb-2 text-muted">Seems Like No question has Inserted in these Section.</CardSubtitle>
                             <CardText>Go to Insert Option from Above Options and Insert the Question.</CardText>
                         </CardBody>
                     </Card>
-                </div>
+                </Row>
             )
         }
         else {
@@ -46,10 +46,10 @@ class Edit extends Component {
                 <Form onSubmit={(e) => this.props.handleSubmit1(e)}>
                     {
                         this.props.questions.map((el, i) => (
-                            <div key={i} style={{ paddingTop: "5px" }}>
+                            <div key={i} style={{ paddingTop: "0.8em" }}>
                                 <InputGroup>
                                     <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>Q: {i + 1}</InputGroupText>
+                                        <InputGroupText>{i + 1}</InputGroupText>
                                     </InputGroupAddon>
                                     <Input
                                         placeholder="Enter the Question"
@@ -68,13 +68,13 @@ class Edit extends Component {
                                                     onClick={() => this.props.removeClick(i)}
                                                     color="danger"
                                                 >
-                                                    Remove
+                                                    X
                                                 </Button> : <Button
                                                     size="sm"
                                                     onClick={() => this.props.removeClick(i)}
                                                     color="success"
                                                 >
-                                                    Add
+                                                    +
                                                             </Button>
                                         }
                                     </InputGroupAddon>
@@ -82,12 +82,14 @@ class Edit extends Component {
                             </div>
                         ))
                     }
-                    <Row>
-                        <Col>
-                            <Button color="primary" role="submit" style={{ margin: '3%', marginLeft: '40%' }}>Submit</Button>
+                    <Row style={{margin: '0.8em'}}>
+                        <Col xs={12} sm={6}>
+                            <Button color="primary" role="submit" >Submit</Button>
                         </Col>
-                        <Col>
-                            <Button color="white" style={{ margin: '3%', marginLeft: '40%', border: '1px solid' }} onClick={(e) => this.props.handleCancel(e)}>Cancel</Button>
+                        <br />
+                        <br />
+                        <Col xs={12} sm={6}>
+                            <Button color="white" style={{border: '1px solid'}} onClick={(e) => this.props.handleCancel(e)}>Cancel</Button>
                         </Col>
                     </Row>
                 </Form>

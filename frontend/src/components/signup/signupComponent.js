@@ -13,7 +13,6 @@ import {
   Col,
 } from "reactstrap";
 import { WaveTopBottomLoading } from "react-loadingg";
-import "./index.css";
 
 class Signup extends Component {
   constructor() {
@@ -103,9 +102,9 @@ class Signup extends Component {
       return (
         <Form
           onSubmit={this.handleSubmit}
-          style={{ width: "95%", margin: "5px auto", padding: "2%" }}
+          style={{margin: "5px auto", padding: "2%" }}
         >
-          <h3 style={{ color: "blue", marginLeft: "40%" }}>Sign Up</h3>
+          <h3 style={{ color: "blue", marginLeft: "30vw" }}>Sign Up</h3>
           <FormGroup>
             <Label for="name">Name</Label>
             <Input
@@ -190,7 +189,7 @@ class Signup extends Component {
             Already Have Account? <Link to="/signin">Login</Link>
           </FormText>
 
-          <Button role="submit" color="primary" style={{ marginLeft: "40%" }}>
+          <Button role="submit" color="primary" style={{ marginLeft: "30vw" }}>
             Sign up
           </Button>
         </Form>

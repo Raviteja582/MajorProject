@@ -93,7 +93,7 @@ class Update extends Component {
     }
     return (
       <Row style={{ margin: '3%' }}>
-        <Col sm={8}>
+        <Col sm={12} md={8}>
           <Form onSubmit={this.handleSubmit}>
             <FormGroup>
               <Label for="password">New Password</Label>
@@ -128,7 +128,7 @@ class Update extends Component {
             </Button>
           </Form>
         </Col>
-        <Col sm={4}>
+        <Col sm={12} md={8}>
           <ol>
             <li>At least one digit [0-9]</li>
             <li>At least one lowercase character [a-z]</li>

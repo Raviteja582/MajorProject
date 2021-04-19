@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./style.css";
 import {
   Button,
   Modal,
@@ -300,11 +299,11 @@ class Alpha extends Component {
       return <WaveTopBottomLoading />;
     } else
       return (
-        <div className="container">
-          <div className="list1">
+        <Row style={{ margin: "0.5em" }}>
+          <Col md={12} lg={3}>
             <Details />
-          </div>
-          <div className="list2">
+          </Col>
+          <Col md={12} lg={9}>
             <form onSubmit={this.handleSubmit2}>
               {this.state.ques.map((el, i) => (
                 <Insert
@@ -320,54 +319,54 @@ class Alpha extends Component {
                   toggleRemove={this.toggleRemove}
                 />
               ))}
-              <Row style={{ marginTop: "2%" }}>
-                <Col sm={2}>
-                  <Button
-                    color="primary"
-                    className="addmore"
-                    onClick={() => this.addClick()}
-                  >
+              <Row style={{ margin: "1em" }} xs={12}>
+                <Col sm={12} md={4}>
+                  <Button color="primary" onClick={() => this.addClick()}>
                     Add more
                   </Button>
                 </Col>
-                <Col sm={2}>
-                  <Button className="addmore" role="submit" color="primary">
+                <br />
+                <br />
+                <Col sm={12} md={4}>
+                  <Button role="submit" color="primary">
                     Submit
                   </Button>
                 </Col>
-                <Col sm={8} style={{ paddingLeft: "40%" }}>
+                <br />
+                <br />
+                <Col sm={12} md={4}>
                   <Button
                     color="danger"
-                    className="addmore"
                     onClick={() => this.toggleRemoveAll()}
+                    disabled={this.state.ques.length === 1}
                   >
                     Remove All
                   </Button>
                 </Col>
               </Row>
-              <Modal
-                isOpen={this.state.tRemoveAll}
-                toggle={() => this.toggleRemoveAll()}
-              >
-                <ModalHeader toggle={() => this.toggleRemoveAll()}>
-                  Modal title
-                </ModalHeader>
-                <ModalBody>Do you want remove all the Questions?</ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="secondary"
-                    onClick={() => this.toggleRemoveAll()}
-                  >
-                    Cancel
-                  </Button>{" "}
-                  <Button color="danger" onClick={() => this.removeAllForm()}>
-                    Yes
-                  </Button>
-                </ModalFooter>
-              </Modal>
             </form>
-          </div>
-        </div>
+            <Modal
+              isOpen={this.state.tRemoveAll}
+              toggle={() => this.toggleRemoveAll()}
+            >
+              <ModalHeader toggle={() => this.toggleRemoveAll()}>
+                Modal title
+              </ModalHeader>
+              <ModalBody>Do you want remove all the Questions?</ModalBody>
+              <ModalFooter>
+                <Button
+                  color="secondary"
+                  onClick={() => this.toggleRemoveAll()}
+                >
+                  Cancel
+                </Button>{" "}
+                <Button color="danger" onClick={() => this.removeAllForm()}>
+                  Yes
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </Col>
+        </Row>
       );
   }
 }

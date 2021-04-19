@@ -130,8 +130,8 @@ class Profile extends Component {
       return <WaveTopBottomLoading />;
     } else if (this.state.isDisabled) {
       return (
-        <Form style={{ width: "95%", margin: "5px auto", padding: "2%" }}>
-          <h3 style={{ color: "blue", marginLeft: "40%" }}>Profile</h3>
+        <Form style={{ margin: "2% 7%" }}>
+          <h3 style={{ color: "blue", marginLeft: "30vw" }}>Profile</h3>
           <FormGroup>
             <Label for="name">Name</Label>
             <Input
@@ -161,7 +161,7 @@ class Profile extends Component {
           </FormGroup>
           <Button
             color="primary"
-            style={{ margin: "0px 40%" }}
+            style={{ marginLeft: '30vw'}}
             onClick={() => this.handleUpdate()}
           >
             Update
@@ -172,9 +172,9 @@ class Profile extends Component {
       return (
         <Form
           onSubmit={this.handleSubmit}
-          style={{ width: "95%", margin: "5px auto", padding: "2%" }}
+          style={{ margin: "5px 7%" }}
         >
-          <h3 style={{ color: "blue", marginLeft: "40%" }}>Profile</h3>
+          <h3 style={{ color: "blue", marginLeft: "30vw" }}>Profile</h3>
           <FormGroup>
             <Label for="name">Name</Label>
             <Input
@@ -230,7 +230,7 @@ class Profile extends Component {
             </UncontrolledTooltip>
           </FormGroup>
           <Row>
-            <Col sm={8}>
+            <Col sm={12} md={8}>
               <FormGroup>
                 <Label for="password">Password</Label>
                 <Input
@@ -258,7 +258,7 @@ class Profile extends Component {
                 />
               </FormGroup>
             </Col>
-            <Col sm={4}>
+            <Col sm={12} md={4}>
               <ol>
                 <li>At least one digit [0-9]</li>
                 <li>At least one lowercase character [a-z]</li>
@@ -271,28 +271,24 @@ class Profile extends Component {
               </ol>
             </Col>
           </Row>
-          <FormGroup>
-            <Row>
-              <Col>
-                <Button
-                  role="submit"
-                  color="success"
-                  style={{ margin: "0px 40%" }}
-                >
-                  Update
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  color="white"
-                  style={{ margin: "0px 40%", border: "1px solid" }}
-                  onClick={() => this.handleUpdate()}
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Row>
-          </FormGroup>
+          <Row>
+            <Col xs={12} sm={6}>
+              <Button role="submit" color="success">
+                Update
+              </Button>
+            </Col>
+            <br />
+            <br />
+            <Col xs={12} sm={6}>
+              <Button
+                color="white"
+                style={{ border: "1px solid" }}
+                onClick={() => this.handleUpdate()}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
         </Form>
       );
     }

@@ -22,7 +22,7 @@ const AdminLoginNav = (props) => {
 
   return (
     <div style={{ width: "100vw" }}>
-      <Navbar color="light" light expand="md">
+      <Navbar color="light" light expand="lg">
         <NavbarBrand>
           <NavLink to="/home" tag={Link} style={{ color: "black" }}>
             <img src="/favicon.ico" alt="icon" width={60} /> {"  "}
