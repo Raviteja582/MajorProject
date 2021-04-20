@@ -90,7 +90,7 @@ class Forgot extends Component {
               autoComplete="off"
             />
           </FormGroup>
-          <Button role="submit" style={{ marginTop: "5%", marginLeft: '20vw', marginBottom: '5%' }} color="primary">
+          <Button role="submit" size="md" outline style={{ marginTop: "5%", marginLeft: '20vw', marginBottom: '5%' }} color="danger">
             Submit
           </Button>
         </Form>

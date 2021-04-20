@@ -89,18 +89,21 @@ class Login extends Component {
         );
       }
       return (
-        <Row style={{justifyContent: 'center', marginLeft: '12%', marginTop: '5%', marginRight: '10%', marginBottom: '1%', padding: '2%'}}>
-          <Col xs={12} md={2} style={{ padding: '1em'}}>
-            <img
-              src="/back.jpeg"
-              alt="vishu logo"
-              width="290em"
-            />
+        <Row
+          style={{
+            justifyContent: "center",
+            marginLeft: "12%",
+            marginTop: "5%",
+            marginRight: "10%",
+            marginBottom: "1%",
+            padding: "2%",
+          }}
+        >
+          <Col xs={12} md={2} style={{ padding: "1em" }}>
+            <img src="/back.jpeg" alt="vishu logo" width="200em" />
           </Col>
-          <Col xs={12} md={10} style={{ paddingLeft: '10%'}}>
-            <Form
-              onSubmit={this.handleSubmit}
-            >
+          <Col xs={12} md={10} style={{ paddingLeft: "10%" }}>
+            <Form onSubmit={this.handleSubmit}>
               {block}
               <FormGroup>
                 <Label for="email">Email</Label>
@@ -133,8 +136,10 @@ class Login extends Component {
               </FormGroup>
               <Button
                 role="submit"
-                color="primary"
-                style={{ marginLeft: "30%" }}
+                color="info"
+                size="md"
+                outline
+                style={{ marginLeft: "25%" }}
               >
                 Sign in
               </Button>

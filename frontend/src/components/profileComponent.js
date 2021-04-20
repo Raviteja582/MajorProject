@@ -11,6 +11,7 @@ import {
   Input,
   UncontrolledTooltip,
 } from "reactstrap";
+import { postLogout } from "./ActionCreators";
 import localStorage from "local-storage";
 
 class Profile extends Component {
@@ -26,8 +27,6 @@ class Profile extends Component {
         name: "",
         phno: "",
         username: "",
-        password: "",
-        rewrite: "",
       },
       isLoading: false,
       isDisabled: true,
@@ -38,6 +37,7 @@ class Profile extends Component {
     this.handleInput = this.handleInput.bind(this);
   }
   componentDidMount() {
+    console.log(this.state.user);
     if (this.state.user.name === "") {
       this.setState({ isLoading: true });
       getProfile()
@@ -52,7 +52,8 @@ class Profile extends Component {
     }
   }
 
-  handleUpdate() {
+  handleUpdate(e) {
+    e.preventDefault();
     this.setState({
       isDisabled: !this.state.isDisabled,
       isUpdate: !this.state.isUpdate,
@@ -64,47 +65,31 @@ class Profile extends Component {
     e.preventDefault();
     if (/^[A-Za-z0-9.]+(@bvrit\.ac\.in)$/.test(this.state.updated.username)) {
       if (/\+?\d[\d -]{8,12}\d$/.test(this.state.updated.phno)) {
-        if (this.state.updated.password === this.state.updated.rewrite) {
-          if (
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,32}$/.test(
-              this.state.updated.password
-            )
-          ) {
-            this.setState({ isLoading: true });
-            updateProfile(this.state.updated)
-              .then((res) => res.json())
-              .then((res) => {
-                if (res.success) {
-                  if (
-                    this.state.user.username !== this.state.updated.username
-                  ) {
-                    alert("Logging out....");
-                    localStorage.clear();
-                    window.location.reload();
-                  }
-                  this.setState({
-                    user: res.user,
-                    updated: res.user,
-                    isLoading: false,
-                  });
-                  this.handleUpdate();
-                } else {
-                  alert("Please Give valid Email address or else don't change");
-                }
-              })
-              .catch((err) => {
-                alert("Failure!!!!");
+        this.setState({ isLoading: true });
+        updateProfile(this.state.updated)
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.success) {
+              if (this.state.user.username !== this.state.updated.username) {
+                alert("Logging out....");
                 localStorage.clear();
                 window.location.reload();
+              }
+              this.setState({
+                user: res.user,
+                updated: res.user,
+                isLoading: false,
               });
-          } else {
-            this.setState({ password: "", rewrite: "" });
-            alert("Password did not match the pattern");
-          }
-        } else {
-          this.setState({ password: "", rewrite: "" });
-          alert("Both Password Field's should be match");
-        }
+              this.handleUpdate();
+            } else {
+              alert("Please Give valid Email address or else don't change");
+            }
+          })
+          .catch((err) => {
+            alert("Failure!!!!");
+            localStorage.clear();
+            window.location.reload();
+          });
       } else {
         this.setState({ updated: { ...this.state.updated, phno: "" } });
         alert("Invalid Phone Number");
@@ -159,21 +144,31 @@ class Profile extends Component {
               disabled={this.state.isDisabled}
             />
           </FormGroup>
-          <Button
-            color="primary"
-            style={{ marginLeft: '30vw'}}
-            onClick={() => this.handleUpdate()}
-          >
-            Update
-          </Button>
+          <Row style={{ marginLeft: "1.3em" }}>
+            <Col xs={6}>
+              <Button
+                color="primary"
+                size="sm"
+                onClick={(e) => { this.handleUpdate(e) }}
+              >
+                Update
+              </Button>
+            </Col>
+            <Col xs={6}>
+              <Button
+                color="success"
+                size="sm"
+                onClick={() => postLogout()}
+              >
+                Logout
+              </Button>
+            </Col>
+          </Row>
         </Form>
       );
     } else {
       return (
-        <Form
-          onSubmit={this.handleSubmit}
-          style={{ margin: "5px 7%" }}
-        >
+        <Form onSubmit={this.handleSubmit} style={{ margin: "5px 7%" }}>
           <h3 style={{ color: "blue", marginLeft: "30vw" }}>Profile</h3>
           <FormGroup>
             <Label for="name">Name</Label>
@@ -229,61 +224,18 @@ class Profile extends Component {
               Please use valid Mobile number.
             </UncontrolledTooltip>
           </FormGroup>
-          <Row>
-            <Col sm={12} md={8}>
-              <FormGroup>
-                <Label for="password">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={this.state.updated.password}
-                  onChange={(e) => this.handleInput(e)}
-                  placeholder="Password"
-                  autoComplete="off"
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="rewrite">Re-Enter Password</Label>
-                <Input
-                  type="password"
-                  name="rewrite"
-                  id="rewrite"
-                  value={this.state.updated.rewrite}
-                  onChange={(e) => this.handleInput(e)}
-                  placeholder="Re-Enter Password"
-                  autoComplete="off"
-                  required
-                />
-              </FormGroup>
-            </Col>
-            <Col sm={12} md={4}>
-              <ol>
-                <li>At least one digit [0-9]</li>
-                <li>At least one lowercase character [a-z]</li>
-                <li>At least one uppercase character [A-Z]</li>
-                <li>
-                  At least one special character [*.!@#$%^&(){}[]:;{"<>"}
-                  ,.?/~_+-=|\]
-                </li>
-                <li>At least 8 characters in length, but no more than 32.</li>
-              </ol>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} sm={6}>
-              <Button role="submit" color="success">
+          <Row style={{ marginLeft: "1.3em" }}>
+            <Col xs={6}>
+              <Button role="submit" color="success" size="sm">
                 Update
               </Button>
             </Col>
-            <br />
-            <br />
-            <Col xs={12} sm={6}>
+            <Col xs={6}>
               <Button
+                size="sm"
                 color="white"
                 style={{ border: "1px solid" }}
-                onClick={() => this.handleUpdate()}
+                onClick={(e) => this.handleUpdate(e)}
               >
                 Cancel
               </Button>

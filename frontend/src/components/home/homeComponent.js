@@ -34,11 +34,11 @@ class App extends Component {
                 prepare your exams with our paper
               </Subhead>
               <Flex mt={3} flexWrap="wrap" justifyContent="center">
-                <CallToAction href="/signin" mr={3}>
-                  See more
+                <CallToAction href="/signin" mr={3} bg='none'>
+                  Login
                 </CallToAction>
-                <Pre p={3} color="white">
-                  Login to our app
+                <Pre p={3} pl={0} color="white">
+                   to our app
                 </Pre>
               </Flex>
             </Box>
@@ -87,7 +87,7 @@ class App extends Component {
               <Contributor
                 fullName="Gireesh Chandra Busam"
                 title="17211A0581"
-                avatar="/gireesh1.jpeg"
+                avatar="/gireesh.png"
                 className="d-flex flex-sm-column"
               >
                 <Flex>

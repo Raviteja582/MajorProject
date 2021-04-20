@@ -1,28 +1,67 @@
-import React, { useState } from "react";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-import { postLogout } from "../ActionCreators";
+import React from "react";
+import { NavLink, Row, Col } from "reactstrap";
+
 import { Link } from "react-router-dom";
 
 const LoginNav = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
-    <div style={{ width: "100vw" }}>
-      <Navbar color="light" light expand="lg">
+    <div
+      style={{
+        width: "100vw",
+        position: "sticky",
+        top: "0%",
+        backgroundColor: "white",
+        opacity: 1,
+        zIndex: 1,
+      }}
+    >
+      <Row style={{ marginTop: "1%", marginLeft: "3%", marginBottom: "1%" }}>
+        <Col md={12} lg={9}>
+          <NavLink tag={Link} to="/home" style={{ color: "grey" }}>
+            <img src="/favicon.ico" alt="icon" width={60} /> {"  "}
+            QP Generator
+          </NavLink>
+        </Col>
+        <Col md={12} lg={3}>
+          <div style={{ display: "flex" }}>
+            <NavLink
+              tag={Link}
+              to="/insert"
+              style={{ color: "grey", padding: "3%" }}
+            >
+              Insert{" "}
+            </NavLink>
+            <NavLink
+              tag={Link}
+              to="/generate"
+              style={{ color: "grey", padding: "3%" }}
+            >
+              Generate{" "}
+            </NavLink>
+            <NavLink
+              tag={Link}
+              to="/edit"
+              style={{ color: "grey", padding: "3%" }}
+            >
+              Edit{" "}
+            </NavLink>
+            <NavLink
+              tag={Link}
+              to="/profile"
+              style={{ color: "grey", padding: "3%" }}
+            >
+              <img src="/img/user.png" width={40} alt="user"></img>
+            </NavLink>
+            {/* <NavLink tag={Link} to="/profile" style={{ color: "grey", padding: '0%'  }}>
+              Profile
+            </NavLink>
+            <Button color='white'>
+              Logout
+            </Button> */}
+          </div>
+        </Col>
+      </Row>
+      {/* <Navbar color="light" light expand="lg">
         <NavbarBrand>
           <NavLink to="/home" tag={Link} style={{ color: "black" }}>
             <img src="/favicon.ico" alt="icon" width={60} /> {"  "}
@@ -68,7 +107,7 @@ const LoginNav = (props) => {
             </UncontrolledDropdown>
           </Nav>
         </Collapse>
-      </Navbar>
+      </Navbar> */}
     </div>
   );
 };

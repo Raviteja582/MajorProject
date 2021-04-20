@@ -145,6 +145,31 @@ class Custome extends Component {
         xs[xs.sections[ind]["type"]]["u4"] === false)
     )
       alert("Please Enter all details!!!!!");
+    else if (
+      Number(xs.sections[ind].u1) >
+      Number(this.state.sublens[xs.sections[ind]["type"]]["u1"])
+    )
+      alert("More Questions are requestion from u1");
+    else if (
+      Number(xs.sections[ind].u2) >
+      Number(this.state.sublens[xs.sections[ind]["type"]]["u2"])
+    )
+      alert("More Questions are requestion from u2");
+    else if (
+      Number(xs.sections[ind].u3) >
+      Number(this.state.sublens[xs.sections[ind]["type"]]["u3"])
+    )
+      alert("More Questions are requestion from u3");
+    else if (
+      Number(xs.sections[ind].u4) >
+      Number(this.state.sublens[xs.sections[ind]["type"]]["u4"])
+    )
+      alert("More Questions are requestion from u4");
+    else if (
+      Number(xs.sections[ind].u5) >
+      Number(this.state.sublens[xs.sections[ind]["type"]]["u5"])
+    )
+      alert("More Questions are requestion from u5");
     else this.setState({ tAddModal: !this.state.tAddModal });
   }
   removehandleToggle() {
@@ -165,6 +190,27 @@ class Custome extends Component {
 
   handleRemove() {
     this.setState({
+      easy: {
+        u1: false,
+        u2: false,
+        u3: false,
+        u4: false,
+        u5: false,
+      },
+      medium: {
+        u1: false,
+        u2: false,
+        u3: false,
+        u4: false,
+        u5: false,
+      },
+      hard: {
+        u1: false,
+        u2: false,
+        u3: false,
+        u4: false,
+        u5: false,
+      },
       tRemoveModal: false,
       sections: [
         {
@@ -201,17 +247,36 @@ class Custome extends Component {
       xs[xs.sections[ind].type].u5 = true;
     else xs.sections[ind].u5 = "";
     xs.sections[ind].done = true;
-    xs.sections.push({
-      sname: "",
-      marks: "",
-      type: "easy",
-      u1: "",
-      u2: "",
-      u3: "",
-      u4: "",
-      u5: "",
-      done: false,
-    });
+    if (
+      this.state.easy.u1 &&
+      this.state.easy.u2 &&
+      this.state.easy.u3 &&
+      this.state.easy.u4 &&
+      this.state.easy.u5 &&
+      this.state.medium.u1 &&
+      this.state.medium.u2 &&
+      this.state.medium.u3 &&
+      this.state.medium.u4 &&
+      this.state.medium.u5 &&
+      this.state.hard.u1 &&
+      this.state.hard.u2 &&
+      this.state.hard.u3 &&
+      this.state.hard.u4 &&
+      this.state.hard.u5
+    )
+      alert("No more sections possible");
+    else
+      xs.sections.push({
+        sname: "",
+        marks: "",
+        type: "easy",
+        u1: "",
+        u2: "",
+        u3: "",
+        u4: "",
+        u5: "",
+        done: false,
+      });
     this.setState({ ...xs, tAddModal: !this.state.tAddModal });
   }
 

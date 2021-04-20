@@ -121,8 +121,10 @@ class Update extends Component {
             </FormGroup>
             <Button
               role="submit"
-              style={{ margin: "20px 40%" }}
-              color="primary"
+              style={{ margin: "20px 28%" }}
+              color="success"
+              size="md"
+              outline
             >
               Submit
             </Button>

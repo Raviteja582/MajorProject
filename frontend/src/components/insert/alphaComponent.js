@@ -319,23 +319,25 @@ class Alpha extends Component {
                   toggleRemove={this.toggleRemove}
                 />
               ))}
-              <Row style={{ margin: "1em" }} xs={12}>
-                <Col sm={12} md={4}>
-                  <Button color="primary" onClick={() => this.addClick()}>
-                    Add more
+              <Row style={{marginTop: '1em'}} xs={12}>
+                <Col sm={4} >
+                  <Button outline color="primary" size="md" onClick={() => this.addClick()}>
+                    Add
                   </Button>
                 </Col>
                 <br />
                 <br />
-                <Col sm={12} md={4}>
-                  <Button role="submit" color="primary">
+                <Col sm={4}>
+                  <Button outline role="submit" size="md" color="success">
                     Submit
                   </Button>
                 </Col>
                 <br />
                 <br />
-                <Col sm={12} md={4}>
+                <Col sm={4}>
                   <Button
+                    outline
+                    size="md"
                     color="danger"
                     onClick={() => this.toggleRemoveAll()}
                     disabled={this.state.ques.length === 1}

@@ -18,7 +18,7 @@ import {
 class Insert extends Component {
   render() {
     return (
-      <div style={{ border: "1px solid" }}>
+      <div style={{ border: "1px solid", marginTop: '1em' }}>
         <Row xs={12} style={{ margin: "1em" }}>
           <Col md={12} lg={4}>
             <Label>Subject: </Label>
@@ -88,29 +88,42 @@ class Insert extends Component {
           </Row>
         ))}
         <Row xs={12} style={{ margin: "1em" }} justifyContent="space-around">
-          <Col sm={12} md={4}>
-            <Button
-              color="primary"
-              onClick={() => this.props.addFormClick(this.props.index)}
-            >
-              Add more
-            </Button>
+          <Col sm={12} md={8}>
+            <Row>
+              <Col>
+                <Button
+                  size="md"
+                  color="primary"
+                  onClick={() => this.props.addFormClick(this.props.index)}
+                >
+                  Add Question
+                </Button>
+              </Col>
+              <br />
+              <br />
+              <Col>
+                <Button
+                  color="primary"
+                  size="md"
+                  onClick={() => this.props.formClearAll(this.props.index)}
+                >
+                  {" "}
+                  Clear All{" "}
+                </Button>
+              </Col>
+              <br />
+              <br />
+            </Row>
           </Col>
           <br />
           <br />
           <Col sm={12} md={4}>
             <Button
-              color="primary"
-              onClick={() => this.props.formClearAll(this.props.index)}
+              color="danger"
+              size="md"
+              md={{ size: 6, offset: 3 }}
+              onClick={() => this.props.toggleRemove()}
             >
-              {" "}
-              Clear All{" "}
-            </Button>
-          </Col>
-          <br />
-          <br />
-          <Col sm={12} md={4}>
-            <Button color="danger" onClick={() => this.props.toggleRemove()}>
               {" "}
               Remove{" "}
             </Button>

@@ -4,6 +4,7 @@ import Signup from "./signup/signupComponent";
 import Confirmation from "./signup/confirmationComponent";
 import Login from "./login/loginComponent";
 import Home from "./home/homeComponent";
+import Landing from './home/landingComponent';
 import Forgot from "./forgot/verifyComponent";
 import Update from "./forgot/updateComponent";
 import SignNav from "./navbar/signNav";
@@ -111,6 +112,16 @@ class Main extends Component {
                     }} />
             )} />
         );
+        const PrivateRoute5 = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                localStorage.get('token')
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/home',
+                        state: { from: props.location }
+                    }} />
+            )} />
+        );
 
         const isLogin = localStorage.get('token') || null;
         let navs, routes;
@@ -132,7 +143,6 @@ class Main extends Component {
                     <LoginNav user={localStorage.get('user')} />
                 );
                 routes = <Switch>
-                    <Route path="/home" component={Home} />
                     <Route path="/signup" component={Signup} />
                     <Route
                         path="/user/:userId"
@@ -155,7 +165,8 @@ class Main extends Component {
                     <PrivateRoute2 exact path="/generate" component={() => <Generate />} />
                     <PrivateRoute3 exact path="/edit" component={() => <Options />} />
                     <PrivateRoute4 exact path="/profile" component={() => <Profile />} />
-                    <Redirect to="/home" />
+                    <PrivateRoute5 exact path="/landing" component={() => <Landing />} />
+                    <Redirect to="/landing" />
                 </Switch>
             }
         }
